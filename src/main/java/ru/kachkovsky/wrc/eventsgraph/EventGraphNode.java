@@ -7,7 +7,6 @@ import ru.kachkovsky.wrc.subject.Subject;
 import ru.kachkovsky.wrc.winrate.WinRate;
 
 import java.util.List;
-import java.util.Map;
 
 public class EventGraphNode<T extends SubjectsArea> {
 
@@ -16,7 +15,7 @@ public class EventGraphNode<T extends SubjectsArea> {
     private Subject previousActionSubject;
 
     //calc nextStage finishChecks to get these values
-    private Map<Subject, WinRate> winRateOfSubjectMap;
+    private List<WinRate> teamsWinRate;
 
     public EventGraphNode(T area, Stage<T> nextStage, Subject previousActionSubject) {
         this.area = area;
@@ -26,7 +25,7 @@ public class EventGraphNode<T extends SubjectsArea> {
 
     public void calcWinRateRecursive() {
         calcNextStageWinRate();
-        if (winRateOfSubjectMap == null) {
+        if (teamsWinRate == null) {
             List<Action<T>> actions = nextStage.getActions(area);
             for (Action<T> a : actions) {
                 EventGraphNode eventGraphNode = a.calcAct(area);
@@ -35,6 +34,6 @@ public class EventGraphNode<T extends SubjectsArea> {
     }
 
     public void calcNextStageWinRate() {
-        winRateOfSubjectMap = nextStage.calcFinishChecks(area);
+        teamsWinRate = nextStage.calcFinishChecks(area);
     }
 }

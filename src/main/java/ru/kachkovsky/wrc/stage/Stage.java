@@ -1,11 +1,9 @@
 package ru.kachkovsky.wrc.stage;
 
 import ru.kachkovsky.wrc.SubjectsArea;
-import ru.kachkovsky.wrc.subject.Subject;
 import ru.kachkovsky.wrc.winrate.WinRate;
 
 import java.util.List;
-import java.util.Map;
 
 public abstract class Stage<T extends SubjectsArea> {
     private List<FinishCheck<T>> finishCheckList;
@@ -15,10 +13,10 @@ public abstract class Stage<T extends SubjectsArea> {
     }
 
 
-    public Map<Subject, WinRate> calcFinishChecks(T area) {
+    public List<WinRate> calcFinishChecks(T area) {
         if (finishCheckList != null) {
             for (FinishCheck<T> finishCheck : finishCheckList) {
-                Map<Subject, WinRate> check = finishCheck.check(area);
+                List<WinRate> check = finishCheck.checkTeamsWinRate(area);
                 if (check != null) {
                     return check;
                 }
