@@ -9,4 +9,6 @@ public interface SubjectsArea {
     <T extends SubjectsArea> TeamDeterminator<T> getTeamDeterminator();
 
     Comparator<WinRate> getWinRateComparator();
+
+    int getNumberOfTeams();
 }
