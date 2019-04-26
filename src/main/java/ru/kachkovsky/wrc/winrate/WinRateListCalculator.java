@@ -3,7 +3,7 @@ package ru.kachkovsky.wrc.winrate;
 import ru.kachkovsky.wrc.SubjectsArea;
 import ru.kachkovsky.wrc.stage.Action;
 import ru.kachkovsky.wrc.subject.Subject;
-import ru.kachkovsky.wrc.team.TeamDeterminator;
+import ru.kachkovsky.wrc.team.SubjectTeamAreaDeterminator;
 
 import java.util.*;
 
@@ -11,19 +11,26 @@ public class WinRateListCalculator {
     private static WinRate MIN_POSSIBLE_WIN_RATE = new WinRate(0, 0);
 
     public <T extends SubjectsArea> List<WinRate> calc(Map<Action<T>, List<WinRate>> actionWRMap, T area) {
-        TeamDeterminator<T> teamDeterminator = area.getTeamDeterminator();
+        SubjectTeamAreaDeterminator<T> subjectTeamAreaDeterminator = area.getTeamDeterminator();
         Comparator<WinRate> winRateComparator = area.getWinRateComparator();
         //How to calc winrate, if each team can action
-        Map<Integer, List<List<WinRate>>> teamRate = new HashMap<>();
+        Map<Subject, List<List<WinRate>>> subjRate = new HashMap<>();
         for (Map.Entry<Action<T>, List<WinRate>> e : actionWRMap.entrySet()) {
             Subject subject = e.getKey().getSubject();
-            int teamIndex = teamDeterminator.getTeamIndex(area, subject);
+            int teamIndex = subjectTeamAreaDeterminator.getTeamIndex(area, subject);
             WinRate winRate = e.getValue().get(teamIndex);
-            List<List<WinRate>> listOfEqualForActionCombinationOfRates = teamRate.get(teamIndex);
+            if (hasMoreWinRateForAnySubjectOfTeam(subjRate, teamIndex, winRate, area)) {
+                for (Subject s : subjRate.keySet()) {
+                    if (teamIndex == subjectTeamAreaDeterminator.getTeamIndex(area, s)) {
+                        subjRate.remove(s);
+                    }
+                }
+            }
+            List<List<WinRate>> listOfEqualForActionCombinationOfRates = subjRate.get(subject);
             if (listOfEqualForActionCombinationOfRates == null) {
                 ArrayList<List<WinRate>> lists = new ArrayList<>();
                 lists.add(e.getValue());
-                teamRate.put(teamIndex, lists);
+                subjRate.put(subject, lists);
             } else {
                 int compare = winRateComparator.compare(listOfEqualForActionCombinationOfRates.get(0).get(0), winRate);
                 if (compare == 0) {
@@ -31,20 +38,40 @@ public class WinRateListCalculator {
                 } else if (compare < 0) {
                     ArrayList<List<WinRate>> lists = new ArrayList<>();
                     lists.add(e.getValue());
-                    teamRate.put(teamIndex, lists);
+                    subjRate.put(subject, lists);
                 }
             }
         }
         return averageWinRateOfSimultaneousActions(
-                averageOfMultipleChoicesForDoer(teamRate, area.getNumberOfTeams()),
-                area.getNumberOfTeams());
+                averageOfMultipleChoicesForDoer(subjRate, area.getNumberOfTeams()), area);
     }
 
-    private Map<Integer, List<WinRate>> averageOfMultipleChoicesForDoer(Map<Integer, List<List<WinRate>>> teamRate, int numberOfTeams) {
-        Map<Integer, List<WinRate>> map = new HashMap<>(teamRate.size());
+    private <T extends SubjectsArea> boolean hasMoreWinRateForAnySubjectOfTeam(Map<Subject, List<List<WinRate>>> subjRate, int teamIndex, WinRate rate, T area) {
+        Comparator<WinRate> winRateComparator = area.getWinRateComparator();
+        SubjectTeamAreaDeterminator<SubjectsArea> teamDeterminator = area.getTeamDeterminator();
+        for (Map.Entry<Subject, List<List<WinRate>>> entry : subjRate.entrySet()) {
+            if (teamDeterminator.getTeamIndex(area, entry.getKey()) == teamIndex) {
+                List<List<WinRate>> value = entry.getValue();
+                for (List<WinRate> rates : value) {
+                    if (winRateComparator.compare(rates.get(teamIndex), rate) < 0) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @param subjectRate   map of actions for Subject. value - is list of combination of winrates list for best actions of doer
+     * @param numberOfTeams
+     * @return
+     */
+    private Map<Subject, List<WinRate>> averageOfMultipleChoicesForDoer(Map<Subject, List<List<WinRate>>> subjectRate, int numberOfTeams) {
+        Map<Subject, List<WinRate>> map = new HashMap<>(subjectRate.size());
         float min;
         float max;
-        for (Map.Entry<Integer, List<List<WinRate>>> integerListEntry : teamRate.entrySet()) {
+        for (Map.Entry<Subject, List<List<WinRate>>> integerListEntry : subjectRate.entrySet()) {
             List<List<WinRate>> rateList = integerListEntry.getValue();
             List<WinRate> averageRateList = new ArrayList<>();
             for (int i = 0; i < numberOfTeams; i++) {
@@ -63,19 +90,22 @@ public class WinRateListCalculator {
     }
 
 
-    private List<WinRate> averageWinRateOfSimultaneousActions(Map<Integer, List<WinRate>> winRateForTeam, int numberOfTeams) {
+    private <T extends SubjectsArea> List<WinRate> averageWinRateOfSimultaneousActions(Map<Subject, List<WinRate>> winRateForTeam, T area) {
         float min;
         float max;
+        int numberOfSubjects;
         List<WinRate> rates = new ArrayList<>();
-        for (int i = 0; i < numberOfTeams; i++) {
+        for (int i = 0; i < area.getNumberOfTeams(); i++) {
             min = 0;
             max = 0;
-            for (List<WinRate> rateList : winRateForTeam.values()) {
-                WinRate rate = rateList.get(i);
-                min += rate.getMinWinRate();
-                max += rate.getMaxWinRate();
+            numberOfSubjects = 0;
+            for (Map.Entry<Subject, List<WinRate>> subjectListEntry : winRateForTeam.entrySet()) {
+                numberOfSubjects += area.getTeamDeterminator().getSubjectsCountForTeam(area, subjectListEntry.getKey());
+                WinRate rate = subjectListEntry.getValue().get(i);
+                min += (rate.getMinWinRate() * numberOfSubjects);
+                max += (rate.getMaxWinRate() * numberOfSubjects);
             }
-            rates.add(new WinRate(min / winRateForTeam.size(), max / winRateForTeam.size()));
+            rates.add(new WinRate(min / numberOfSubjects, max / numberOfSubjects));
         }
         return rates;
     }
