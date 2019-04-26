@@ -23,6 +23,13 @@ public class EventGraphNode<T extends SubjectsArea> {
         this.nextStage = nextStage;
     }
 
+    public T getArea() {
+        return area;
+    }
+
+    /**
+     * @return map of action and their child nodes. Don't save it while recursion to save memory
+     */
     public Map<Action<T>, EventGraphNode<T>> calcWinRate() {
         calcNextStageWinRate();
         if (teamsWinRate == null) {

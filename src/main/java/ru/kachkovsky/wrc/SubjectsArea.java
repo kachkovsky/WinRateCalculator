@@ -1,9 +1,11 @@
 package ru.kachkovsky.wrc;
 
+import ru.kachkovsky.wrc.subject.Subject;
 import ru.kachkovsky.wrc.team.SubjectTeamAreaDeterminator;
 import ru.kachkovsky.wrc.winrate.WinRate;
 
 import java.util.Comparator;
+import java.util.List;
 
 public interface SubjectsArea {
     <T extends SubjectsArea> SubjectTeamAreaDeterminator<T> getTeamDeterminator();
@@ -11,4 +13,7 @@ public interface SubjectsArea {
     Comparator<WinRate> getWinRateComparator();
 
     int getNumberOfTeams();
+
+    List<Subject> getSubjectList();
+
 }
