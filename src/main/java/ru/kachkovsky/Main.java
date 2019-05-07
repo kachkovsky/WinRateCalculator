@@ -2,13 +2,15 @@ package ru.kachkovsky;
 
 import ru.kachkovsky.wrc.eventsgraph.EventGraphNode;
 import ru.kachkovsky.wrc_console_ui.ConsoleUI;
-import ru.kachkovsky.wrc_summoners_duel.SDStage;
-import ru.kachkovsky.wrc_summoners_duel.SummonersDuelArea;
+import ru.kachkovsky.wrc_summoners_duel.SummonersDuelSubjectsArea;
+import ru.kachkovsky.wrc_summoners_duel.SummonersDuelSubjectsAreaFactory;
 
 public class Main {
 
     public static void main(String[] args) {
-        EventGraphNode<SummonersDuelArea> node = new EventGraphNode<>(new SummonersDuelArea(), new SDStage(null));
+
+        SummonersDuelSubjectsArea area = SummonersDuelSubjectsAreaFactory.createNewGameArea(6);
+        EventGraphNode<SummonersDuelSubjectsArea> node = new EventGraphNode<>(area, area.getNextStage());
         ConsoleUI consoleUI = new ConsoleUI();
         consoleUI.uiForFullGame(node);
     }
