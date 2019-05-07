@@ -6,6 +6,6 @@ import ru.kachkovsky.wrc.team.TwoRolesStaticTeamDeterminator;
 public class SummonersDuelTeamDeterminator extends TwoRolesStaticTeamDeterminator<SummonersDuelSubjectsArea> {
     @Override
     public int getTeamIndex(SummonersDuelSubjectsArea area, Subject subject) {
-        return area.getStaticContents().getTeamIndex(subject);
+        return SummonersDuelSubjectsArea.getStaticContents().getTeamIndex(subject);
     }
 }

@@ -4,7 +4,10 @@ import ru.kachkovsky.wrc.stage.Action;
 import ru.kachkovsky.wrc.stage.FinishCheck;
 import ru.kachkovsky.wrc.stage.Stage;
 import ru.kachkovsky.wrc_summoners_duel.SummonersDuelSubjectsArea;
+import ru.kachkovsky.wrc_summoners_duel.action.BuyAction;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class SDBuyStage extends Stage<SummonersDuelSubjectsArea> {
@@ -14,6 +17,7 @@ public class SDBuyStage extends Stage<SummonersDuelSubjectsArea> {
 
     @Override
     public List<Action<SummonersDuelSubjectsArea>> getActions(SummonersDuelSubjectsArea area) {
-        return null;
+        //TODO: implement buy
+        return Collections.singletonList(new BuyAction(new ArrayList<>()));
     }
 }
