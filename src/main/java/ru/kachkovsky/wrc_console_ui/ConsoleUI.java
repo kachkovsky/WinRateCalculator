@@ -55,10 +55,12 @@ public class ConsoleUI {
     }
 
     public void printWinRateList(List<WinRate> wrl, String prefix) {
-        for (WinRate wr : wrl) {
-            printWinRate(prefix, wr);
+        if (wrl != null) {
+            for (WinRate wr : wrl) {
+                printWinRate(prefix, wr);
+            }
+            System.out.println();
         }
-        System.out.println();
     }
 
     public void printWinRate(String prefix, WinRate wr) {
