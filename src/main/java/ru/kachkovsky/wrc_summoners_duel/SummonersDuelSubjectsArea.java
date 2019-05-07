@@ -1,6 +1,6 @@
 package ru.kachkovsky.wrc_summoners_duel;
 
-import ru.kachkovsky.wrc.SimpleAriaStaticContents;
+import ru.kachkovsky.wrc.SimpleAreaStaticContents;
 import ru.kachkovsky.wrc.SubjectsArea;
 import ru.kachkovsky.wrc.stage.Stage;
 import ru.kachkovsky.wrc.subject.Subject;
@@ -18,7 +18,7 @@ import java.util.List;
 
 public class SummonersDuelSubjectsArea implements SubjectsArea {
     private static final DefaultWinRateComparator COMPARATOR = new DefaultWinRateComparator();
-    private static final SimpleAriaStaticContents STATIC_CONTENTS = new SimpleAriaStaticContents();
+    private static final SimpleAreaStaticContents STATIC_CONTENTS = new SimpleAreaStaticContents();
     private static final SummonersDuelTeamDeterminator TEAM_DETERMINATOR = new SummonersDuelTeamDeterminator();
 
     private static final SDBuyStage BUY_STAGE = new SDBuyStage(null);
@@ -84,7 +84,7 @@ public class SummonersDuelSubjectsArea implements SubjectsArea {
         return getSubjectList().get(currentPlayerIndex);
     }
 
-    public static SimpleAriaStaticContents getStaticContents() {
+    public static SimpleAreaStaticContents getStaticContents() {
         return STATIC_CONTENTS;
     }
 
