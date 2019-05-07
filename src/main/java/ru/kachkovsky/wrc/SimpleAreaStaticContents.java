@@ -5,12 +5,14 @@ import ru.kachkovsky.wrc.subject.Subject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimpleAriaStaticContents {
-    protected Subject first;
-    protected Subject second;
+public class SimpleAreaStaticContents {
+    protected Subject first = new Subject() {
+    };
+    protected Subject second = new Subject() {
+    };
     private List<Subject> subjects;
 
-    public SimpleAriaStaticContents() {
+    public SimpleAreaStaticContents() {
         subjects = new ArrayList<>();
         subjects.add(first);
         subjects.add(second);
