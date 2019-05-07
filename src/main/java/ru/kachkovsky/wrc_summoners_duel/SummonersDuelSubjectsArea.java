@@ -17,13 +17,14 @@ import java.util.List;
 
 
 public class SummonersDuelSubjectsArea implements SubjectsArea {
-    private static DefaultWinRateComparator COMPARATOR = new DefaultWinRateComparator();
-    private static SimpleAriaStaticContents STATIC_CONTENTS = new SimpleAriaStaticContents();
-    private static SummonersDuelTeamDeterminator TEAM_DETERMINATOR = new SummonersDuelTeamDeterminator();
+    private static final DefaultWinRateComparator COMPARATOR = new DefaultWinRateComparator();
+    private static final SimpleAriaStaticContents STATIC_CONTENTS = new SimpleAriaStaticContents();
+    private static final SummonersDuelTeamDeterminator TEAM_DETERMINATOR = new SummonersDuelTeamDeterminator();
 
-    private static SDBuyStage BUY_STAGE = new SDBuyStage(null);
-    private static SDBeatStage BEAT_STAGE = new SDBeatStage(null);
-    private static SDFirstBeatStage FIRST_STAGE = new SDFirstBeatStage(BEAT_STAGE, BUY_STAGE);
+    private static final SDBuyStage BUY_STAGE = new SDBuyStage(null);
+    private static final SDBeatStage BEAT_STAGE = new SDBeatStage(null);
+    private static final SDFirstBeatStage FIRST_STAGE = new SDFirstBeatStage(BEAT_STAGE, BUY_STAGE);
+    
     private Player[] teams;
     private int currentPlayerIndex;
     private int currentPlayerUnitIndex;
@@ -88,7 +89,7 @@ public class SummonersDuelSubjectsArea implements SubjectsArea {
     }
 
 
-    public int reversePlayerIndex() {
+    public int getReversePlayerIndex() {
         return currentPlayerIndex ^ 1;
     }
 

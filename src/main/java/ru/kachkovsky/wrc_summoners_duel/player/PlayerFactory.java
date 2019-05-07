@@ -10,7 +10,11 @@ public class PlayerFactory {
         return player;
     }
 
-    public static Player doSplashAttack(Player oldEnemy, int atk) {
+    public static Player copyAndAttackPlayer(Player old, int atk) {
+        return new Player(old.getHp() - atk, old.getMp(), old.getUnits());
+    }
+
+    public static Player copyAndDoSplashAttack(Player oldEnemy, int atk) {
         ArrayList<Unit> units = new ArrayList<>(oldEnemy.getUnits().size());
         for (Unit u : oldEnemy.getUnits()) {
             if (u.alive(atk)) {
