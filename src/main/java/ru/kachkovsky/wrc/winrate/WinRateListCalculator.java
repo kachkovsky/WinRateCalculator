@@ -16,7 +16,7 @@ public class WinRateListCalculator {
         //How to calc winrate, if each team can action
         Map<Subject, List<List<WinRate>>> subjRate = new HashMap<>();
         for (Map.Entry<Action<T>, List<WinRate>> e : actionWRMap.entrySet()) {
-            Subject subject = e.getKey().getSubject();
+            Subject subject = area.getCurrentSubject();
             int teamIndex = subjectTeamAreaDeterminator.getTeamIndex(area, subject);
             WinRate winRate = e.getValue().get(teamIndex);
             if (hasMoreWinRateForAnySubjectOfTeam(subjRate, teamIndex, winRate, area)) {

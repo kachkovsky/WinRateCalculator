@@ -6,6 +6,4 @@ import ru.kachkovsky.wrc.subject.Subject;
 
 public interface Action<T extends SubjectsArea> {
     EventGraphNode<T> calcAct(T area);
-
-    Subject getSubject();
 }
