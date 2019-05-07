@@ -7,12 +7,6 @@ import ru.kachkovsky.wrc_summoners_duel.SummonersDuelSubjectsAreaFactory;
 
 public class PlayerAttackAction implements Action<SummonersDuelSubjectsArea> {
 
-    private int enemyUnitAttacked;
-
-    public PlayerAttackAction(int enemyUnitAttacked) {
-        this.enemyUnitAttacked = enemyUnitAttacked;
-    }
-
     @Override
     public EventGraphNode<SummonersDuelSubjectsArea> calcAct(SummonersDuelSubjectsArea area) {
         SummonersDuelSubjectsArea areaAfterBuy = SummonersDuelSubjectsAreaFactory.createAreaAfterPlayerAttack(area);

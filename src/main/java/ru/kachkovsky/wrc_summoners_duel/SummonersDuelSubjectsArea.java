@@ -24,7 +24,7 @@ public class SummonersDuelSubjectsArea implements SubjectsArea {
     private static final SDBuyStage BUY_STAGE = new SDBuyStage(null);
     private static final SDBeatStage BEAT_STAGE = new SDBeatStage(null);
     private static final SDFirstBeatStage FIRST_STAGE = new SDFirstBeatStage(BEAT_STAGE, BUY_STAGE);
-    
+
     private Player[] teams;
     private int currentPlayerIndex;
     private int currentPlayerUnitIndex;
