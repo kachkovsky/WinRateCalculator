@@ -12,12 +12,13 @@ import java.util.List;
 
 
 public class SummonersDuelArea implements SubjectsArea {
-    static DefaultWinRateComparator COMPARATOR = new DefaultWinRateComparator();
+    private static DefaultWinRateComparator COMPARATOR = new DefaultWinRateComparator();
     private static SimpleAriaStaticContents STATIC_CONTENTS = new SimpleAriaStaticContents();
+    private static SummonersDuelTeamDeterminator TEAM_DETERMINATOR = new SummonersDuelTeamDeterminator();
 
     @Override
-    public <T extends SubjectsArea> SubjectTeamAreaDeterminator<T> getTeamDeterminator() {
-        return STATIC_CONTENTS;
+    public SubjectTeamAreaDeterminator<SummonersDuelArea> getTeamDeterminator() {
+        return TEAM_DETERMINATOR;
     }
 
     @Override
@@ -33,5 +34,9 @@ public class SummonersDuelArea implements SubjectsArea {
     @Override
     public List<Subject> getSubjectList() {
         return STATIC_CONTENTS.getSubjects();
+    }
+
+    public static SimpleAriaStaticContents getStaticContents() {
+        return STATIC_CONTENTS;
     }
 }
