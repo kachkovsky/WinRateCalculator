@@ -11,11 +11,9 @@ import java.util.List;
 
 public class BuyAction implements Action<SummonersDuelSubjectsArea> {
 
-    private int playerIndex;
     private List<Unit> unitsToBuy;
 
-    public BuyAction(int playerIndex, List<Unit> unitsToBuy) {
-        this.playerIndex = playerIndex;
+    public BuyAction(List<Unit> unitsToBuy) {
         this.unitsToBuy = unitsToBuy;
     }
 
@@ -23,10 +21,5 @@ public class BuyAction implements Action<SummonersDuelSubjectsArea> {
     public EventGraphNode<SummonersDuelSubjectsArea> calcAct(SummonersDuelSubjectsArea area) {
         SummonersDuelSubjectsArea areaAfterBuy = SummonersDuelSubjectsAreaFactory.createAreaAfterBuy(area, unitsToBuy);
         return new EventGraphNode<>(areaAfterBuy, areaAfterBuy.getNextStage());
-    }
-
-    @Override
-    public Subject getSubject() {
-        return SummonersDuelSubjectsArea.getStaticContents().getSubjects().get(playerIndex);
     }
 }

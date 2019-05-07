@@ -11,8 +11,4 @@ public class AttackAction implements Action<SummonersDuelSubjectsArea> {
         return null;
     }
 
-    @Override
-    public Subject getSubject() {
-        return null;
-    }
 }

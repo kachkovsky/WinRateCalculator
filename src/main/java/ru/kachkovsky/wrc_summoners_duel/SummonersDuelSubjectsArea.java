@@ -66,6 +66,11 @@ public class SummonersDuelSubjectsArea implements SubjectsArea {
         return STATIC_CONTENTS.getSubjects();
     }
 
+    @Override
+    public Subject getCurrentSubject() {
+        return getSubjectList().get(currentPlayerIndex);
+    }
+
     public static SimpleAriaStaticContents getStaticContents() {
         return STATIC_CONTENTS;
     }
