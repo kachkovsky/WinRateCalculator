@@ -46,4 +46,9 @@ public class SimpleMafiaArea implements SubjectsArea {
     public List<Subject> getSubjectList() {
         return subjectList;
     }
+
+    @Override
+    public Subject getCurrentSubject() {
+        return null;
+    }
 }
