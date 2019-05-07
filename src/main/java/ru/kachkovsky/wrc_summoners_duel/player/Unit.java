@@ -1,11 +1,7 @@
 package ru.kachkovsky.wrc_summoners_duel.player;
 
 public class Unit {
-
-    public static Unit createUnit(int atk, int def, int hp, boolean splash) {
-        return new Unit(atk, def, hp, splash);
-    }
-
+    //USe UnitsFactory to create new unit
     Unit(int atk, int def, int hp, boolean splash) {
         this.atk = atk;
         this.def = def;
@@ -32,5 +28,9 @@ public class Unit {
 
     public boolean hasSplash() {
         return splash;
+    }
+
+    public boolean alive(int attacked) {
+        return def + hp > attacked;
     }
 }
