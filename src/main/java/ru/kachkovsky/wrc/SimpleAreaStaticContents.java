@@ -6,10 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SimpleAreaStaticContents {
-    protected Subject first = new Subject() {
-    };
-    protected Subject second = new Subject() {
-    };
+    protected Subject first = new Subject("WHITE");
+    protected Subject second = new Subject("BLACK");
     private List<Subject> subjects;
 
     public SimpleAreaStaticContents() {
