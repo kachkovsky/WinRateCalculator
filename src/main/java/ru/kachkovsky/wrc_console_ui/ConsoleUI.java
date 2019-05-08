@@ -13,6 +13,8 @@ import java.util.Scanner;
 
 public class ConsoleUI {
 
+    private static final int FIRST_CHOICE = 1;
+
     public void uiForFullGame(EventGraphNode node) {
         Scanner scanner = new Scanner(System.in);
         while (true) {
@@ -21,12 +23,14 @@ public class ConsoleUI {
             if (map.isEmpty()) {
                 break;
             } else {
+                int i = FIRST_CHOICE;
                 for (Map.Entry<Action, EventGraphNode> entry : map.entrySet()) {
-                    System.out.println(entry.getKey().toString());
+                    System.out.println(i + ")" + entry.getKey().toString());
                     printWinRateList(entry.getValue().getTeamsWinRate(), "   ");
+                    i++;
                 }
                 int val = scanner.nextInt();
-                int i = 0;
+                i = FIRST_CHOICE;
                 for (Map.Entry<Action, EventGraphNode> entry : map.entrySet()) {
                     if (val == i) {
                         node = entry.getValue();
@@ -40,6 +44,7 @@ public class ConsoleUI {
 
     public void writeCurrentTurn(EventGraphNode node) {
         SubjectsArea area = node.getArea();
+        System.out.print("Current:" + area.getCurrentSubject() + ". All: ");
         printSubjects(area);
         System.out.println("Win rate by team index:");
         printWinRateList(node.getTeamsWinRate(), "");
