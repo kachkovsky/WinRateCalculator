@@ -51,4 +51,9 @@ public class SimpleMafiaArea implements SubjectsArea {
     public Subject getCurrentSubject() {
         return null;
     }
+
+    @Override
+    public String areaToLogString() {
+        return "area stub";
+    }
 }

@@ -45,6 +45,7 @@ public class ConsoleUI {
     public void writeCurrentTurn(EventGraphNode node) {
         SubjectsArea area = node.getArea();
         printSubjects(area);
+        System.out.println(area.areaToLogString());
         System.out.println("Win rate by team index:");
         printWinRateList(node.getTeamsWinRate(), "");
     }
