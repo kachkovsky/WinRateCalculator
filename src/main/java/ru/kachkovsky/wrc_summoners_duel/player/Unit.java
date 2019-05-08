@@ -33,4 +33,9 @@ public class Unit {
     public boolean alive(int attacked) {
         return def + hp > attacked;
     }
+
+    @Override
+    public String toString() {
+        return "";
+    }
 }

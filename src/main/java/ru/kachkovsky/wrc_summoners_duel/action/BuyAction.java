@@ -22,4 +22,9 @@ public class BuyAction implements Action<SummonersDuelSubjectsArea> {
         SummonersDuelSubjectsArea areaAfterBuy = SummonersDuelSubjectsAreaFactory.createAreaAfterBuy(area, unitsToBuy);
         return new EventGraphNode<>(areaAfterBuy, areaAfterBuy.getNextStage());
     }
+
+    @Override
+    public String toString() {
+        return "Buy:";
+    }
 }

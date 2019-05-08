@@ -9,7 +9,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        SummonersDuelSubjectsArea area = SummonersDuelSubjectsAreaFactory.createNewGameArea(6);
+        SummonersDuelSubjectsArea area = SummonersDuelSubjectsAreaFactory.createNewGameArea(2);
         EventGraphNode<SummonersDuelSubjectsArea> node = new EventGraphNode<>(area, area.getNextStage());
         ConsoleUI consoleUI = new ConsoleUI();
         consoleUI.uiForFullGame(node);
