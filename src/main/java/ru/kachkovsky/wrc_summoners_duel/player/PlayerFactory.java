@@ -34,4 +34,12 @@ public class PlayerFactory {
         }
         return new Player(oldEnemy.getHp(), oldEnemy.getMp(), units);
     }
+
+    public static String playersToString(Player[] players) {
+        StringBuilder sb = new StringBuilder();
+        for (Player player : players) {
+            sb.append(player.toString()).append(System.lineSeparator());
+        }
+        return sb.toString();
+    }
 }

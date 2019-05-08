@@ -1,5 +1,7 @@
 package ru.kachkovsky.wrc_summoners_duel.player;
 
+import ru.kachkovsky.utils.StringUtils;
+
 import java.util.List;
 
 public class Player {
@@ -23,5 +25,10 @@ public class Player {
 
     public List<Unit> getUnits() {
         return units;
+    }
+
+    @Override
+    public String toString() {
+        return StringUtils.spaces(hp, 'h') + "_" + StringUtils.spaces(mp, 'm') + ". Units: " + UnitsFactory.unitsToString(units);
     }
 }

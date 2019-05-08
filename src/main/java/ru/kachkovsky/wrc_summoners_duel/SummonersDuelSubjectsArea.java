@@ -8,6 +8,7 @@ import ru.kachkovsky.wrc.team.SubjectTeamAreaDeterminator;
 import ru.kachkovsky.wrc.winrate.DefaultWinRateComparator;
 import ru.kachkovsky.wrc.winrate.WinRate;
 import ru.kachkovsky.wrc_summoners_duel.player.Player;
+import ru.kachkovsky.wrc_summoners_duel.player.PlayerFactory;
 import ru.kachkovsky.wrc_summoners_duel.stage.SDBeatStage;
 import ru.kachkovsky.wrc_summoners_duel.stage.SDBuyStage;
 import ru.kachkovsky.wrc_summoners_duel.stage.SDFirstBeatStage;
@@ -82,6 +83,11 @@ public class SummonersDuelSubjectsArea implements SubjectsArea {
     @Override
     public Subject getCurrentSubject() {
         return getSubjectList().get(currentPlayerIndex);
+    }
+
+    @Override
+    public String areaToLogString() {
+        return PlayerFactory.playersToString(teams);
     }
 
     public static SimpleAreaStaticContents getStaticContents() {
