@@ -1,5 +1,7 @@
 package ru.kachkovsky.wrc_summoners_duel.player;
 
+import ru.kachkovsky.utils.StringUtils;
+
 public class Unit {
     //USe UnitsFactory to create new unit
     Unit(int atk, int def, int hp, boolean splash) {
@@ -36,6 +38,9 @@ public class Unit {
 
     @Override
     public String toString() {
-        return "";
+        return StringUtils.spaces(atk, 'A') + "_"
+                + StringUtils.spaces(def, 'D') + "_"
+                + (splash ? "sp" : "") + "_"
+                + StringUtils.spaces(hp, 'H');
     }
 }

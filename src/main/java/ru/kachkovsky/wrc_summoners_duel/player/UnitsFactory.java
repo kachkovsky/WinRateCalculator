@@ -13,6 +13,10 @@ public class UnitsFactory {
     }
 
     public static String unitsToString(List<Unit> units) {
-
+        StringBuilder sb = new StringBuilder();
+        for (Unit unit : units) {
+            sb.append(unit.toString()).append(" | ");
+        }
+        return sb.toString();
     }
 }

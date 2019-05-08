@@ -6,6 +6,7 @@ import ru.kachkovsky.wrc.subject.Subject;
 import ru.kachkovsky.wrc_summoners_duel.SummonersDuelSubjectsArea;
 import ru.kachkovsky.wrc_summoners_duel.SummonersDuelSubjectsAreaFactory;
 import ru.kachkovsky.wrc_summoners_duel.player.Unit;
+import ru.kachkovsky.wrc_summoners_duel.player.UnitsFactory;
 
 import java.util.List;
 
@@ -25,6 +26,6 @@ public class BuyAction implements Action<SummonersDuelSubjectsArea> {
 
     @Override
     public String toString() {
-        return "Buy:";
+        return "Buy:" + UnitsFactory.unitsToString(unitsToBuy);
     }
 }
