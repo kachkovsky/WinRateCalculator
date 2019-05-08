@@ -3,7 +3,7 @@ package ru.kachkovsky.wrc_summoners_duel.player;
 import ru.kachkovsky.utils.StringUtils;
 
 public class Unit {
-    //USe UnitsFactory to create new unit
+    //USe UnitUtils to create new unit
     Unit(int atk, int def, int hp, boolean splash) {
         this.atk = atk;
         this.def = def;

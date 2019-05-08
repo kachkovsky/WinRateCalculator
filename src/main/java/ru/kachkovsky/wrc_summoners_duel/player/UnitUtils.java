@@ -2,7 +2,7 @@ package ru.kachkovsky.wrc_summoners_duel.player;
 
 import java.util.List;
 
-public class UnitsFactory {
+public class UnitUtils {
 
     public static Unit createUnit(int atk, int def, int hp, boolean splash) {
         return new Unit(atk, def, hp, splash);
@@ -18,5 +18,13 @@ public class UnitsFactory {
             sb.append(unit.toString()).append(" | ");
         }
         return sb.toString();
+    }
+
+    public static int summaryAttack(List<Unit> units) {
+        int atk = 0;
+        for (Unit unit : units) {
+            atk += unit.getAtk();
+        }
+        return atk;
     }
 }

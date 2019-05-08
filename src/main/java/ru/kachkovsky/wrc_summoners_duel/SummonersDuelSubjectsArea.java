@@ -8,7 +8,7 @@ import ru.kachkovsky.wrc.team.SubjectTeamAreaDeterminator;
 import ru.kachkovsky.wrc.winrate.DefaultWinRateComparator;
 import ru.kachkovsky.wrc.winrate.WinRate;
 import ru.kachkovsky.wrc_summoners_duel.player.Player;
-import ru.kachkovsky.wrc_summoners_duel.player.PlayerFactory;
+import ru.kachkovsky.wrc_summoners_duel.player.PlayerUtils;
 import ru.kachkovsky.wrc_summoners_duel.stage.SDBeatStage;
 import ru.kachkovsky.wrc_summoners_duel.stage.SDBuyStage;
 import ru.kachkovsky.wrc_summoners_duel.stage.SDFirstBeatStage;
@@ -22,6 +22,7 @@ public class SummonersDuelSubjectsArea implements SubjectsArea {
     private static final SimpleAreaStaticContents STATIC_CONTENTS = new SimpleAreaStaticContents();
     private static final SummonersDuelTeamDeterminator TEAM_DETERMINATOR = new SummonersDuelTeamDeterminator();
 
+    //TODO: add finish check for second turn
     private static final SDBuyStage BUY_STAGE = new SDBuyStage(null);
     private static final SDBeatStage BEAT_STAGE = new SDBeatStage(null);
     private static final SDFirstBeatStage FIRST_STAGE = new SDFirstBeatStage(BEAT_STAGE, BUY_STAGE);
@@ -31,17 +32,25 @@ public class SummonersDuelSubjectsArea implements SubjectsArea {
     private int currentPlayerUnitIndex;
     private Stage<SummonersDuelSubjectsArea> nextStage;
 
-    public SummonersDuelSubjectsArea(Player[] teams, int currentPlayerIndex, int currentPlayerUnitIndex, boolean turnStarted) {
-        this.teams = teams;
-        this.currentPlayerIndex = currentPlayerIndex;
-        this.currentPlayerUnitIndex = currentPlayerUnitIndex;
+    public SummonersDuelSubjectsArea(Player[] teams, int currentPlayerIndex, int currentPlayerUnitIndex, boolean turnStarted, boolean gameStarted) {
+        this(teams, currentPlayerIndex, currentPlayerUnitIndex);
         if (turnStarted) {
             this.nextStage = FIRST_STAGE;
+            if (!gameStarted) {
+                teams[currentPlayerIndex] = PlayerUtils.copyAndTurnMpToPlayer(teams[currentPlayerIndex]);
+            }
         } else if (isBuyStage()) {
             this.nextStage = BUY_STAGE;
+            teams[currentPlayerIndex] = PlayerUtils.copyAndTurnMpToPlayer(teams[currentPlayerIndex]);
         } else {
             this.nextStage = BEAT_STAGE;
         }
+    }
+
+    private SummonersDuelSubjectsArea(Player[] teams, int currentPlayerIndex, int currentPlayerUnitIndex) {
+        this.teams = teams;
+        this.currentPlayerIndex = currentPlayerIndex;
+        this.currentPlayerUnitIndex = currentPlayerUnitIndex;
     }
 
     public Player[] getTeams() {
@@ -87,7 +96,7 @@ public class SummonersDuelSubjectsArea implements SubjectsArea {
 
     @Override
     public String areaToLogString() {
-        return PlayerFactory.playersToString(teams);
+        return PlayerUtils.playersToString(teams);
     }
 
     public static SimpleAreaStaticContents getStaticContents() {

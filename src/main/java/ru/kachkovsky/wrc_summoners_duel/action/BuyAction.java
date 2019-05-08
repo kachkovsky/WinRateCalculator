@@ -2,11 +2,10 @@ package ru.kachkovsky.wrc_summoners_duel.action;
 
 import ru.kachkovsky.wrc.eventsgraph.EventGraphNode;
 import ru.kachkovsky.wrc.stage.Action;
-import ru.kachkovsky.wrc.subject.Subject;
 import ru.kachkovsky.wrc_summoners_duel.SummonersDuelSubjectsArea;
 import ru.kachkovsky.wrc_summoners_duel.SummonersDuelSubjectsAreaFactory;
 import ru.kachkovsky.wrc_summoners_duel.player.Unit;
-import ru.kachkovsky.wrc_summoners_duel.player.UnitsFactory;
+import ru.kachkovsky.wrc_summoners_duel.player.UnitUtils;
 
 import java.util.List;
 
@@ -26,6 +25,6 @@ public class BuyAction implements Action<SummonersDuelSubjectsArea> {
 
     @Override
     public String toString() {
-        return "Buy:" + UnitsFactory.unitsToString(unitsToBuy);
+        return "Buy:" + UnitUtils.unitsToString(unitsToBuy);
     }
 }

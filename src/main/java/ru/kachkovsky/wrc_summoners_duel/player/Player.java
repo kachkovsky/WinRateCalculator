@@ -29,6 +29,6 @@ public class Player {
 
     @Override
     public String toString() {
-        return StringUtils.spaces(hp, 'h') + "_" + StringUtils.spaces(mp, 'm') + ". Units: " + UnitsFactory.unitsToString(units);
+        return StringUtils.spaces(hp, 'h') + "_" + StringUtils.spaces(mp, 'm') + ". Units: " + UnitUtils.unitsToString(units);
     }
 }
