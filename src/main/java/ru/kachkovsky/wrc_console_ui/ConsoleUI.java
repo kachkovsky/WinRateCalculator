@@ -44,13 +44,14 @@ public class ConsoleUI {
 
     public void writeCurrentTurn(EventGraphNode node) {
         SubjectsArea area = node.getArea();
-        System.out.print("Current:" + area.getCurrentSubject() + ". All: ");
         printSubjects(area);
+        System.out.println(area.areaToLogString());
         System.out.println("Win rate by team index:");
         printWinRateList(node.getTeamsWinRate(), "");
     }
 
     public void printSubjects(SubjectsArea area) {
+        System.out.print("Current:" + area.getCurrentSubject() + ". All: ");
         List<Subject> subjectList = area.getSubjectList();
         SubjectTeamAreaDeterminator<SubjectsArea> teamDeterminator = area.getTeamDeterminator();
         for (Subject subject : subjectList) {

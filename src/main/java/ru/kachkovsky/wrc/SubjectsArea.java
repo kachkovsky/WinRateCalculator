@@ -17,4 +17,6 @@ public interface SubjectsArea {
     List<Subject> getSubjectList();
 
     Subject getCurrentSubject();
+
+    String areaToLogString();
 }
