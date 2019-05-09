@@ -4,7 +4,7 @@ import java.util.List;
 
 public class UnitUtils {
 
-    public static Unit createUnit(int atk, int def, int hp, boolean splash) {
+    public static Unit createUnit(boolean splash, int atk, int def, int hp) {
         return new Unit(atk, def, hp, splash);
     }
 
