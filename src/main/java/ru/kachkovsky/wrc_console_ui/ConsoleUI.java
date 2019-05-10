@@ -20,8 +20,8 @@ public class ConsoleUI {
         while (true) {
             Map<Action, EventGraphNode> map = node.calcWinRate();
             writeCurrentTurn(node);
-            if (map.isEmpty()) {
-                break;
+            if (map == null || map.isEmpty()) {
+                return;
             } else {
                 int i = FIRST_CHOICE;
                 for (Map.Entry<Action, EventGraphNode> entry : map.entrySet()) {
