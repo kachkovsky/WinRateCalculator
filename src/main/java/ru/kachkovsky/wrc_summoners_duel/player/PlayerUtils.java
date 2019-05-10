@@ -29,7 +29,7 @@ public class PlayerUtils {
     }
 
     public static Player doAttack(Player oldEnemy, int atk, int unitIndex) {
-        ArrayList<Unit> units = new ArrayList<>(oldEnemy.getUnits().size());
+        ArrayList<Unit> units = new ArrayList<>(oldEnemy.getUnits());
         Unit unit = units.get(unitIndex);
         if (unit.alive(atk)) {
             units.set(unitIndex, UnitUtils.createAfterAttack(unit, atk));
