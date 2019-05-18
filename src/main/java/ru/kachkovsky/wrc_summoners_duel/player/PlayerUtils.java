@@ -5,7 +5,7 @@ import java.util.List;
 
 public class PlayerUtils {
     public static Player copyAndAddUnits(Player old, List<Unit> units) {
-        Player player = new Player(old.getHp(), old.getMp(), new ArrayList<>(old.getUnits()));
+        Player player = new Player(old.getHp(), old.getMp() - UnitUtils.mpForUnits(units), new ArrayList<>(old.getUnits()));
         player.getUnits().addAll(units);
         return player;
     }

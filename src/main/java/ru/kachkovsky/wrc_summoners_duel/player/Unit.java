@@ -43,4 +43,8 @@ public class Unit {
                 + (splash ? "sp" : "") + "_"
                 + StringUtils.spaces(hp, 'H');
     }
+
+    public int getCost() {
+        return getHp() / 2 + getAtk() + getDef() + ((hasSplash() ? 1 : 0) * 2);
+    }
 }

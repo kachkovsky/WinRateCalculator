@@ -66,4 +66,12 @@ public class UnitUtils {
         }
         return atk;
     }
+
+    public static int mpForUnits(List<Unit> units) {
+        int cost = 0;
+        for (Unit unit : units) {
+            cost += unit.getCost();
+        }
+        return cost;
+    }
 }
