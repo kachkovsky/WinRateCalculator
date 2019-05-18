@@ -42,4 +42,28 @@ public class UnitUtils {
         }
         return atk;
     }
+
+    public static int minDefForUnitAliveAfterAttackByAllWithMaxEconomic(List<Unit> otherPlayerUnits) {
+        int oldAtk = 0;
+        int curAtk = 0;
+        for (Unit u : otherPlayerUnits) {
+            if (curAtk <= u.getAtk()) {
+                oldAtk = curAtk;
+                curAtk = u.getAtk();
+            } else if (oldAtk < u.getAtk()) {
+                oldAtk = u.getAtk();
+            }
+        }
+        return oldAtk;
+    }
+
+    public static int findMaxEnemyAttack(List<Unit> otherPlayerUnits) {
+        int atk = 0;
+        for (Unit u : otherPlayerUnits) {
+            if (atk < u.getAtk()) {
+                atk = u.getAtk();
+            }
+        }
+        return atk;
+    }
 }

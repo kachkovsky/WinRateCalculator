@@ -11,6 +11,7 @@ import ru.kachkovsky.wrc_summoners_duel.player.Player;
 import ru.kachkovsky.wrc_summoners_duel.player.PlayerUtils;
 import ru.kachkovsky.wrc_summoners_duel.stage.SDBeatStage;
 import ru.kachkovsky.wrc_summoners_duel.stage.SDBuyStage;
+import ru.kachkovsky.wrc_summoners_duel.stage.SDFinishCheckHelper;
 import ru.kachkovsky.wrc_summoners_duel.stage.SDFirstBeatStage;
 
 import java.util.Comparator;
@@ -23,7 +24,7 @@ public class SummonersDuelSubjectsArea implements SubjectsArea {
     private static final SummonersDuelTeamDeterminator TEAM_DETERMINATOR = new SummonersDuelTeamDeterminator();
 
     //TODO: add finish check for second turn
-    private static final SDBuyStage BUY_STAGE = new SDBuyStage(null);
+    private static final SDBuyStage BUY_STAGE = new SDBuyStage(SDFinishCheckHelper.buyFinishChecks());
     private static final SDBeatStage BEAT_STAGE = new SDBeatStage(null);
     private static final SDFirstBeatStage FIRST_STAGE = new SDFirstBeatStage(BEAT_STAGE, BUY_STAGE);
 
