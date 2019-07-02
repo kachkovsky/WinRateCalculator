@@ -82,7 +82,7 @@ public class WinRateListCalculator {
                     min += winRate.getMinWinRate();
                     max += winRate.getMaxWinRate();
                 }
-                averageRateList.add(new WinRate(min, max));
+                averageRateList.add(new WinRate(min / rateList.size(), max / rateList.size()));
             }
             map.put(integerListEntry.getKey(), averageRateList);
         }

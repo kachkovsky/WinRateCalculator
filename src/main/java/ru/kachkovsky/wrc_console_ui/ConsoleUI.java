@@ -25,7 +25,7 @@ public class ConsoleUI {
             } else {
                 int i = FIRST_CHOICE;
                 for (Map.Entry<Action, EventGraphNode> entry : map.entrySet()) {
-                    System.out.println(i + ")" + entry.getKey().toString());
+                    printAction(i, entry.getKey(), "");
                     printWinRateList(entry.getValue().getTeamsWinRate(), "   ");
                     i++;
                 }
@@ -40,6 +40,10 @@ public class ConsoleUI {
                 }
             }
         }
+    }
+
+    public void printAction(int index, Action a, String postfix) {
+        System.out.println(index + ")" + a.toString() + postfix);
     }
 
     public void writeCurrentTurn(EventGraphNode node) {
