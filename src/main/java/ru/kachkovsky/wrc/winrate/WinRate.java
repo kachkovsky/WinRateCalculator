@@ -4,6 +4,7 @@ public class WinRate {
 
     private float minWinRate;
     private float maxWinRate;
+    private int calculatedVariants = 1;
 
     public WinRate(float winRate) {
         this.minWinRate = winRate;
@@ -16,11 +17,21 @@ public class WinRate {
         this.maxWinRate = maxWinRate;
     }
 
+    public WinRate(float minWinRate, float maxWinRate, int calculatedVariants) {
+        this.minWinRate = minWinRate;
+        this.maxWinRate = maxWinRate;
+        this.calculatedVariants = calculatedVariants;
+    }
+
     public float getMinWinRate() {
         return minWinRate;
     }
 
     public float getMaxWinRate() {
         return maxWinRate;
+    }
+
+    public int getCalculatedVariants() {
+        return calculatedVariants;
     }
 }
