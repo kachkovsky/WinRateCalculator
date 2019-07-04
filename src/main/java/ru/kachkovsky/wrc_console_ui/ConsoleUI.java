@@ -17,29 +17,37 @@ public class ConsoleUI {
 
     public void uiForFullGame(EventGraphNode node) {
         Scanner scanner = new Scanner(System.in);
-        while (true) {
-            Map<Action, EventGraphNode> map = node.calcWinRate();
-            writeCurrentTurn(node);
-            if (map == null || map.isEmpty()) {
-                return;
-            } else {
-                int i = FIRST_CHOICE;
-                for (Map.Entry<Action, EventGraphNode> entry : map.entrySet()) {
-                    printAction(i, entry.getKey(), "");
-                    printWinRateList(entry.getValue().getTeamsWinRate(), "   ");
-                    i++;
+        EventGraphNode prevNode = null;
+        while (node != null) {
+            writeCurrentTurn(prevNode = node);
+            node = uiForTurn(scanner, node);
+        }
+        if (prevNode != null) {
+            printWinRateList(prevNode.getTeamsWinRate()," ");
+        }
+    }
+
+    public EventGraphNode uiForTurn(Scanner scanner, EventGraphNode node) {
+        Map<Action, EventGraphNode> map = node.calcWinRate();
+        if (map == null || map.isEmpty()) {
+            return null;
+        } else {
+            int i = FIRST_CHOICE;
+            for (Map.Entry<Action, EventGraphNode> entry : map.entrySet()) {
+                printAction(i, entry.getKey(), "");
+                printWinRateList(entry.getValue().getTeamsWinRate(), "   ");
+                i++;
+            }
+            int val = scanner.nextInt();
+            i = FIRST_CHOICE;
+            for (Map.Entry<Action, EventGraphNode> entry : map.entrySet()) {
+                if (val == i) {
+                    return entry.getValue();
                 }
-                int val = scanner.nextInt();
-                i = FIRST_CHOICE;
-                for (Map.Entry<Action, EventGraphNode> entry : map.entrySet()) {
-                    if (val == i) {
-                        node = entry.getValue();
-                        break;
-                    }
-                    i++;
-                }
+                i++;
             }
         }
+        return node;
     }
 
     public void printAction(int index, Action a, String postfix) {
