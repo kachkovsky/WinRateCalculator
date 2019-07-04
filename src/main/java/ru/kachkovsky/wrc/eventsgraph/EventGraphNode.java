@@ -4,7 +4,6 @@ import ru.kachkovsky.wrc.SubjectsArea;
 import ru.kachkovsky.wrc.stage.Action;
 import ru.kachkovsky.wrc.stage.Stage;
 import ru.kachkovsky.wrc.winrate.WinRate;
-import ru.kachkovsky.wrc.winrate.WinRateListCalculator;
 
 import java.util.HashMap;
 import java.util.List;
@@ -53,18 +52,4 @@ public class EventGraphNode<T extends SubjectsArea> {
         return teamsWinRate;
     }
 
-    static WinRateListCalculator CALCULATOR = new WinRateListCalculator();
-
-    public static <T extends SubjectsArea> Map<Action<T>, List<WinRate>> eventGraphMapToWinRateMap(Map<Action<T>, EventGraphNode<T>> map, T area) {
-        Map<Action<T>, List<WinRate>> m = new HashMap<>();
-        for (Map.Entry<Action<T>, EventGraphNode<T>> entry : map.entrySet()) {
-            Map<Action<T>, EventGraphNode<T>> m1 = entry.getValue().calcWinRate();
-            if (m1 != null) {
-                m.put(entry.getKey(), CALCULATOR.calc(eventGraphMapToWinRateMap(entry.getValue().calcWinRate(), area), area));
-            } else {
-                m.put(entry.getKey(), entry.getValue().getTeamsWinRate());
-            }
-        }
-        return m;
-    }
 }

@@ -1,16 +1,33 @@
-package ru.kachkovsky.wrc.winrate;
+package ru.kachkovsky.wrc.winrate.calculator;
 
 import ru.kachkovsky.wrc.SubjectsArea;
+import ru.kachkovsky.wrc.eventsgraph.EventGraphNode;
 import ru.kachkovsky.wrc.stage.Action;
 import ru.kachkovsky.wrc.subject.Subject;
 import ru.kachkovsky.wrc.team.SubjectTeamAreaDeterminator;
+import ru.kachkovsky.wrc.winrate.WinRate;
 
 import java.util.*;
 
-public class WinRateListCalculator {
-    private static WinRate MIN_POSSIBLE_WIN_RATE = new WinRate(0, 0);
+//calculator needed for games with simultaneous turns
+public class WinRateListFullCalculator {
 
-    public <T extends SubjectsArea> List<WinRate> calc(Map<Action<T>, List<WinRate>> actionWRMap, T area) {
+    public <T extends SubjectsArea> Map<Action<T>, List<WinRate>> eventGraphMapToWinRateMap(Map<Action<T>, EventGraphNode<T>> map) {
+        Map<Action<T>, List<WinRate>> m = new HashMap<>();
+        for (Map.Entry<Action<T>, EventGraphNode<T>> entry : map.entrySet()) {
+            EventGraphNode<T> innerNode = entry.getValue();
+            Map<Action<T>, EventGraphNode<T>> m1 = innerNode.calcWinRate();
+            if (m1 != null) {
+                m.put(entry.getKey(), calc(eventGraphMapToWinRateMap(m1), innerNode.getArea()));
+            } else {
+                m.put(entry.getKey(), entry.getValue().getTeamsWinRate());
+            }
+        }
+        return m;
+    }
+
+    //TODO: Replace area of getTeamIndex to correct version of node
+    private <T extends SubjectsArea> List<WinRate> calc(Map<Action<T>, List<WinRate>> actionWRMap, T area) {
         SubjectTeamAreaDeterminator<T> subjectTeamAreaDeterminator = area.getTeamDeterminator();
         Comparator<WinRate> winRateComparator = area.getWinRateComparator();
         //How to calc winrate, if each team can action
