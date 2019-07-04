@@ -43,7 +43,8 @@ public class SummonersDuelSubjectsArea implements OnlyOneTeamCanDoTurnSubjectAre
             }
         } else if (isBuyStage()) {
             this.nextStage = BUY_STAGE;
-            teams[currentPlayerIndex] = PlayerUtils.copyAndTurnMpToPlayer(teams[currentPlayerIndex]);
+            //mana up is only after buy stage(only turn start) - for winner calculations
+            //teams[currentPlayerIndex] = PlayerUtils.copyAndTurnMpToPlayer(teams[currentPlayerIndex]);
         } else {
             this.nextStage = BEAT_STAGE;
         }
