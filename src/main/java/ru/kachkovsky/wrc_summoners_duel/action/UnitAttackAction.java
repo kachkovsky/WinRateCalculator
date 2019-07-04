@@ -19,4 +19,8 @@ public class UnitAttackAction implements Action<SummonersDuelSubjectsArea> {
         return new EventGraphNode<>(areaAfterBuy, areaAfterBuy.getNextStage());
     }
 
+    @Override
+    public String toString() {
+        return "enemy index to attack:" + enemyUnitAttacked + "  " + super.toString();
+    }
 }

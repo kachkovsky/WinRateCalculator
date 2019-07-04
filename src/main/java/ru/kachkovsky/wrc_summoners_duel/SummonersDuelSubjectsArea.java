@@ -1,5 +1,6 @@
 package ru.kachkovsky.wrc_summoners_duel;
 
+import ru.kachkovsky.wrc.OnlyOneTeamCanDoTurnSubjectArea;
 import ru.kachkovsky.wrc.SimpleAreaStaticContents;
 import ru.kachkovsky.wrc.SubjectsArea;
 import ru.kachkovsky.wrc.stage.Stage;
@@ -18,7 +19,7 @@ import java.util.Comparator;
 import java.util.List;
 
 
-public class SummonersDuelSubjectsArea implements SubjectsArea {
+public class SummonersDuelSubjectsArea implements OnlyOneTeamCanDoTurnSubjectArea {
     private static final DefaultWinRateComparator COMPARATOR = new DefaultWinRateComparator();
     private static final SimpleAreaStaticContents STATIC_CONTENTS = new SimpleAreaStaticContents();
     private static final SummonersDuelTeamDeterminator TEAM_DETERMINATOR = new SummonersDuelTeamDeterminator();

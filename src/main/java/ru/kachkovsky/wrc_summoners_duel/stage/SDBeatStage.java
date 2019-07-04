@@ -31,7 +31,7 @@ public class SDBeatStage extends Stage<SummonersDuelSubjectsArea> {
         List<Action<SummonersDuelSubjectsArea>> list = new ArrayList<>();
         List<Unit> units = area.getTeams()[area.getReversePlayerIndex()].getUnits();
         for (int i = 0; i < units.size(); i++) {
-            if (units.get(i).alive(atk)) {
+            if (units.get(i).getDef() < atk) {
                 list.add(new UnitAttackAction(i));
             }
         }
