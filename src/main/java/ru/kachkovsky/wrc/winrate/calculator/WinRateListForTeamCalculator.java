@@ -39,17 +39,14 @@ public class WinRateListForTeamCalculator extends WinRateListFullCalculator {
 //                ConsoleUI consoleUI = new ConsoleUI();
 //                consoleUI.writeCurrentTurn(innerNode);
 
-                boolean found = false;
                 if (innerNode.getTeamsWinRate() != null && innerNode.getTeamsWinRate().get(area.getCurrentTeamIndex()).getMinWinRate() >= 1f) {
-                    found = true;
+                    m.put(entry.getKey(), innerNode.getTeamsWinRate());
+                    break;
                 }
                 if (m1 != null) {
                     m.put(entry.getKey(), calc(eventGraphMapToWinRateMapOnlyOneTeam(m1, innerNode.getArea()), area));
-                    if (found) {
-                        break;
-                    }
                 } else {
-                    m.put(entry.getKey(), entry.getValue().getTeamsWinRate());
+                    m.put(entry.getKey(), innerNode.getTeamsWinRate());
                 }
             }
         } catch (StackOverflowError e) {
