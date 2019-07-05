@@ -29,13 +29,14 @@ public class SDBeatStage extends Stage<SummonersDuelSubjectsArea> {
         }
         int atk = area.getTeams()[area.getCurrentPlayerIndex()].getUnits().get(area.getCurrentPlayerUnitIndex()).getAtk();
         List<Action<SummonersDuelSubjectsArea>> list = new ArrayList<>();
+        list.add(new PlayerAttackAction());
         List<Unit> units = area.getTeams()[area.getReversePlayerIndex()].getUnits();
+        //TODO: order to beat units
         for (int i = 0; i < units.size(); i++) {
             if (units.get(i).getDef() < atk) {
                 list.add(new UnitAttackAction(i));
             }
         }
-        list.add(new PlayerAttackAction());
         return list;
     }
 }
