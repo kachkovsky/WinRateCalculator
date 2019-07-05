@@ -82,6 +82,6 @@ public class ConsoleUI {
     }
 
     public void printWinRate(String prefix, WinRate wr) {
-        System.out.println(prefix + "min:" + wr.getMaxWinRate() + " | max:" + wr.getMaxWinRate() + " calcVariants | " + wr.getCalculatedVariants());
+        System.out.println(prefix + "min:" + wr.getMinWinRate() + " | max:" + wr.getMaxWinRate() + " calcVariants | " + wr.getCalculatedVariants());
     }
 }
