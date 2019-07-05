@@ -30,7 +30,7 @@ public class DSHeuristicNextTurnFinishCheck extends DSWinNowCheck {
             int splashUnitIndex = UnitUtils.findSplashUnitIndex(otherTeam.getUnits());
             if (splashUnitIndex == MathUtils.INDEX_NOT_FOUND) {
                 //multiple A_H units to win in start of turn!
-                if (UnitUtils.summaryAttack(curTeam.getUnits()) + curTeam.getUnits().size() + curTeam.getMp() > otherTeam.getUnits().size() + otherTeam.getHp()) {
+                if (UnitUtils.summaryAttack(curTeam.getUnits()) + curTeam.getUnits().size() + curTeam.getMp() >= otherTeam.getUnits().size() + otherTeam.getHp()) {
                     return WinRateUtils.winRateListForOnlyOneWinner(area, indexToWin);
                 }
             }

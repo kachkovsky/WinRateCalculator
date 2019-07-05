@@ -11,6 +11,7 @@ import java.util.List;
 
 public class DSHeuristicNextTurnFinishCheckOnBuy extends DSWinNowCheck {
     private NextTurnOneUnitFinishCheck otherCheck;
+
     public DSHeuristicNextTurnFinishCheckOnBuy(NextTurnOneUnitFinishCheck otherCheck) {
         super(false);
         this.otherCheck = otherCheck;
@@ -29,7 +30,7 @@ public class DSHeuristicNextTurnFinishCheckOnBuy extends DSWinNowCheck {
             int splashUnitIndex = UnitUtils.findSplashUnitIndex(otherTeam.getUnits());
             if (splashUnitIndex == MathUtils.INDEX_NOT_FOUND) {
                 //multiple A_H units to win in start of turn!
-                if (curTeam.getUnits().size() + curTeam.getMp() > otherTeam.getUnits().size() + otherTeam.getHp()) {
+                if (curTeam.getUnits().size() + curTeam.getMp() >= otherTeam.getUnits().size() + otherTeam.getHp()) {
                     return WinRateUtils.winRateListForOnlyOneWinner(area, indexToWin);
                 }
             }
