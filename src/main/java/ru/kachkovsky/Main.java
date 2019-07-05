@@ -38,6 +38,7 @@ public class Main {
                 consoleUI.printAction(i, actionListEntry.getKey(), "");
                 consoleUI.printWinRateList(actionListEntry.getValue(), "");
             }
+            consoleUI.writeCurrentTurn(node);
             node = consoleUI.uiForTurn(scanner, node);
             area = node.getArea();
         }
