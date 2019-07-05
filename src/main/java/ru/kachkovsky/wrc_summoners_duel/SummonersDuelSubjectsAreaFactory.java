@@ -21,25 +21,25 @@ public class SummonersDuelSubjectsAreaFactory {
 
     public static SummonersDuelSubjectsArea createAreaAfterBuy(SummonersDuelSubjectsArea area, List<Unit> unitsToBuy) {
         Player[] teams = Arrays.copyOf(area.getTeams(), PLAYERS_COUNT);
-        teams[area.getCurrentPlayerIndex()] = PlayerUtils.copyAndAddUnits(teams[area.getCurrentPlayerIndex()], unitsToBuy);
+        teams[area.getCurrentTeamIndex()] = PlayerUtils.copyAndAddUnits(teams[area.getCurrentTeamIndex()], unitsToBuy);
         return new SummonersDuelSubjectsArea(teams, area.getReversePlayerIndex(), 0, true, false);
     }
 
     public static SummonersDuelSubjectsArea createAreaAfterSplashAttack(SummonersDuelSubjectsArea area) {
         Player[] teams = Arrays.copyOf(area.getTeams(), PLAYERS_COUNT);
-        teams[area.getReversePlayerIndex()] = PlayerUtils.copyAndDoSplashAttack(teams[area.getReversePlayerIndex()], teams[area.getCurrentPlayerIndex()].getUnits().get(area.getCurrentPlayerUnitIndex()).getAtk());
-        return new SummonersDuelSubjectsArea(teams, area.getCurrentPlayerIndex(), area.getCurrentPlayerUnitIndex() + 1, false, false);
+        teams[area.getReversePlayerIndex()] = PlayerUtils.copyAndDoSplashAttack(teams[area.getReversePlayerIndex()], teams[area.getCurrentTeamIndex()].getUnits().get(area.getCurrentPlayerUnitIndex()).getAtk());
+        return new SummonersDuelSubjectsArea(teams, area.getCurrentTeamIndex(), area.getCurrentPlayerUnitIndex() + 1, false, false);
     }
 
     public static SummonersDuelSubjectsArea createAreaAfterUnitAttack(SummonersDuelSubjectsArea area, int unitToAttack) {
         Player[] teams = Arrays.copyOf(area.getTeams(), PLAYERS_COUNT);
-        teams[area.getReversePlayerIndex()] = PlayerUtils.doAttack(teams[area.getReversePlayerIndex()], teams[area.getCurrentPlayerIndex()].getUnits().get(area.getCurrentPlayerUnitIndex()).getAtk(), unitToAttack);
-        return new SummonersDuelSubjectsArea(teams, area.getCurrentPlayerIndex(), area.getCurrentPlayerUnitIndex() + 1, false, false);
+        teams[area.getReversePlayerIndex()] = PlayerUtils.doAttack(teams[area.getReversePlayerIndex()], teams[area.getCurrentTeamIndex()].getUnits().get(area.getCurrentPlayerUnitIndex()).getAtk(), unitToAttack);
+        return new SummonersDuelSubjectsArea(teams, area.getCurrentTeamIndex(), area.getCurrentPlayerUnitIndex() + 1, false, false);
     }
 
     public static SummonersDuelSubjectsArea createAreaAfterPlayerAttack(SummonersDuelSubjectsArea area) {
         Player[] teams = Arrays.copyOf(area.getTeams(), PLAYERS_COUNT);
-        teams[area.getReversePlayerIndex()]= PlayerUtils.copyAndAttackPlayer(teams[area.getReversePlayerIndex()],teams[area.getCurrentPlayerIndex()].getUnits().get(area.getCurrentPlayerUnitIndex()).getAtk());
-        return new SummonersDuelSubjectsArea(teams, area.getCurrentPlayerIndex(), area.getCurrentPlayerUnitIndex() + 1, false, false);
+        teams[area.getReversePlayerIndex()]= PlayerUtils.copyAndAttackPlayer(teams[area.getReversePlayerIndex()],teams[area.getCurrentTeamIndex()].getUnits().get(area.getCurrentPlayerUnitIndex()).getAtk());
+        return new SummonersDuelSubjectsArea(teams, area.getCurrentTeamIndex(), area.getCurrentPlayerUnitIndex() + 1, false, false);
     }
 }

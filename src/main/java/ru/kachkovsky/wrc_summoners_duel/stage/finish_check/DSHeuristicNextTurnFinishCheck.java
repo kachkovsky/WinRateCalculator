@@ -21,7 +21,7 @@ public class DSHeuristicNextTurnFinishCheck extends DSWinNowCheck {
     public List<WinRate> checkTeamsWinRate(SummonersDuelSubjectsArea area) {
         //if another team can't win next turn
         if (!isWin(area)) {
-            int indexToWin = area.getCurrentPlayerIndex();
+            int indexToWin = area.getCurrentTeamIndex();
             int indexToLose = area.getReversePlayerIndex();
 
             Player curTeam = area.getTeams()[indexToWin];

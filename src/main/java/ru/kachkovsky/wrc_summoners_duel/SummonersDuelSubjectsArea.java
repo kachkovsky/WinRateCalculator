@@ -2,7 +2,6 @@ package ru.kachkovsky.wrc_summoners_duel;
 
 import ru.kachkovsky.wrc.OnlyOneTeamCanDoTurnSubjectArea;
 import ru.kachkovsky.wrc.SimpleAreaStaticContents;
-import ru.kachkovsky.wrc.SubjectsArea;
 import ru.kachkovsky.wrc.stage.Stage;
 import ru.kachkovsky.wrc.subject.Subject;
 import ru.kachkovsky.wrc.team.SubjectTeamAreaDeterminator;
@@ -15,6 +14,7 @@ import ru.kachkovsky.wrc_summoners_duel.stage.SDBuyStage;
 import ru.kachkovsky.wrc_summoners_duel.stage.SDFinishCheckHelper;
 import ru.kachkovsky.wrc_summoners_duel.stage.SDFirstBeatStage;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -60,7 +60,7 @@ public class SummonersDuelSubjectsArea implements OnlyOneTeamCanDoTurnSubjectAre
         return teams;
     }
 
-    public int getCurrentPlayerIndex() {
+    public int getCurrentTeamIndex() {
         return currentPlayerIndex;
     }
 
@@ -113,5 +113,28 @@ public class SummonersDuelSubjectsArea implements OnlyOneTeamCanDoTurnSubjectAre
 
     public boolean isBuyStage() {
         return currentPlayerUnitIndex == teams[currentPlayerIndex].getUnits().size();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof SummonersDuelSubjectsArea)) return false;
+
+        SummonersDuelSubjectsArea area = (SummonersDuelSubjectsArea) o;
+
+        if (currentPlayerIndex != area.currentPlayerIndex) return false;
+        if (currentPlayerUnitIndex != area.currentPlayerUnitIndex) return false;
+        // Probably incorrect - comparing Object[] arrays with Arrays.equals
+        if (!Arrays.equals(teams, area.teams)) return false;
+        return nextStage.equals(area.nextStage);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Arrays.hashCode(teams);
+        result = 31 * result + currentPlayerIndex;
+        result = 31 * result + currentPlayerUnitIndex;
+        result = 31 * result + nextStage.hashCode();
+        return result;
     }
 }

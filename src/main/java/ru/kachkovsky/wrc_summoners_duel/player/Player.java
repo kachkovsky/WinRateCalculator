@@ -31,4 +31,23 @@ public class Player {
     public String toString() {
         return StringUtils.spaces(hp, 'h') + "_" + StringUtils.spaces(mp, 'm') + ". Units: " + UnitUtils.unitsToString(units);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Player)) return false;
+
+        Player player = (Player) o;
+
+        if (hp != player.hp) return false;
+        if (mp != player.mp) return false;
+        return units.equals(player.units);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hp;
+        result = 31 * result + mp;
+        return result;
+    }
 }

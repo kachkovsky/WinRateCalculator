@@ -20,7 +20,7 @@ public class SDBuyStage extends Stage<SummonersDuelSubjectsArea> {
 
     @Override
     public List<Action<SummonersDuelSubjectsArea>> getActions(SummonersDuelSubjectsArea area) {
-        int mp = area.getTeams()[area.getCurrentPlayerIndex()].getMp();
+        int mp = area.getTeams()[area.getCurrentTeamIndex()].getMp();
         List<List<Unit>> unitsCombination = createUnitsUsingCurrentMp(new ArrayList<>(), mp, mp);
         List<Action<SummonersDuelSubjectsArea>> list = new ArrayList<>();
         for (List<Unit> units : unitsCombination) {
@@ -84,4 +84,5 @@ public class SDBuyStage extends Stage<SummonersDuelSubjectsArea> {
         }
         return resultList;
     }
+
 }

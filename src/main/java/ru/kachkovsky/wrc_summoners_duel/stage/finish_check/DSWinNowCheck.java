@@ -27,12 +27,12 @@ public class DSWinNowCheck implements FinishCheck<SummonersDuelSubjectsArea> {
     }
 
     private int indexToWin(SummonersDuelSubjectsArea area) {
-        return currentPlayerWin ? area.getCurrentPlayerIndex() : area.getReversePlayerIndex();
+        return currentPlayerWin ? area.getCurrentTeamIndex() : area.getReversePlayerIndex();
     }
 
     public boolean isWin(SummonersDuelSubjectsArea area) {
         int indexToWin = indexToWin(area);
-        int indexToLose = currentPlayerWin ? area.getReversePlayerIndex() : area.getCurrentPlayerIndex();
+        int indexToLose = currentPlayerWin ? area.getReversePlayerIndex() : area.getCurrentTeamIndex();
         Player curTeam = area.getTeams()[indexToWin];
         Player otherTeam = area.getTeams()[indexToLose];
         return UnitUtils.summaryAttack(curTeam.getUnits()) >= otherTeam.getHp();

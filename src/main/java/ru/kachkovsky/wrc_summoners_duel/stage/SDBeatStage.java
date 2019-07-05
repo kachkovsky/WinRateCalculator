@@ -23,11 +23,11 @@ public class SDBeatStage extends Stage<SummonersDuelSubjectsArea> {
 
     @Override
     public List<Action<SummonersDuelSubjectsArea>> getActions(SummonersDuelSubjectsArea area) {
-        Unit unit = area.getTeams()[area.getCurrentPlayerIndex()].getUnits().get(area.getCurrentPlayerUnitIndex());
+        Unit unit = area.getTeams()[area.getCurrentTeamIndex()].getUnits().get(area.getCurrentPlayerUnitIndex());
         if (unit.hasSplash()) {
             return SPLASH_ACTION_LIST;
         }
-        int atk = area.getTeams()[area.getCurrentPlayerIndex()].getUnits().get(area.getCurrentPlayerUnitIndex()).getAtk();
+        int atk = area.getTeams()[area.getCurrentTeamIndex()].getUnits().get(area.getCurrentPlayerUnitIndex()).getAtk();
         List<Action<SummonersDuelSubjectsArea>> list = new ArrayList<>();
         list.add(new PlayerAttackAction());
         List<Unit> units = area.getTeams()[area.getReversePlayerIndex()].getUnits();

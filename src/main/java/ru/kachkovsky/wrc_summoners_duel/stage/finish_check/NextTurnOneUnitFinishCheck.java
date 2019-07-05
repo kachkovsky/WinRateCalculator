@@ -12,7 +12,7 @@ import java.util.List;
 public class NextTurnOneUnitFinishCheck implements FinishCheck<SummonersDuelSubjectsArea> {
     @Override
     public List<WinRate> checkTeamsWinRate(SummonersDuelSubjectsArea area) {
-        int indexToWin = area.getCurrentPlayerIndex();
+        int indexToWin = area.getCurrentTeamIndex();
         int indexToLose = area.getReversePlayerIndex();
         Player curTeam = area.getTeams()[indexToWin];
         Player otherTeam = area.getTeams()[indexToLose];

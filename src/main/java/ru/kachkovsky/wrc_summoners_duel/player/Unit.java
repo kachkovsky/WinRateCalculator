@@ -47,4 +47,26 @@ public class Unit {
     public int getCost() {
         return getHp() / 2 + getAtk() + getDef() + ((hasSplash() ? 1 : 0) * 2);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Unit)) return false;
+
+        Unit unit = (Unit) o;
+
+        if (atk != unit.atk) return false;
+        if (def != unit.def) return false;
+        if (hp != unit.hp) return false;
+        return splash == unit.splash;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = atk;
+        result = 31 * result + def;
+        result = 31 * result + hp;
+        result = 31 * result + (splash ? 1 : 0);
+        return result;
+    }
 }

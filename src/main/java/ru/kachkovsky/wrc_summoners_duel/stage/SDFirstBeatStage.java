@@ -27,4 +27,23 @@ public class SDFirstBeatStage extends Stage<SummonersDuelSubjectsArea> {
             return innerBeatStage.getActions(area);
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof SDFirstBeatStage)) return false;
+
+        SDFirstBeatStage that = (SDFirstBeatStage) o;
+
+        if (innerBeatStage != null ? !innerBeatStage.equals(that.innerBeatStage) : that.innerBeatStage != null)
+            return false;
+        return innerBuyStage != null ? innerBuyStage.equals(that.innerBuyStage) : that.innerBuyStage == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = innerBeatStage != null ? innerBeatStage.hashCode() : 0;
+        result = 31 * result + (innerBuyStage != null ? innerBuyStage.hashCode() : 0);
+        return result;
+    }
 }
