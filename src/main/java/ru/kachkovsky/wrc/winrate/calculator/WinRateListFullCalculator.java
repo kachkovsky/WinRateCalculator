@@ -12,13 +12,13 @@ import java.util.*;
 //calculator needed for games with simultaneous turns
 public class WinRateListFullCalculator {
 
-    public <T extends SubjectsArea> Map<Action<T>, List<WinRate>> eventGraphMapToWinRateMap(Map<Action<T>, EventGraphNode<T>> map) {
+    public <T extends SubjectsArea> Map<Action<T>, List<WinRate>> eventGraphMapToWinRateMap(Map<Action<T>, EventGraphNode<T>> map, T area) {
         Map<Action<T>, List<WinRate>> m = new HashMap<>();
         for (Map.Entry<Action<T>, EventGraphNode<T>> entry : map.entrySet()) {
             EventGraphNode<T> innerNode = entry.getValue();
             Map<Action<T>, EventGraphNode<T>> m1 = innerNode.calcWinRate();
             if (m1 != null) {
-                m.put(entry.getKey(), calc(eventGraphMapToWinRateMap(m1), innerNode.getArea()));
+                m.put(entry.getKey(), calc(eventGraphMapToWinRateMap(m1, innerNode.getArea()), area));
             } else {
                 m.put(entry.getKey(), entry.getValue().getTeamsWinRate());
             }
