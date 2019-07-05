@@ -27,7 +27,7 @@ public class WinRateListFullCalculator {
     }
 
     //TODO: Replace area of getTeamIndex to correct version of node
-    private <T extends SubjectsArea> List<WinRate> calc(Map<Action<T>, List<WinRate>> actionWRMap, T area) {
+    protected <T extends SubjectsArea> List<WinRate> calc(Map<Action<T>, List<WinRate>> actionWRMap, T area) {
         SubjectTeamAreaDeterminator<T> subjectTeamAreaDeterminator = area.getTeamDeterminator();
         Comparator<WinRate> winRateComparator = area.getWinRateComparator();
         //How to calc winrate, if each team can action
