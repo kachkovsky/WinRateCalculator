@@ -26,4 +26,19 @@ public abstract class Stage<T extends SubjectsArea> {
     }
 
     public abstract List<Action<T>> getActions(T area);
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Stage)) return false;
+
+        Stage<?> stage = (Stage<?>) o;
+
+        return finishCheckList != null ? finishCheckList.equals(stage.finishCheckList) : stage.finishCheckList == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return finishCheckList != null ? finishCheckList.hashCode() : 0;
+    }
 }
