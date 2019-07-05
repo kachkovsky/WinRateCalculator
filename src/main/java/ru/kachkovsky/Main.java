@@ -16,9 +16,8 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) throws InterruptedException {
-        Thread.sleep(8000);
 
-        SummonersDuelSubjectsArea area = SummonersDuelSubjectsAreaFactory.createNewGameArea(3);
+        SummonersDuelSubjectsArea area = SummonersDuelSubjectsAreaFactory.createNewGameArea(2);
 
         EventGraphNode<SummonersDuelSubjectsArea> node = new EventGraphNode<>(area, area.getNextStage());
 
@@ -40,6 +39,7 @@ public class Main {
                 consoleUI.printWinRateList(actionListEntry.getValue(), "");
             }
             node = consoleUI.uiForTurn(scanner, node);
+            area = node.getArea();
         }
 
         consoleUI.printWinRateList(node.getTeamsWinRate(), "FIN ");
