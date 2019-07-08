@@ -30,7 +30,7 @@ public class WinRateListFullCalculator {
     protected <T extends SubjectsArea> List<WinRate> calc(Map<Action<T>, List<WinRate>> actionWRMap, T area) {
         SubjectTeamAreaDeterminator<T> subjectTeamAreaDeterminator = area.getTeamDeterminator();
         Comparator<WinRate> winRateComparator = area.getWinRateComparator();
-        //How to calc winrate, if each team can action
+        //How to calc winRate, if each team can action
         Map<Subject, List<List<WinRate>>> subjRate = new HashMap<>();
         for (Map.Entry<Action<T>, List<WinRate>> e : actionWRMap.entrySet()) {
             Subject subject = area.getCurrentSubject();
@@ -49,7 +49,7 @@ public class WinRateListFullCalculator {
                 lists.add(e.getValue());
                 subjRate.put(subject, lists);
             } else {
-                int compare = winRateComparator.compare(listOfEqualForActionCombinationOfRates.get(0).get(0), winRate);
+                int compare = winRateComparator.compare(listOfEqualForActionCombinationOfRates.get(0).get(teamIndex), winRate);
                 if (compare == 0) {
                     listOfEqualForActionCombinationOfRates.add(e.getValue());
                 } else if (compare < 0) {
