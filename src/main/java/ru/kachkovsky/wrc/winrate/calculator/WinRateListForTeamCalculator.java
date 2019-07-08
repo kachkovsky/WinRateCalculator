@@ -4,6 +4,7 @@ import ru.kachkovsky.utils.StringUtils;
 import ru.kachkovsky.wrc.OnlyOneTeamCanDoTurnSubjectArea;
 import ru.kachkovsky.wrc.eventsgraph.EventGraphNode;
 import ru.kachkovsky.wrc.stage.Action;
+import ru.kachkovsky.wrc.winrate.WinRateUtils;
 import ru.kachkovsky.wrc_console_ui.ConsoleUI;
 
 import java.util.ArrayList;
@@ -44,16 +45,16 @@ public class WinRateListForTeamCalculator extends WinRateListFullCalculator {
                 EventGraphNode<T> innerNode = entry.getValue();
                 Map<Action<T>, EventGraphNode<T>> m1 = innerNode.calcWinRate(true);
 
-//                if (innerNode.getTeamsWinRate() == null) {
-//                    EventGraphNode<T> p = innerNode;
-//                    while ((p = p.getParent()) != null) {
-//                        if (innerNode.getArea().equals(p.getArea())) {
-//                            System.out.println(i++);
-//                            list.add(new ActionResults<>(entry.getKey(), innerNode, WinRateUtils.twoPlayersUnknownOrWin(innerNode.getArea().getCurrentTeamIndex())));
-//                            break;
-//                        }
-//                    }
-//                }
+                if (innerNode.getTeamsWinRate() == null) {
+                    EventGraphNode<T> p = innerNode;
+                    while ((p = p.getParent()) != null) {
+                        if (innerNode.getArea().equals(p.getArea())) {
+                            System.out.println(i++);
+                            list.add(new ActionResults<>(entry.getKey(), innerNode, WinRateUtils.twoPlayersUnknownOrWin(innerNode.getArea().getCurrentTeamIndex())));
+                            break;
+                        }
+                    }
+                }
 
 
 //                try {

@@ -23,7 +23,7 @@ public class ConsoleUI {
             node = uiForTurn(scanner, node);
         }
         if (prevNode != null) {
-            printWinRateList(prevNode.getTeamsWinRate()," ");
+            printWinRateList(prevNode.getTeamsWinRate(), " ");
         }
     }
 
@@ -62,8 +62,8 @@ public class ConsoleUI {
         printWinRateList(node.getTeamsWinRate(), "");
     }
 
-    public void writeCurrentArea(String prefix, SubjectsArea area) {
-        System.out.println(area.areaToLogString());
+    public void writeCurrentArea(String prefix, SubjectsArea area,) {
+        System.out.println(prefix + area.areaToLogString());
     }
 
     public void printSubjects(SubjectsArea area) {
@@ -77,11 +77,17 @@ public class ConsoleUI {
     }
 
     public void printWinRateList(List<WinRate> wrl, String prefix) {
+        printWinRateList(wrl,prefix,true);
+    }
+
+    public void printWinRateList(List<WinRate> wrl, String prefix, boolean newLine) {
         if (wrl != null) {
             for (WinRate wr : wrl) {
                 printWinRate(prefix, wr);
             }
-            System.out.println();
+            if (newLine) {
+                System.out.println();
+            }
         }
     }
 
