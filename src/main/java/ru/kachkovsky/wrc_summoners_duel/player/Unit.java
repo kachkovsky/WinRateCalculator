@@ -3,45 +3,42 @@ package ru.kachkovsky.wrc_summoners_duel.player;
 import ru.kachkovsky.utils.StringUtils;
 
 public class Unit {
+    private final int value;
+
     //USe UnitUtils to create new unit
     Unit(int atk, int def, int hp, boolean splash) {
-        this.atk = atk;
-        this.def = def;
-        this.hp = hp;
-        this.splash = splash;
+        value = atk
+                + hp * 0x100
+                + def * 0x10000
+                + (splash ? 0x1000000 : 0);
     }
 
-    private int atk;
-    private int def;
-    private int hp;
-    private boolean splash;
-
     public int getAtk() {
-        return atk;
+        return value & 0xFF;
     }
 
     public int getDef() {
-        return def;
+        return (value >> 16) & 0xFF;
     }
 
     public int getHp() {
-        return hp;
+        return (value >> 8) & 0xFF;
     }
 
     public boolean hasSplash() {
-        return splash;
+        return ((value >> 24) & 0x1) == 1;
     }
 
     public boolean alive(int attacked) {
-        return def + hp > attacked;
+        return getDef() + getHp() > attacked;
     }
 
     @Override
     public String toString() {
-        return StringUtils.spaces(atk, 'A') + "_"
-                + StringUtils.spaces(def, 'D') + "_"
-                + (splash ? "sp" : "") + "_"
-                + StringUtils.spaces(hp, 'H');
+        return StringUtils.spaces(getAtk(), 'A') + "_"
+                + StringUtils.spaces(getDef(), 'D') + "_"
+                + (hasSplash() ? "sp" : "") + "_"
+                + StringUtils.spaces(getHp(), 'H');
     }
 
     public int getCost() {
@@ -51,22 +48,11 @@ public class Unit {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Unit)) return false;
-
-        Unit unit = (Unit) o;
-
-        if (atk != unit.atk) return false;
-        if (def != unit.def) return false;
-        if (hp != unit.hp) return false;
-        return splash == unit.splash;
+        return (value == o.hashCode() && (o instanceof Unit));
     }
 
     @Override
     public int hashCode() {
-        int result = atk;
-        result = 31 * result + def;
-        result = 31 * result + hp;
-        result = 31 * result + (splash ? 1 : 0);
-        return result;
+        return value;
     }
 }
