@@ -28,10 +28,10 @@ public class Main {
         int i = 0;
 
         Scanner scanner = new Scanner(System.in);
-        WinRateListForTeamCalculator calculator = new WinRateListForTeamCalculator();
+        WinRateListFullCalculator calculator = new WinRateListFullCalculator();
         Map<Action<SummonersDuelSubjectsArea>, EventGraphNode<SummonersDuelSubjectsArea>> actionEventGraphNodeMap;
         while ((actionEventGraphNodeMap = node.calcWinRate()) != null) {
-            Map<Action<SummonersDuelSubjectsArea>, List<WinRate>> actionListMap = calculator.eventGraphMapToWinRateMapOnlyOneTeam(node.calcWinRate(), area);
+            Map<Action<SummonersDuelSubjectsArea>, List<WinRate>> actionListMap = calculator.eventGraphMapToWinRateMap(node.calcWinRate(), area);
             System.out.println("$$$Game calculated$$$");
             for (Map.Entry<Action<SummonersDuelSubjectsArea>, List<WinRate>> actionListEntry : actionListMap.entrySet()) {
                 i++;
