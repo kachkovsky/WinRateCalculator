@@ -7,7 +7,11 @@ import ru.kachkovsky.wrc.winrate.calculator.WinRateListFullCalculator;
 import ru.kachkovsky.wrc_console_ui.ConsoleUI;
 import ru.kachkovsky.wrc_summoners_duel.SummonersDuelSubjectsArea;
 import ru.kachkovsky.wrc_summoners_duel.SummonersDuelSubjectsAreaFactory;
+import ru.kachkovsky.wrc_summoners_duel.player.Player;
+import ru.kachkovsky.wrc_summoners_duel.player.Unit;
+import ru.kachkovsky.wrc_summoners_duel.player.UnitUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -16,8 +20,10 @@ public class Main {
 
     public static void main(String[] args) throws InterruptedException {
 
-        SummonersDuelSubjectsArea area = SummonersDuelSubjectsAreaFactory.createNewGameArea(2);
 
+        SummonersDuelSubjectsArea area = SummonersDuelSubjectsAreaFactory.createNewGameArea(2);
+//        area.getTeams()[0] = new Player(3, 0, new ArrayList<>());
+//        area.getTeams()[1] = new Player(3, 2, new ArrayList<>());
         EventGraphNode<SummonersDuelSubjectsArea> node = new EventGraphNode<>(area, area.getNextStage());
 
         ConsoleUI consoleUI = new ConsoleUI();

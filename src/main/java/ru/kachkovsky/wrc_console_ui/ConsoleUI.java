@@ -62,6 +62,10 @@ public class ConsoleUI {
         printWinRateList(node.getTeamsWinRate(), "");
     }
 
+    public void writeCurrentArea(String prefix, SubjectsArea area) {
+        System.out.println(area.areaToLogString());
+    }
+
     public void printSubjects(SubjectsArea area) {
         System.out.print("Current:" + area.getCurrentSubject() + ". All: ");
         List<Subject> subjectList = area.getSubjectList();

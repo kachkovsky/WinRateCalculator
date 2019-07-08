@@ -1,9 +1,10 @@
 package ru.kachkovsky.wrc.winrate.calculator;
 
+import ru.kachkovsky.utils.StringUtils;
 import ru.kachkovsky.wrc.OnlyOneTeamCanDoTurnSubjectArea;
 import ru.kachkovsky.wrc.eventsgraph.EventGraphNode;
 import ru.kachkovsky.wrc.stage.Action;
-import ru.kachkovsky.wrc.winrate.WinRateUtils;
+import ru.kachkovsky.wrc_console_ui.ConsoleUI;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -12,6 +13,12 @@ import java.util.Map;
 
 //DON'T USE THIS CLASS IF SIMULTANEOUS TURNS ARE IN THE GAME!!!
 public class WinRateListForTeamCalculator extends WinRateListFullCalculator {
+
+    ConsoleUI consoleUI = new ConsoleUI();
+
+    int i = 1;
+    public static final int ITERATIONS_TO_CHECK_PARENT = 3;
+
     static class StackItem<T extends OnlyOneTeamCanDoTurnSubjectArea> {
         List<ActionResults<T>> list;
         Iterator<Map.Entry<Action<T>, EventGraphNode<T>>> iterator;
@@ -31,21 +38,24 @@ public class WinRateListForTeamCalculator extends WinRateListFullCalculator {
                 iterator = map.entrySet().iterator();
                 list = new ArrayList<>();
             }
+            consoleUI.writeCurrentArea(StringUtils.spaces(stack.size(), '-')+"[", area);
             while (iterator.hasNext()) {
                 Map.Entry<Action<T>, EventGraphNode<T>> entry = iterator.next();
                 EventGraphNode<T> innerNode = entry.getValue();
                 Map<Action<T>, EventGraphNode<T>> m1 = innerNode.calcWinRate(true);
 
-                if (innerNode.getTeamsWinRate() == null) {
-                    EventGraphNode<T> p = innerNode;
-                    while ((p = p.getParent()) != null) {
-                        if (innerNode.getArea().equals(p.getArea())) {
-                            list.add(new ActionResults<>(entry.getKey(), innerNode, WinRateUtils.twoPlayersUnknownOrWin(innerNode.getArea().getCurrentTeamIndex())));
-                            break;
-                        }
-                    }
-                }
-//
+//                if (innerNode.getTeamsWinRate() == null) {
+//                    EventGraphNode<T> p = innerNode;
+//                    while ((p = p.getParent()) != null) {
+//                        if (innerNode.getArea().equals(p.getArea())) {
+//                            System.out.println(i++);
+//                            list.add(new ActionResults<>(entry.getKey(), innerNode, WinRateUtils.twoPlayersUnknownOrWin(innerNode.getArea().getCurrentTeamIndex())));
+//                            break;
+//                        }
+//                    }
+//                }
+
+
 //                try {
 //                    Thread.sleep(100);
 //                } catch (InterruptedException e) {
@@ -75,6 +85,7 @@ public class WinRateListForTeamCalculator extends WinRateListFullCalculator {
                     list.add(new ActionResults<>(entry.getKey(), innerNode, innerNode.getTeamsWinRate()));
                 }
             }
+            consoleUI.writeCurrentArea(StringUtils.spaces(stack.size(), '-')+"$", area);
             if (stack.isEmpty()) {
                 return list;
             }

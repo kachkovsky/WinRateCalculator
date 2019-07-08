@@ -17,6 +17,13 @@ import java.util.Map;
 public class SDTest {
 
     @Test
+    public void areaEquality() {
+        Assert.assertEquals(SummonersDuelSubjectsAreaFactory.createNewGameArea(2), SummonersDuelSubjectsAreaFactory.createNewGameArea(2));
+        Assert.assertEquals(SummonersDuelSubjectsAreaFactory.createNewGameArea(3), SummonersDuelSubjectsAreaFactory.createNewGameArea(3));
+        Assert.assertNotEquals(SummonersDuelSubjectsAreaFactory.createNewGameArea(3), SummonersDuelSubjectsAreaFactory.createNewGameArea(2));
+    }
+
+    @Test
     public void newUnit() {
         Unit unit = UnitUtils.createUnit(false, 1, 0, 0);
         Assert.assertEquals(false, unit.hasSplash());
@@ -24,7 +31,7 @@ public class SDTest {
         Assert.assertEquals(0, unit.getDef());
         Assert.assertEquals(0, unit.getHp());
 
-         unit = UnitUtils.createUnit(true, 1, 1, 1);
+        unit = UnitUtils.createUnit(true, 1, 1, 1);
         Assert.assertEquals(true, unit.hasSplash());
         Assert.assertEquals(1, unit.getAtk());
         Assert.assertEquals(1, unit.getDef());
