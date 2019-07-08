@@ -34,4 +34,9 @@ public class WinRate {
     public int getCalculatedVariants() {
         return calculatedVariants;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%.2f %.2f  | %d", minWinRate, maxWinRate, calculatedVariants);
+    }
 }
