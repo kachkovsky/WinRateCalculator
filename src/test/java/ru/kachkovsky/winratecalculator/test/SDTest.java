@@ -42,6 +42,12 @@ public class SDTest {
         Assert.assertEquals(1, unit.getAtk());
         Assert.assertEquals(7, unit.getDef());
         Assert.assertEquals(15, unit.getHp());
+
+        unit = UnitUtils.createUnit(true, 55, 1, 44);
+        Assert.assertEquals(true, unit.hasSplash());
+        Assert.assertEquals(55, unit.getAtk());
+        Assert.assertEquals(1, unit.getDef());
+        Assert.assertEquals(44, unit.getHp());
     }
 
     @Test
