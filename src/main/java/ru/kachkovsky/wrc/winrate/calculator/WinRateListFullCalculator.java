@@ -1,17 +1,19 @@
 package ru.kachkovsky.wrc.winrate.calculator;
 
+import ru.kachkovsky.utils.StringUtils;
 import ru.kachkovsky.wrc.SubjectsArea;
 import ru.kachkovsky.wrc.eventsgraph.EventGraphNode;
 import ru.kachkovsky.wrc.stage.Action;
 import ru.kachkovsky.wrc.subject.Subject;
 import ru.kachkovsky.wrc.team.SubjectTeamAreaDeterminator;
 import ru.kachkovsky.wrc.winrate.WinRate;
+import ru.kachkovsky.wrc_console_ui.ConsoleUI;
 
 import java.util.*;
 
 //calculator needed for games with simultaneous turns
 public class WinRateListFullCalculator {
-
+    ConsoleUI consoleUI = new ConsoleUI();
     public static class ActionResults<T extends SubjectsArea> {
 
         public ActionResults(Action<T> action, EventGraphNode<T> nodeAfterAction) {
@@ -46,12 +48,14 @@ public class WinRateListFullCalculator {
         List<ActionResults<T>> list = new ArrayList<>();
         for (Map.Entry<Action<T>, EventGraphNode<T>> entry : map.entrySet()) {
             EventGraphNode<T> innerNode = entry.getValue();
+            consoleUI.writeCurrentArea("[", innerNode.getArea());
             Map<Action<T>, EventGraphNode<T>> m1 = innerNode.calcWinRate();
             if (m1 != null) {
                 list.add(new ActionResults<>(entry.getKey(), innerNode, calc(eventGraphMapToWinRateMap(m1), innerNode.getArea())));
             } else {
                 list.add(new ActionResults<>(entry.getKey(), innerNode, entry.getValue().getTeamsWinRate()));
             }
+            consoleUI.writeCurrentArea("$", innerNode.getArea());
         }
         return list;
     }
