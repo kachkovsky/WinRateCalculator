@@ -2,7 +2,6 @@ package ru.kachkovsky;
 
 import ru.kachkovsky.wrc.eventsgraph.EventGraphNode;
 import ru.kachkovsky.wrc.stage.Action;
-import ru.kachkovsky.wrc.winrate.WinRate;
 import ru.kachkovsky.wrc.winrate.calculator.WinRateListForTeamCalculator;
 import ru.kachkovsky.wrc.winrate.calculator.WinRateListFullCalculator;
 import ru.kachkovsky.wrc_console_ui.ConsoleUI;
@@ -28,15 +27,17 @@ public class Main {
         int i = 0;
 
         Scanner scanner = new Scanner(System.in);
-        WinRateListFullCalculator calculator = new WinRateListFullCalculator();
+        WinRateListForTeamCalculator calculator = new WinRateListForTeamCalculator();
         Map<Action<SummonersDuelSubjectsArea>, EventGraphNode<SummonersDuelSubjectsArea>> actionEventGraphNodeMap;
         while ((actionEventGraphNodeMap = node.calcWinRate()) != null) {
-            Map<Action<SummonersDuelSubjectsArea>, List<WinRate>> actionListMap = calculator.eventGraphMapToWinRateMap(node.calcWinRate(), area);
+            List<WinRateListFullCalculator.ActionResults<SummonersDuelSubjectsArea>> actionResults = calculator.eventGraphMapToWinRateMapOnlyOneTeam(node.calcWinRate(), area);
+            //Map<Action<SummonersDuelSubjectsArea>, List<WinRate>> actionListMap = calculator.eventGraphMapToWinRateMap(node.calcWinRate(), area);
             System.out.println("$$$Game calculated$$$");
-            for (Map.Entry<Action<SummonersDuelSubjectsArea>, List<WinRate>> actionListEntry : actionListMap.entrySet()) {
+            //for (Map.Entry<Action<SummonersDuelSubjectsArea>, List<WinRate>> actionListEntry : actionListMap.entrySet()) {
+            for (WinRateListFullCalculator.ActionResults<SummonersDuelSubjectsArea> actionResult : actionResults) {
                 i++;
-                consoleUI.printAction(i, actionListEntry.getKey(), "");
-                consoleUI.printWinRateList(actionListEntry.getValue(), "");
+                consoleUI.printAction(i, actionResult.getAction(), "");
+                consoleUI.printWinRateList(actionResult.getWrList(), "");
             }
             consoleUI.writeCurrentTurn(node);
             node = consoleUI.uiForTurn(scanner, node);

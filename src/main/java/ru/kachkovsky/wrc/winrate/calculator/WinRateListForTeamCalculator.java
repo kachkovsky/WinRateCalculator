@@ -3,32 +3,33 @@ package ru.kachkovsky.wrc.winrate.calculator;
 import ru.kachkovsky.wrc.OnlyOneTeamCanDoTurnSubjectArea;
 import ru.kachkovsky.wrc.eventsgraph.EventGraphNode;
 import ru.kachkovsky.wrc.stage.Action;
-import ru.kachkovsky.wrc.winrate.WinRate;
 import ru.kachkovsky.wrc.winrate.WinRateUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 //DON'T USE THIS CLASS IF SIMULTANEOUS TURNS ARE IN THE GAME!!!
 public class WinRateListForTeamCalculator extends WinRateListFullCalculator {
     static class StackItem<T extends OnlyOneTeamCanDoTurnSubjectArea> {
-        Map<Action<T>, EventGraphNode<T>> map;
-        T area;
-        Map<Action<T>, List<WinRate>> m;
+        List<ActionResults<T>> list;
         Iterator<Map.Entry<Action<T>, EventGraphNode<T>>> iterator;
-        Action<T> action;
+        Map.Entry<Action<T>, EventGraphNode<T>> entry;
+        T area;
     }
 
-    public <T extends OnlyOneTeamCanDoTurnSubjectArea> Map<Action<T>, List<WinRate>> eventGraphMapToWinRateMapOnlyOneTeam(Map<Action<T>, EventGraphNode<T>> map, T area) {
+    public <T extends OnlyOneTeamCanDoTurnSubjectArea> List<ActionResults<T>> eventGraphMapToWinRateMapOnlyOneTeam(Map<Action<T>, EventGraphNode<T>> map, T area) {
 
         List<StackItem<T>> stack = new ArrayList<>(1000);
 
         Iterator<Map.Entry<Action<T>, EventGraphNode<T>>> iterator = null;
-        Map<Action<T>, List<WinRate>> m = null;
+        List<ActionResults<T>> list = null;
         outer:
         while (true) {
             if (iterator == null) {
                 iterator = map.entrySet().iterator();
-                m = new HashMap<>();
+                list = new ArrayList<>();
             }
             while (iterator.hasNext()) {
                 Map.Entry<Action<T>, EventGraphNode<T>> entry = iterator.next();
@@ -39,7 +40,7 @@ public class WinRateListForTeamCalculator extends WinRateListFullCalculator {
                     EventGraphNode<T> p = innerNode;
                     while ((p = p.getParent()) != null) {
                         if (innerNode.getArea().equals(p.getArea())) {
-                            m.put(entry.getKey(), WinRateUtils.twoPlayersUnknownOrWin(innerNode.getArea().getCurrentTeamIndex()));
+                            list.add(new ActionResults<>(entry.getKey(), innerNode, WinRateUtils.twoPlayersUnknownOrWin(innerNode.getArea().getCurrentTeamIndex())));
                             break;
                         }
                     }
@@ -55,36 +56,34 @@ public class WinRateListForTeamCalculator extends WinRateListFullCalculator {
 //                consoleUI.writeCurrentTurn(innerNode);
 
                 if (innerNode.getTeamsWinRate() != null && innerNode.getTeamsWinRate().get(area.getCurrentTeamIndex()).getMinWinRate() >= 1f) {
-                    m.put(entry.getKey(), innerNode.getTeamsWinRate());
+                    list.add(new ActionResults<>(entry.getKey(), innerNode, innerNode.getTeamsWinRate()));
                     break;
                 }
                 if (m1 != null) {
                     StackItem<T> stackItem = new StackItem<>();
-                    stackItem.map = map;
-                    stackItem.area = area;
+                    stackItem.list = list;
                     stackItem.iterator = iterator;
-                    stackItem.m = m;
-                    stackItem.action = entry.getKey();
+                    stackItem.entry = entry;
+                    stackItem.area = area;
                     stack.add(stackItem);
 
                     map = m1;
-                    area = innerNode.getArea();
                     iterator = null;
+                    area = innerNode.getArea();
                     continue outer;
                 } else {
-                    m.put(entry.getKey(), innerNode.getTeamsWinRate());
+                    list.add(new ActionResults<>(entry.getKey(), innerNode, innerNode.getTeamsWinRate()));
                 }
             }
             if (stack.isEmpty()) {
-                return m;
+                return list;
             }
             StackItem<T> si = stack.remove(stack.size() - 1);
-            map = si.map;
             area = si.area;
             iterator = si.iterator;
-            Action<T> action = si.action;
-            si.m.put(action, calc(m, area));
-            m = si.m;
+            Action<T> action = si.entry.getKey();
+            si.list.add(new ActionResults<>(action, si.entry.getValue(), calc(list, si.entry.getValue().getArea())));
+            list = si.list;
         }
     }
 
