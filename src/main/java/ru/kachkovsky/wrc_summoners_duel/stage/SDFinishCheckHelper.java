@@ -16,14 +16,14 @@ public class SDFinishCheckHelper {
     private static final NextTurnOneUnitFinishCheck NEXT_TURN_ONE_UNIT_FINISH_CHECK = new NextTurnOneUnitFinishCheck();
     private static ArrayList<FinishCheck<SummonersDuelSubjectsArea>> START_TURN_CHECKS = new ArrayList<>();
 
-    {
+    static {
         START_TURN_CHECKS.add(CURRENT_PLAYER_WIN_NOW_CHECK);
         START_TURN_CHECKS.add(new DSHeuristicNextTurnFinishCheck(NEXT_TURN_ONE_UNIT_FINISH_CHECK));
     }
 
     private static ArrayList<FinishCheck<SummonersDuelSubjectsArea>> BUY_FINISH_CHECKS = new ArrayList<>();
 
-    {
+    static {
         BUY_FINISH_CHECKS.add(new DSHeuristicNextTurnFinishCheckOnBuy(NEXT_TURN_ONE_UNIT_FINISH_CHECK));
     }
 
