@@ -62,7 +62,7 @@ public class ConsoleUI {
         printWinRateList(node.getTeamsWinRate(), "");
     }
 
-    public void writeCurrentArea(String prefix, SubjectsArea area,) {
+    public void writeCurrentArea(String prefix, SubjectsArea area) {
         System.out.println(prefix + area.areaToLogString());
     }
 
