@@ -2,10 +2,7 @@ package ru.kachkovsky.wrc_summoners_duel.stage;
 
 import ru.kachkovsky.wrc.stage.FinishCheck;
 import ru.kachkovsky.wrc_summoners_duel.SummonersDuelSubjectsArea;
-import ru.kachkovsky.wrc_summoners_duel.stage.finish_check.DSHeuristicNextTurnFinishCheck;
-import ru.kachkovsky.wrc_summoners_duel.stage.finish_check.DSHeuristicNextTurnFinishCheckOnBuy;
-import ru.kachkovsky.wrc_summoners_duel.stage.finish_check.DSWinNowCheck;
-import ru.kachkovsky.wrc_summoners_duel.stage.finish_check.NextTurnOneUnitFinishCheck;
+import ru.kachkovsky.wrc_summoners_duel.stage.finish_check.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +16,7 @@ public class SDFinishCheckHelper {
     static {
         START_TURN_CHECKS.add(CURRENT_PLAYER_WIN_NOW_CHECK);
         START_TURN_CHECKS.add(new DSHeuristicNextTurnFinishCheck(NEXT_TURN_ONE_UNIT_FINISH_CHECK));
+        //START_TURN_CHECKS.add(new OverallAdvantageCheck());
     }
 
     private static ArrayList<FinishCheck<SummonersDuelSubjectsArea>> BUY_FINISH_CHECKS = new ArrayList<>();

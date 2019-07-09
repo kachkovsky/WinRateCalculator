@@ -112,4 +112,22 @@ public class UnitUtils {
         } while (last > 0);
         return list;
     }
+
+    public static boolean overallAdvantageOfFirstSortedListCheck(List<Unit> firstList, List<Unit> secondList) {
+        int i = 0;
+        for (int i1 = 0; i1 < secondList.size() && i < firstList.size(); i1++) {
+            while (i < firstList.size()) {
+                if (firstBetterOrEquals(firstList.get(i), secondList.get(i1))) {
+                    if (i1 == secondList.size() - 1) {
+                        return true;
+                    } else {
+                        break;
+                    }
+                }
+                i++;
+            }
+            i++;
+        }
+        return secondList.isEmpty();
+    }
 }

@@ -112,4 +112,67 @@ public class SDTest {
 
         Assert.assertEquals(units.size(), 1);
     }
+
+    @Test
+    public void checkEqualsSortedLists() {
+        ArrayList<Unit> li = new ArrayList<>();
+        li.add(UnitUtils.createUnit(true, 4, 2, 2));
+        li.add(UnitUtils.createUnit(true, 4, 0, 2));
+
+        ArrayList<Unit> li2 = new ArrayList<>();
+        li2.add(UnitUtils.createUnit(true, 4, 2, 2));
+        li2.add(UnitUtils.createUnit(true, 4, 0, 2));
+        Assert.assertTrue(UnitUtils.overallAdvantageOfFirstSortedListCheck(li, li2));
+    }
+
+    @Test
+    public void checkEmptySortedLists() {
+        ArrayList<Unit> li = new ArrayList<>();
+        li.add(UnitUtils.createUnit(true, 4, 2, 2));
+        li.add(UnitUtils.createUnit(true, 4, 0, 2));
+
+        ArrayList<Unit> li2 = new ArrayList<>();
+        Assert.assertTrue(UnitUtils.overallAdvantageOfFirstSortedListCheck(li, li2));
+    }
+
+    @Test
+    public void checkMoreSortedLists() {
+        ArrayList<Unit> li = new ArrayList<>();
+        li.add(UnitUtils.createUnit(true, 1, 1, 1));
+        li.add(UnitUtils.createUnit(true, 4, 0, 2));
+        li.add(UnitUtils.createUnit(true, 4, 2, 2));
+
+        ArrayList<Unit> li2 = new ArrayList<>();
+
+        li2.add(UnitUtils.createUnit(true, 4, 0, 2));
+        li2.add(UnitUtils.createUnit(true, 4, 2, 2));
+
+        Assert.assertTrue(UnitUtils.overallAdvantageOfFirstSortedListCheck(li, li2));
+    }
+
+    @Test
+    public void checkFalseSortedLists() {
+        ArrayList<Unit> li = new ArrayList<>();
+        li.add(UnitUtils.createUnit(true, 4, 2, 2));
+        li.add(UnitUtils.createUnit(true, 4, 0, 2));
+
+        ArrayList<Unit> li2 = new ArrayList<>();
+        li2.add(UnitUtils.createUnit(true, 4, 0, 2));
+        li2.add(UnitUtils.createUnit(true, 4, 2, 2));
+        Assert.assertFalse(UnitUtils.overallAdvantageOfFirstSortedListCheck(li, li2));
+    }
+
+    @Test
+    public void checkFalseMoreSortedLists() {
+        ArrayList<Unit> li = new ArrayList<>();
+        li.add(UnitUtils.createUnit(true, 4, 0, 2));
+        li.add(UnitUtils.createUnit(true, 4, 2, 2));
+
+        ArrayList<Unit> li2 = new ArrayList<>();
+
+        li2.add(UnitUtils.createUnit(true, 1, 1, 1));
+        li2.add(UnitUtils.createUnit(true, 4, 0, 2));
+        li2.add(UnitUtils.createUnit(true, 4, 2, 2));
+        Assert.assertFalse(UnitUtils.overallAdvantageOfFirstSortedListCheck(li, li2));
+    }
 }
