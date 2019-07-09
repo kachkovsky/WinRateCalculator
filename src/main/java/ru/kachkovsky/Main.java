@@ -7,11 +7,7 @@ import ru.kachkovsky.wrc.winrate.calculator.WinRateListFullCalculator;
 import ru.kachkovsky.wrc_console_ui.ConsoleUI;
 import ru.kachkovsky.wrc_summoners_duel.SummonersDuelSubjectsArea;
 import ru.kachkovsky.wrc_summoners_duel.SummonersDuelSubjectsAreaFactory;
-import ru.kachkovsky.wrc_summoners_duel.player.Player;
-import ru.kachkovsky.wrc_summoners_duel.player.Unit;
-import ru.kachkovsky.wrc_summoners_duel.player.UnitUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -41,7 +37,9 @@ public class Main {
         WinRateListForTeamCalculator calculator = new WinRateListForTeamCalculator();
         Map<Action<SummonersDuelSubjectsArea>, EventGraphNode<SummonersDuelSubjectsArea>> actionEventGraphNodeMap;
         while ((actionEventGraphNodeMap = node.calcWinRate()) != null) {
+            long t = System.currentTimeMillis();
             List<WinRateListFullCalculator.ActionResults<SummonersDuelSubjectsArea>> actionResults = calculator.eventGraphMapToWinRateMapOnlyOneTeam(node.calcWinRate(), area);
+            System.out.println("Time: " + (System.currentTimeMillis() - t));
             //Map<Action<SummonersDuelSubjectsArea>, List<WinRate>> actionListMap = calculator.eventGraphMapToWinRateMap(node.calcWinRate(), area);
             System.out.println("$$$Game calculated$$$");
             //for (Map.Entry<Action<SummonersDuelSubjectsArea>, List<WinRate>> actionListEntry : actionListMap.entrySet()) {
