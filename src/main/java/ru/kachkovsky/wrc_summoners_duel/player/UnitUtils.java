@@ -2,6 +2,7 @@ package ru.kachkovsky.wrc_summoners_duel.player;
 
 import ru.kachkovsky.utils.MathUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UnitUtils {
@@ -73,5 +74,42 @@ public class UnitUtils {
             cost += unit.getCost();
         }
         return cost;
+    }
+
+    public static boolean firstBetterOrEquals(Unit u1, Unit u2) {
+        return u1.getAtk() >= u2.getAtk()
+                && u1.getHp() >= u2.getHp()
+                && u1.getDef() >= u2.getDef()
+                && (u1.hasSplash() || (!u1.hasSplash() && !u2.hasSplash()));
+    }
+
+    public static List<Unit> unitsUniqueAttacked(int atk, List<Unit> unitsAttacked) {
+        List<Unit> list = new ArrayList<>();
+        for (int i = 0; i < unitsAttacked.size(); i++) {
+            if (unitsAttacked.get(i).getDef() < atk) {
+                list.add(unitsAttacked.get(i));
+            }
+        }
+        int last = list.size() - 1;
+        do {
+            int i = last - 1;
+            while (i >= 0) {
+                Unit u1 = list.get(i);
+                Unit u2 = list.get(last);
+                if (firstBetterOrEquals(u1, u2) && (u1.expectedHpAfterAttack(atk) >= u2.expectedHpAfterAttack(atk))) {
+                    list.remove(last);
+                    last--;
+                    i = last - 1;
+                } else if (firstBetterOrEquals(u2, u1) && (u2.expectedHpAfterAttack(atk) >= u1.expectedHpAfterAttack(atk))) {
+                    list.remove(i);
+                    last--;
+                    i--;
+                } else {
+                    i--;
+                }
+            }
+            last--;
+        } while (last > 0);
+        return list;
     }
 }

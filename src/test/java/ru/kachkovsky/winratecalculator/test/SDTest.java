@@ -10,7 +10,9 @@ import ru.kachkovsky.wrc_summoners_duel.SummonersDuelSubjectsAreaFactory;
 import ru.kachkovsky.wrc_summoners_duel.player.Unit;
 import ru.kachkovsky.wrc_summoners_duel.player.UnitUtils;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 
@@ -68,5 +70,46 @@ public class SDTest {
         WinRateListFullCalculator c = new WinRateListFullCalculator();
         //Map<Action<SummonersDuelSubjectsArea>, List<WinRate>> actionListMap = c.eventGraphMapToWinRateMap(innerMap, next.getArea());
         //Assert.assertTrue(actionListMap!=null);
+    }
+
+    @Test
+    public void unitsUniqueAttacked() {
+        Unit u1, u2, u3, u4, u0;
+        ArrayList<Unit> li = new ArrayList<>();
+        li.add(UnitUtils.createUnit(false, 1, 5, 2));
+        li.add(u0 = UnitUtils.createUnit(true, 5, 3, 2));
+        li.add(u1 = UnitUtils.createUnit(true, 5, 4, 1));
+        li.add(UnitUtils.createUnit(false, 1, 22, 2));
+        li.add(UnitUtils.createUnit(false, 1, 22, 4));
+        li.add(u2 = UnitUtils.createUnit(true, 1, 6, 1));
+        li.add(u3 = UnitUtils.createUnit(false, 4, 6, 5));
+        li.add(UnitUtils.createUnit(false, 1, 1, 5));
+        li.add(UnitUtils.createUnit(true, 4, 0, 2));
+        li.add(UnitUtils.createUnit(false, 1, 7, 4));
+        li.add(UnitUtils.createUnit(true, 4, 2, 2));
+        li.add(UnitUtils.createUnit(false, 1, 2, 1));
+
+        List<Unit> units = UnitUtils.unitsUniqueAttacked(7, li);
+        Assert.assertEquals(u0, units.get(0));
+        Assert.assertEquals(u1, units.get(1));
+        Assert.assertEquals(u2, units.get(2));
+        Assert.assertEquals(u3, units.get(3));
+        Assert.assertEquals(units.size(), 4);
+    }
+
+    @Test
+    public void unitsUniqueAttacked1() {
+        ArrayList<Unit> li = new ArrayList<>();
+        li.add(UnitUtils.createUnit(true, 4, 2, 2));
+        li.add(UnitUtils.createUnit(true, 4, 0, 2));
+        List<Unit> units = UnitUtils.unitsUniqueAttacked(7, li);
+        Assert.assertEquals(units.size(), 1);
+
+        li = new ArrayList<>();
+        li.add(UnitUtils.createUnit(true, 4, 2, 2));
+        li.add(UnitUtils.createUnit(true, 4, 0, 2));
+        units = UnitUtils.unitsUniqueAttacked(7, li);
+
+        Assert.assertEquals(units.size(), 1);
     }
 }

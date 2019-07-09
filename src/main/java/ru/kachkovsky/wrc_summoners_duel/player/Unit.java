@@ -33,6 +33,10 @@ public class Unit {
         return getDef() + getHp() > attacked;
     }
 
+    public int expectedHpAfterAttack(int attacked) {
+        return Math.max(0, getHp() - Math.max(0, attacked - getDef()));
+    }
+
     @Override
     public String toString() {
         return StringUtils.spaces(getAtk(), 'A') + "_"

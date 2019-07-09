@@ -8,6 +8,7 @@ import ru.kachkovsky.wrc_summoners_duel.action.PlayerAttackAction;
 import ru.kachkovsky.wrc_summoners_duel.action.SplashAttackAction;
 import ru.kachkovsky.wrc_summoners_duel.action.UnitAttackAction;
 import ru.kachkovsky.wrc_summoners_duel.player.Unit;
+import ru.kachkovsky.wrc_summoners_duel.player.UnitUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,11 +33,12 @@ public class SDBeatStage extends Stage<SummonersDuelSubjectsArea> {
         list.add(new PlayerAttackAction());
         List<Unit> units = area.getTeams()[area.getReversePlayerIndex()].getUnits();
         //TODO: order to beat units
-        for (int i = 0; i < units.size(); i++) {
-            if (units.get(i).getDef() < atk) {
-                list.add(new UnitAttackAction(i));
-            }
+        List<Unit> unitsUniqueAttacked = UnitUtils.unitsUniqueAttacked(atk, units);
+        for (int i = 0; i < unitsUniqueAttacked.size(); i++) {
+            list.add(new UnitAttackAction(i));
         }
         return list;
     }
+
+
 }
