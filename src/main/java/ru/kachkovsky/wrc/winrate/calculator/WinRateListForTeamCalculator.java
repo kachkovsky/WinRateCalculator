@@ -71,6 +71,7 @@ public class WinRateListForTeamCalculator extends WinRateListFullCalculator {
                     break;
                 }
                 if (m1 != null) {
+                    System.out.println(entry.getKey());
                     StackItem<T> stackItem = new StackItem<>();
                     stackItem.list = list;
                     stackItem.iterator = iterator;
