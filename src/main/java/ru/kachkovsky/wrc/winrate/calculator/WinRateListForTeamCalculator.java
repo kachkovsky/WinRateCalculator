@@ -39,7 +39,8 @@ public class WinRateListForTeamCalculator extends WinRateListFullCalculator {
                 iterator = map.entrySet().iterator();
                 list = new ArrayList<>();
             }
-            consoleUI.writeCurrentArea(StringUtils.spaces(stack.size(), '-')+"[", area);
+            consoleUI.writeCurrentArea(StringUtils.spaces(stack.size(), '-') + "[", area);
+            iteratorLabel:
             while (iterator.hasNext()) {
                 Map.Entry<Action<T>, EventGraphNode<T>> entry = iterator.next();
                 EventGraphNode<T> innerNode = entry.getValue();
@@ -51,7 +52,7 @@ public class WinRateListForTeamCalculator extends WinRateListFullCalculator {
                         if (innerNode.getArea().equals(p.getArea())) {
                             System.out.println(i++);
                             list.add(new ActionResults<>(entry.getKey(), innerNode, WinRateUtils.twoPlayersUnknownOrWin(innerNode.getArea().getCurrentTeamIndex())));
-                            break;
+                            break iteratorLabel;
                         }
                     }
                 }
@@ -87,7 +88,7 @@ public class WinRateListForTeamCalculator extends WinRateListFullCalculator {
                     list.add(new ActionResults<>(entry.getKey(), innerNode, innerNode.getTeamsWinRate()));
                 }
             }
-            consoleUI.writeCurrentArea(StringUtils.spaces(stack.size(), '-')+"$", area);
+            consoleUI.writeCurrentArea(StringUtils.spaces(stack.size(), '-') + "$", area);
             if (stack.isEmpty()) {
                 return list;
             }
