@@ -21,9 +21,14 @@ public class Main {
     public static void main(String[] args) throws InterruptedException {
 
 
-        SummonersDuelSubjectsArea area = SummonersDuelSubjectsAreaFactory.createNewGameArea(2);
-//        area.getTeams()[0] = new Player(3, 0, new ArrayList<>());
-//        area.getTeams()[1] = new Player(3, 2, new ArrayList<>());
+        SummonersDuelSubjectsArea area = SummonersDuelSubjectsAreaFactory.createNewGameArea(4);
+//        ArrayList<Unit> li = new ArrayList<>();
+//        li.add(UnitUtils.createUnit(false, 2, 0, 1));
+//        area.getTeams()[0] = new Player(3, 2, li);
+//        ArrayList<Unit> l2 = new ArrayList<>();
+//        l2.add(UnitUtils.createUnit(false, 2, 0, 1));
+//        l2.add(UnitUtils.createUnit(false, 2, 0, 1));
+//        area.getTeams()[1] = new Player(3, 0, l2);
         EventGraphNode<SummonersDuelSubjectsArea> node = new EventGraphNode<>(area, area.getNextStage());
 
         ConsoleUI consoleUI = new ConsoleUI();
