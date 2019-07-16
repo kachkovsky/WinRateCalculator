@@ -27,7 +27,7 @@ public class SummonersDuelSubjectsArea implements OnlyOneTeamCanDoTurnSubjectAre
     //TODO: add finish check for second turn
     private static final SDBuyStage BUY_STAGE = new SDBuyStage(SDFinishCheckHelper.buyFinishChecks());
     private static final SDBeatStage BEAT_STAGE = new SDBeatStage(null);
-    private static final SDFirstBeatStage FIRST_STAGE = new SDFirstBeatStage(BEAT_STAGE, BUY_STAGE);
+    public static final SDFirstBeatStage FIRST_STAGE = new SDFirstBeatStage(BEAT_STAGE, BUY_STAGE);
 
     private final Player[] teams;
     private final int currentPlayerIndex;

@@ -6,6 +6,7 @@ import ru.kachkovsky.wrc.eventsgraph.EventGraphNode;
 import ru.kachkovsky.wrc.stage.Action;
 import ru.kachkovsky.wrc.winrate.WinRateUtils;
 import ru.kachkovsky.wrc_console_ui.ConsoleUI;
+import ru.kachkovsky.wrc_summoners_duel.SummonersDuelSubjectsArea;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -39,7 +40,10 @@ public class WinRateListForTeamCalculator extends WinRateListFullCalculator {
                 iterator = map.entrySet().iterator();
                 list = new ArrayList<>();
             }
-            consoleUI.writeCurrentArea(StringUtils.spaces(stack.size(), '-') + "[", area);
+
+            if (((SummonersDuelSubjectsArea) area).getNextStage().equals(SummonersDuelSubjectsArea.FIRST_STAGE)) {
+                consoleUI.writeCurrentArea(StringUtils.spaces(stack.size(), '-') + "[", area);
+            }
             iteratorLabel:
             while (iterator.hasNext()) {
                 Map.Entry<Action<T>, EventGraphNode<T>> entry = iterator.next();
@@ -72,7 +76,6 @@ public class WinRateListForTeamCalculator extends WinRateListFullCalculator {
                     break;
                 }
                 if (m1 != null) {
-                    System.out.println(entry.getKey());
                     StackItem<T> stackItem = new StackItem<>();
                     stackItem.list = list;
                     stackItem.iterator = iterator;
@@ -88,7 +91,9 @@ public class WinRateListForTeamCalculator extends WinRateListFullCalculator {
                     list.add(new ActionResults<>(entry.getKey(), innerNode, innerNode.getTeamsWinRate()));
                 }
             }
-            consoleUI.writeCurrentArea(StringUtils.spaces(stack.size(), '-') + "$", area);
+            if (((SummonersDuelSubjectsArea) area).getNextStage().equals(SummonersDuelSubjectsArea.FIRST_STAGE)) {
+                consoleUI.writeCurrentArea(StringUtils.spaces(stack.size(), '-') + "$", area);
+            }
             if (stack.isEmpty()) {
                 return list;
             }
