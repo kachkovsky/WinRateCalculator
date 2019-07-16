@@ -111,6 +111,18 @@ public class SDTest {
         units = UnitUtils.unitsUniqueAttacked(7, li);
 
         Assert.assertEquals(units.size(), 1);
+
+        li = new ArrayList<>();
+        li.add(UnitUtils.createUnit(false, 1, 0, 3));
+        li.add(UnitUtils.createUnit(false, 1, 0, 1));
+        li.add(UnitUtils.createUnit(false, 1, 0, 1));
+        Assert.assertEquals(2, UnitUtils.unitsUniqueAttacked(1, li).size());
+
+        li = new ArrayList<>();
+        li.add(UnitUtils.createUnit(false, 1, 0, 1));
+        li.add(UnitUtils.createUnit(false, 1, 0, 1));
+        li.add(UnitUtils.createUnit(false, 1, 0, 3));
+        Assert.assertEquals(2, UnitUtils.unitsUniqueAttacked(1, li).size());
     }
 
     @Test

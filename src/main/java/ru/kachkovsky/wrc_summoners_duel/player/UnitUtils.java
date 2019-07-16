@@ -96,11 +96,12 @@ public class UnitUtils {
             while (i >= 0) {
                 Unit u1 = list.get(i);
                 Unit u2 = list.get(last);
-                if (firstBetterOrEquals(u1, u2) && (u1.expectedHpAfterAttack(atk) >= u2.expectedHpAfterAttack(atk))) {
+                //We need attack unit which stronger and hurted more by our attack
+                if (firstBetterOrEquals(u1, u2) && (u1.expectedHpAfterAttack(atk) <= u2.expectedHpAfterAttack(atk))) {
                     list.remove(last);
                     last--;
                     i = last - 1;
-                } else if (firstBetterOrEquals(u2, u1) && (u2.expectedHpAfterAttack(atk) >= u1.expectedHpAfterAttack(atk))) {
+                } else if (firstBetterOrEquals(u2, u1) && (u2.expectedHpAfterAttack(atk) <= u1.expectedHpAfterAttack(atk))) {
                     list.remove(i);
                     last--;
                     i--;
