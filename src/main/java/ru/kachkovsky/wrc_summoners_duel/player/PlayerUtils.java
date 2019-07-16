@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerUtils {
+    public static final UnitOrderComparator UNIT_ORDER_COMPARATOR = new UnitOrderComparator();
+
     public static Player copyAndAddUnits(Player old, List<Unit> units) {
         Player player = new Player(old.getHp(), old.getMp() - UnitUtils.mpForUnits(units), new ArrayList<>(old.getUnits()));
         player.getUnits().addAll(units);
+        player.getUnits().sort(UNIT_ORDER_COMPARATOR);
         return player;
     }
 
@@ -25,6 +28,7 @@ public class PlayerUtils {
                 units.add(UnitUtils.createAfterAttack(u, atk));
             }
         }
+        units.sort(UNIT_ORDER_COMPARATOR);
         return new Player(oldEnemy.getHp() - atk, oldEnemy.getMp(), units);
     }
 
@@ -36,6 +40,7 @@ public class PlayerUtils {
         } else {
             units.remove(unitIndex);
         }
+        units.sort(UNIT_ORDER_COMPARATOR);
         return new Player(oldEnemy.getHp(), oldEnemy.getMp(), units);
     }
 

@@ -8,6 +8,7 @@ import ru.kachkovsky.wrc.winrate.calculator.WinRateListFullCalculator;
 import ru.kachkovsky.wrc_summoners_duel.SummonersDuelSubjectsArea;
 import ru.kachkovsky.wrc_summoners_duel.SummonersDuelSubjectsAreaFactory;
 import ru.kachkovsky.wrc_summoners_duel.player.Unit;
+import ru.kachkovsky.wrc_summoners_duel.player.UnitOrderComparator;
 import ru.kachkovsky.wrc_summoners_duel.player.UnitUtils;
 
 import java.util.ArrayList;
@@ -187,4 +188,16 @@ public class SDTest {
         li2.add(UnitUtils.createUnit(true, 4, 2, 2));
         Assert.assertFalse(UnitUtils.overallAdvantageOfFirstSortedListCheck(li, li2));
     }
+
+    @Test
+    public void unitOrderComparatorChecks() {
+        UnitOrderComparator comparator = new UnitOrderComparator();
+
+        Assert.assertEquals(0, comparator.compare(UnitUtils.createUnit(true, 4, 0, 2), UnitUtils.createUnit(true, 4, 0, 2)));
+        Assert.assertEquals(0, comparator.compare(UnitUtils.createUnit(false, 4, 0, 2), UnitUtils.createUnit(false, 4, 0, 2)));
+        Assert.assertEquals(0, comparator.compare(UnitUtils.createUnit(true, 4, 1, 2), UnitUtils.createUnit(true, 4, 1, 2)));
+        Assert.assertEquals(-1, comparator.compare(UnitUtils.createUnit(true, 4, 0, 2), UnitUtils.createUnit(true, 4, 2, 2)));
+        Assert.assertEquals(1, comparator.compare(UnitUtils.createUnit(true, 6, 0, 2), UnitUtils.createUnit(true, 4, 2, 2)));
+    }
+
 }
