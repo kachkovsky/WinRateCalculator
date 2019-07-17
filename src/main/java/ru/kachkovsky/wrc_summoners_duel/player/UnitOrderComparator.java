@@ -12,7 +12,7 @@ public class UnitOrderComparator implements Comparator<Unit> {
                     :
                     (o2.hasSplash() ? -1 : compareAtk(o1, o2));
         }
-        return Integer.signum(result);
+        return Integer.signum(-result);
     }
 
     private int compareAtk(Unit o1, Unit o2) {
@@ -28,6 +28,6 @@ public class UnitOrderComparator implements Comparator<Unit> {
     }
 
     private int getUnitCostX2(Unit u) {
-        return u.getHp() / 2 + 2 * (u.getAtk() + u.getDef() + ((u.hasSplash() ? 1 : 0) * 2));
+        return u.getHp() + 2 * (u.getAtk() + u.getDef() + ((u.hasSplash() ? 1 : 0) * 2));
     }
 }
