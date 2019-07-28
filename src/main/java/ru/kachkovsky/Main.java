@@ -25,7 +25,7 @@ public class Main {
 //        l2.add(UnitUtils.createUnit(false, 2, 0, 1));
 //        l2.add(UnitUtils.createUnit(false, 2, 0, 1));
 //        area.getTeams()[1] = new Player(3, 0, l2);
-        TurnNode<SummonersDuelSubjectsArea> node = new TurnNode<>(area, area.getCurrentStage());
+        TurnNode<SummonersDuelSubjectsArea> node = new TurnNode<>(area);
 
         ConsoleUI consoleUI = new ConsoleUI();
 
