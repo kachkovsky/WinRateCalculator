@@ -20,7 +20,7 @@ public class BuyAction implements Action<SummonersDuelSubjectsArea> {
     @Override
     public TurnNode<SummonersDuelSubjectsArea> calcAct(SummonersDuelSubjectsArea area) {
         SummonersDuelSubjectsArea areaAfterBuy = SummonersDuelSubjectsAreaFactory.createAreaAfterBuy(area, unitsToBuy);
-        return new TurnNode<>(areaAfterBuy, areaAfterBuy.getCurrentStage());
+        return new TurnNode<>(areaAfterBuy);
     }
 
     @Override

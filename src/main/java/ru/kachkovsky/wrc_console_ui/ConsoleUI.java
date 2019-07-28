@@ -69,7 +69,7 @@ public class ConsoleUI {
     public void printSubjects(SubjectsArea area) {
         System.out.print("Current:" + area.getCurrentSubject() + ". All: ");
         List<Subject> subjectList = area.getSubjectList();
-        SubjectTeamAreaDeterminator<SubjectsArea> teamDeterminator = area.getTeamDeterminator();
+        SubjectTeamAreaDeterminator teamDeterminator = area.getTeamDeterminator();
         for (Subject subject : subjectList) {
             System.out.print(subject.toString() + " " + teamDeterminator.getTeamIndex(area, subject) + " | ");
         }

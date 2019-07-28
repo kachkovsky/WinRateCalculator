@@ -60,7 +60,7 @@ public class WinRateListFullCalculator {
     }
 
     //TODO: Replace area of getTeamIndex to correct version of node
-    protected <T extends SubjectsArea> List<WinRate> calc(List<ActionResults<T>> actionResultsList, T areaBeforeAction) {
+    protected <T extends SubjectsArea<T>> List<WinRate> calc(List<ActionResults<T>> actionResultsList, T areaBeforeAction) {
         SubjectTeamAreaDeterminator<T> subjectTeamAreaDeterminator = areaBeforeAction.getTeamDeterminator();
         //need to rework this to action.getCurrentSubject(area)
         Subject subject = areaBeforeAction.getCurrentSubject();
@@ -96,9 +96,9 @@ public class WinRateListFullCalculator {
                 averageOfMultipleChoicesForDoer(subjRate, areaBeforeAction.getNumberOfTeams()), areaBeforeAction);
     }
 
-    private <T extends SubjectsArea> boolean hasMoreWinRateForAnySubjectOfTeam(Map<Subject, List<List<WinRate>>> subjRate, int teamIndex, WinRate rate, T area) {
+    private <T extends SubjectsArea<T>> boolean hasMoreWinRateForAnySubjectOfTeam(Map<Subject, List<List<WinRate>>> subjRate, int teamIndex, WinRate rate, T area) {
         Comparator<WinRate> winRateComparator = area.getWinRateComparator();
-        SubjectTeamAreaDeterminator<SubjectsArea> teamDeterminator = area.getTeamDeterminator();
+        SubjectTeamAreaDeterminator<T> teamDeterminator = area.getTeamDeterminator();
         for (Map.Entry<Subject, List<List<WinRate>>> entry : subjRate.entrySet()) {
             if (teamDeterminator.getTeamIndex(area, entry.getKey()) == teamIndex) {
                 List<List<WinRate>> value = entry.getValue();

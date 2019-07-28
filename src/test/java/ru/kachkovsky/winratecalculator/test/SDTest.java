@@ -56,7 +56,7 @@ public class SDTest {
     @Test
     public void calc() {
         SummonersDuelSubjectsArea area = SummonersDuelSubjectsAreaFactory.createNewGameArea(2);
-        TurnNode<SummonersDuelSubjectsArea> node = new TurnNode<>(area, area.getCurrentStage());
+        TurnNode<SummonersDuelSubjectsArea> node = new TurnNode<>(area);
 
         Map<Action<SummonersDuelSubjectsArea>, TurnNode<SummonersDuelSubjectsArea>> actionEventGraphNodeMap = node.calcWinRate();
         TurnNode<SummonersDuelSubjectsArea> next = actionEventGraphNodeMap.values().iterator().next();

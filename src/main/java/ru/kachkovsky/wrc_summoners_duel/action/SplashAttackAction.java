@@ -9,7 +9,7 @@ public class SplashAttackAction implements Action<SummonersDuelSubjectsArea> {
     @Override
     public TurnNode<SummonersDuelSubjectsArea> calcAct(SummonersDuelSubjectsArea area) {
         SummonersDuelSubjectsArea areaAfterBuy = SummonersDuelSubjectsAreaFactory.createAreaAfterSplashAttack(area);
-        return new TurnNode<>(areaAfterBuy, areaAfterBuy.getCurrentStage());
+        return new TurnNode<>(areaAfterBuy);
     }
 
 }

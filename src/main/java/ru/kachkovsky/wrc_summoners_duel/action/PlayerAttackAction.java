@@ -10,7 +10,7 @@ public class PlayerAttackAction implements Action<SummonersDuelSubjectsArea> {
     @Override
     public TurnNode<SummonersDuelSubjectsArea> calcAct(SummonersDuelSubjectsArea area) {
         SummonersDuelSubjectsArea areaAfterBuy = SummonersDuelSubjectsAreaFactory.createAreaAfterPlayerAttack(area);
-        return new TurnNode<>(areaAfterBuy, areaAfterBuy.getCurrentStage());
+        return new TurnNode<>(areaAfterBuy);
     }
 
 }
