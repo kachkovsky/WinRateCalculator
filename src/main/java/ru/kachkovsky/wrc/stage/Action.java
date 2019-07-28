@@ -1,9 +1,8 @@
 package ru.kachkovsky.wrc.stage;
 
 import ru.kachkovsky.wrc.SubjectsArea;
-import ru.kachkovsky.wrc.eventsgraph.EventGraphNode;
-import ru.kachkovsky.wrc.subject.Subject;
+import ru.kachkovsky.wrc.eventsgraph.TurnNode;
 
 public interface Action<T extends SubjectsArea> {
-    EventGraphNode<T> calcAct(T area);
+    TurnNode<T> calcAct(T area);
 }

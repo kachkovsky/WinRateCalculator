@@ -1,8 +1,7 @@
 package ru.kachkovsky.wrc.winrate.calculator;
 
-import ru.kachkovsky.utils.StringUtils;
 import ru.kachkovsky.wrc.SubjectsArea;
-import ru.kachkovsky.wrc.eventsgraph.EventGraphNode;
+import ru.kachkovsky.wrc.eventsgraph.TurnNode;
 import ru.kachkovsky.wrc.stage.Action;
 import ru.kachkovsky.wrc.subject.Subject;
 import ru.kachkovsky.wrc.team.SubjectTeamAreaDeterminator;
@@ -16,26 +15,26 @@ public class WinRateListFullCalculator {
     ConsoleUI consoleUI = new ConsoleUI();
     public static class ActionResults<T extends SubjectsArea> {
 
-        public ActionResults(Action<T> action, EventGraphNode<T> nodeAfterAction) {
+        public ActionResults(Action<T> action, TurnNode<T> nodeAfterAction) {
             this.action = action;
             this.nodeAfterAction = nodeAfterAction;
         }
 
-        public ActionResults(Action<T> action, EventGraphNode<T> nodeAfterAction, List<WinRate> wrList) {
+        public ActionResults(Action<T> action, TurnNode<T> nodeAfterAction, List<WinRate> wrList) {
             this.action = action;
             this.nodeAfterAction = nodeAfterAction;
             this.wrList = wrList;
         }
 
         protected Action<T> action;
-        protected EventGraphNode<T> nodeAfterAction;
+        protected TurnNode<T> nodeAfterAction;
         protected List<WinRate> wrList;
 
         public Action<T> getAction() {
             return action;
         }
 
-        public EventGraphNode<T> getNodeAfterAction() {
+        public TurnNode<T> getNodeAfterAction() {
             return nodeAfterAction;
         }
 
@@ -44,12 +43,12 @@ public class WinRateListFullCalculator {
         }
     }
 
-    public <T extends SubjectsArea> List<ActionResults<T>> eventGraphMapToWinRateMap(Map<Action<T>, EventGraphNode<T>> map) {
+    public <T extends SubjectsArea> List<ActionResults<T>> eventGraphMapToWinRateMap(Map<Action<T>, TurnNode<T>> map) {
         List<ActionResults<T>> list = new ArrayList<>();
-        for (Map.Entry<Action<T>, EventGraphNode<T>> entry : map.entrySet()) {
-            EventGraphNode<T> innerNode = entry.getValue();
+        for (Map.Entry<Action<T>, TurnNode<T>> entry : map.entrySet()) {
+            TurnNode<T> innerNode = entry.getValue();
             consoleUI.writeCurrentArea("[", innerNode.getArea());
-            Map<Action<T>, EventGraphNode<T>> m1 = innerNode.calcWinRate();
+            Map<Action<T>, TurnNode<T>> m1 = innerNode.calcWinRate();
             if (m1 != null) {
                 list.add(new ActionResults<>(entry.getKey(), innerNode, calc(eventGraphMapToWinRateMap(m1), innerNode.getArea())));
             } else {

@@ -2,7 +2,7 @@ package ru.kachkovsky.winratecalculator.test;
 
 import org.junit.Assert;
 import org.junit.Test;
-import ru.kachkovsky.wrc.eventsgraph.EventGraphNode;
+import ru.kachkovsky.wrc.eventsgraph.TurnNode;
 import ru.kachkovsky.wrc.stage.Action;
 import ru.kachkovsky.wrc.winrate.calculator.WinRateListFullCalculator;
 import ru.kachkovsky.wrc_summoners_duel.SummonersDuelSubjectsArea;
@@ -56,18 +56,18 @@ public class SDTest {
     @Test
     public void calc() {
         SummonersDuelSubjectsArea area = SummonersDuelSubjectsAreaFactory.createNewGameArea(2);
-        EventGraphNode<SummonersDuelSubjectsArea> node = new EventGraphNode<>(area, area.getNextStage());
+        TurnNode<SummonersDuelSubjectsArea> node = new TurnNode<>(area, area.getCurrentStage());
 
-        Map<Action<SummonersDuelSubjectsArea>, EventGraphNode<SummonersDuelSubjectsArea>> actionEventGraphNodeMap = node.calcWinRate();
-        EventGraphNode<SummonersDuelSubjectsArea> next = actionEventGraphNodeMap.values().iterator().next();
+        Map<Action<SummonersDuelSubjectsArea>, TurnNode<SummonersDuelSubjectsArea>> actionEventGraphNodeMap = node.calcWinRate();
+        TurnNode<SummonersDuelSubjectsArea> next = actionEventGraphNodeMap.values().iterator().next();
 
-        Map<Action<SummonersDuelSubjectsArea>, EventGraphNode<SummonersDuelSubjectsArea>> innerMap = next.calcWinRate();
+        Map<Action<SummonersDuelSubjectsArea>, TurnNode<SummonersDuelSubjectsArea>> innerMap = next.calcWinRate();
 
-        Iterator<Map.Entry<Action<SummonersDuelSubjectsArea>, EventGraphNode<SummonersDuelSubjectsArea>>> iterator = innerMap.entrySet().iterator();
+        Iterator<Map.Entry<Action<SummonersDuelSubjectsArea>, TurnNode<SummonersDuelSubjectsArea>>> iterator = innerMap.entrySet().iterator();
         iterator.next();
         iterator.next();
         iterator.next();
-        Map.Entry<Action<SummonersDuelSubjectsArea>, EventGraphNode<SummonersDuelSubjectsArea>> map = iterator.next();
+        Map.Entry<Action<SummonersDuelSubjectsArea>, TurnNode<SummonersDuelSubjectsArea>> map = iterator.next();
         WinRateListFullCalculator c = new WinRateListFullCalculator();
         //Map<Action<SummonersDuelSubjectsArea>, List<WinRate>> actionListMap = c.eventGraphMapToWinRateMap(innerMap, next.getArea());
         //Assert.assertTrue(actionListMap!=null);

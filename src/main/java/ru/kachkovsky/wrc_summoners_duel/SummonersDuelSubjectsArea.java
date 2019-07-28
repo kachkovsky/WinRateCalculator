@@ -19,7 +19,7 @@ import java.util.Comparator;
 import java.util.List;
 
 
-public class SummonersDuelSubjectsArea implements OnlyOneTeamCanDoTurnSubjectArea {
+public class SummonersDuelSubjectsArea implements OnlyOneTeamCanDoTurnSubjectArea<SummonersDuelSubjectsArea> {
     private static final DefaultWinRateComparator COMPARATOR = new DefaultWinRateComparator();
     private static final SimpleAreaStaticContents STATIC_CONTENTS = new SimpleAreaStaticContents();
     private static final SummonersDuelTeamDeterminator TEAM_DETERMINATOR = new SummonersDuelTeamDeterminator();
@@ -32,21 +32,21 @@ public class SummonersDuelSubjectsArea implements OnlyOneTeamCanDoTurnSubjectAre
     private final Player[] teams;
     private final int currentPlayerIndex;
     private final int currentPlayerUnitIndex;
-    private Stage<SummonersDuelSubjectsArea> nextStage;
+    private Stage<SummonersDuelSubjectsArea> currentStage;
 
     public SummonersDuelSubjectsArea(Player[] teams, int currentPlayerIndex, int currentPlayerUnitIndex, boolean turnStarted, boolean gameStarted) {
         this(teams, currentPlayerIndex, currentPlayerUnitIndex);
         if (turnStarted) {
-            this.nextStage = FIRST_STAGE;
+            this.currentStage = FIRST_STAGE;
             if (!gameStarted) {
                 teams[currentPlayerIndex] = PlayerUtils.copyAndTurnMpToPlayer(teams[currentPlayerIndex]);
             }
         } else if (isBuyStage()) {
-            this.nextStage = BUY_STAGE;
+            this.currentStage = BUY_STAGE;
             //mana up is only after buy stage(only turn start) - for winner calculations
             //teams[currentPlayerIndex] = PlayerUtils.copyAndTurnMpToPlayer(teams[currentPlayerIndex]);
         } else {
-            this.nextStage = BEAT_STAGE;
+            this.currentStage = BEAT_STAGE;
         }
     }
 
@@ -68,8 +68,8 @@ public class SummonersDuelSubjectsArea implements OnlyOneTeamCanDoTurnSubjectAre
         return currentPlayerUnitIndex;
     }
 
-    public Stage<SummonersDuelSubjectsArea> getNextStage() {
-        return nextStage;
+    public Stage<SummonersDuelSubjectsArea> getCurrentStage() {
+        return currentStage;
     }
 
     @Override
@@ -126,7 +126,7 @@ public class SummonersDuelSubjectsArea implements OnlyOneTeamCanDoTurnSubjectAre
         if (currentPlayerUnitIndex != area.currentPlayerUnitIndex) return false;
         // Probably incorrect - comparing Object[] arrays with Arrays.equals
         if (!Arrays.equals(teams, area.teams)) return false;
-        return nextStage.equals(area.nextStage);
+        return currentStage.equals(area.currentStage);
     }
 
     @Override
@@ -134,7 +134,7 @@ public class SummonersDuelSubjectsArea implements OnlyOneTeamCanDoTurnSubjectAre
         int result = Arrays.hashCode(teams);
         result = 31 * result + currentPlayerIndex;
         result = 31 * result + currentPlayerUnitIndex;
-        result = 31 * result + nextStage.hashCode();
+        result = 31 * result + currentStage.hashCode();
         return result;
     }
 }

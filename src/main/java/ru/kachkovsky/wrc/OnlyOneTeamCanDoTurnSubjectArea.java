@@ -1,5 +1,7 @@
 package ru.kachkovsky.wrc;
 
-public interface OnlyOneTeamCanDoTurnSubjectArea extends SubjectsArea {
+import ru.kachkovsky.wrc.stage.Stage;
+
+public interface OnlyOneTeamCanDoTurnSubjectArea<T extends OnlyOneTeamCanDoTurnSubjectArea> extends SubjectsArea<T> {
     int getCurrentTeamIndex();
 }

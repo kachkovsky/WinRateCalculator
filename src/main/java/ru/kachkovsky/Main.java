@@ -1,6 +1,6 @@
 package ru.kachkovsky;
 
-import ru.kachkovsky.wrc.eventsgraph.EventGraphNode;
+import ru.kachkovsky.wrc.eventsgraph.TurnNode;
 import ru.kachkovsky.wrc.stage.Action;
 import ru.kachkovsky.wrc.winrate.calculator.WinRateListForTeamCalculator;
 import ru.kachkovsky.wrc.winrate.calculator.WinRateListFullCalculator;
@@ -25,7 +25,7 @@ public class Main {
 //        l2.add(UnitUtils.createUnit(false, 2, 0, 1));
 //        l2.add(UnitUtils.createUnit(false, 2, 0, 1));
 //        area.getTeams()[1] = new Player(3, 0, l2);
-        EventGraphNode<SummonersDuelSubjectsArea> node = new EventGraphNode<>(area, area.getNextStage());
+        TurnNode<SummonersDuelSubjectsArea> node = new TurnNode<>(area, area.getCurrentStage());
 
         ConsoleUI consoleUI = new ConsoleUI();
 
@@ -35,7 +35,7 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
         WinRateListForTeamCalculator calculator = new WinRateListForTeamCalculator();
-        Map<Action<SummonersDuelSubjectsArea>, EventGraphNode<SummonersDuelSubjectsArea>> actionEventGraphNodeMap;
+        Map<Action<SummonersDuelSubjectsArea>, TurnNode<SummonersDuelSubjectsArea>> actionEventGraphNodeMap;
         while ((actionEventGraphNodeMap = node.calcWinRate()) != null) {
             long t = System.currentTimeMillis();
             List<WinRateListFullCalculator.ActionResults<SummonersDuelSubjectsArea>> actionResults = calculator.eventGraphMapToWinRateMapOnlyOneTeam(node.calcWinRate(), area);

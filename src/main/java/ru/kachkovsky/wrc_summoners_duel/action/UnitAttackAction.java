@@ -1,6 +1,6 @@
 package ru.kachkovsky.wrc_summoners_duel.action;
 
-import ru.kachkovsky.wrc.eventsgraph.EventGraphNode;
+import ru.kachkovsky.wrc.eventsgraph.TurnNode;
 import ru.kachkovsky.wrc.stage.Action;
 import ru.kachkovsky.wrc_summoners_duel.SummonersDuelSubjectsArea;
 import ru.kachkovsky.wrc_summoners_duel.SummonersDuelSubjectsAreaFactory;
@@ -14,9 +14,9 @@ public class UnitAttackAction implements Action<SummonersDuelSubjectsArea> {
     }
 
     @Override
-    public EventGraphNode<SummonersDuelSubjectsArea> calcAct(SummonersDuelSubjectsArea area) {
+    public TurnNode<SummonersDuelSubjectsArea> calcAct(SummonersDuelSubjectsArea area) {
         SummonersDuelSubjectsArea areaAfterBuy = SummonersDuelSubjectsAreaFactory.createAreaAfterUnitAttack(area, enemyUnitAttacked);
-        return new EventGraphNode<>(areaAfterBuy, areaAfterBuy.getNextStage());
+        return new TurnNode<>(areaAfterBuy, areaAfterBuy.getCurrentStage());
     }
 
     @Override

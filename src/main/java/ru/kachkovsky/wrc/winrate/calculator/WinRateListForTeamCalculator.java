@@ -2,7 +2,7 @@ package ru.kachkovsky.wrc.winrate.calculator;
 
 import ru.kachkovsky.utils.StringUtils;
 import ru.kachkovsky.wrc.OnlyOneTeamCanDoTurnSubjectArea;
-import ru.kachkovsky.wrc.eventsgraph.EventGraphNode;
+import ru.kachkovsky.wrc.eventsgraph.TurnNode;
 import ru.kachkovsky.wrc.stage.Action;
 import ru.kachkovsky.wrc.winrate.WinRateUtils;
 import ru.kachkovsky.wrc_console_ui.ConsoleUI;
@@ -23,16 +23,16 @@ public class WinRateListForTeamCalculator extends WinRateListFullCalculator {
 
     static class StackItem<T extends OnlyOneTeamCanDoTurnSubjectArea> {
         List<ActionResults<T>> list;
-        Iterator<Map.Entry<Action<T>, EventGraphNode<T>>> iterator;
-        Map.Entry<Action<T>, EventGraphNode<T>> entry;
+        Iterator<Map.Entry<Action<T>, TurnNode<T>>> iterator;
+        Map.Entry<Action<T>, TurnNode<T>> entry;
         T area;
     }
 
-    public <T extends OnlyOneTeamCanDoTurnSubjectArea> List<ActionResults<T>> eventGraphMapToWinRateMapOnlyOneTeam(Map<Action<T>, EventGraphNode<T>> map, T area) {
+    public <T extends OnlyOneTeamCanDoTurnSubjectArea> List<ActionResults<T>> eventGraphMapToWinRateMapOnlyOneTeam(Map<Action<T>, TurnNode<T>> map, T area) {
 
         List<StackItem<T>> stack = new ArrayList<>(1000);
 
-        Iterator<Map.Entry<Action<T>, EventGraphNode<T>>> iterator = null;
+        Iterator<Map.Entry<Action<T>, TurnNode<T>>> iterator = null;
         List<ActionResults<T>> list = null;
         outer:
         while (true) {
@@ -41,17 +41,17 @@ public class WinRateListForTeamCalculator extends WinRateListFullCalculator {
                 list = new ArrayList<>();
             }
 
-            if (((SummonersDuelSubjectsArea) area).getNextStage().equals(SummonersDuelSubjectsArea.FIRST_STAGE)) {
+            if (((SummonersDuelSubjectsArea) area).getCurrentStage().equals(SummonersDuelSubjectsArea.FIRST_STAGE)) {
                 consoleUI.writeCurrentArea(StringUtils.spaces(stack.size(), '-') + "[", area);
             }
             iteratorLabel:
             while (iterator.hasNext()) {
-                Map.Entry<Action<T>, EventGraphNode<T>> entry = iterator.next();
-                EventGraphNode<T> innerNode = entry.getValue();
-                Map<Action<T>, EventGraphNode<T>> m1 = innerNode.calcWinRate(true);
+                Map.Entry<Action<T>, TurnNode<T>> entry = iterator.next();
+                TurnNode<T> innerNode = entry.getValue();
+                Map<Action<T>, TurnNode<T>> m1 = innerNode.calcWinRate(true);
 
                 if (innerNode.getTeamsWinRate() == null) {
-                    EventGraphNode<T> p = innerNode;
+                    TurnNode<T> p = innerNode;
                     while ((p = p.getParent()) != null) {
                         if (innerNode.getArea().equals(p.getArea())) {
                             System.out.println(i++);
@@ -91,7 +91,7 @@ public class WinRateListForTeamCalculator extends WinRateListFullCalculator {
                     list.add(new ActionResults<>(entry.getKey(), innerNode, innerNode.getTeamsWinRate()));
                 }
             }
-            if (((SummonersDuelSubjectsArea) area).getNextStage().equals(SummonersDuelSubjectsArea.FIRST_STAGE)) {
+            if (((SummonersDuelSubjectsArea) area).getCurrentStage().equals(SummonersDuelSubjectsArea.FIRST_STAGE)) {
                 consoleUI.writeCurrentArea(StringUtils.spaces(stack.size(), '-') + "$", area);
             }
             if (stack.isEmpty()) {

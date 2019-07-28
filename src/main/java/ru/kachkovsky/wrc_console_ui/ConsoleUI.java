@@ -1,7 +1,7 @@
 package ru.kachkovsky.wrc_console_ui;
 
 import ru.kachkovsky.wrc.SubjectsArea;
-import ru.kachkovsky.wrc.eventsgraph.EventGraphNode;
+import ru.kachkovsky.wrc.eventsgraph.TurnNode;
 import ru.kachkovsky.wrc.stage.Action;
 import ru.kachkovsky.wrc.subject.Subject;
 import ru.kachkovsky.wrc.team.SubjectTeamAreaDeterminator;
@@ -15,9 +15,9 @@ public class ConsoleUI {
 
     private static final int FIRST_CHOICE = 1;
 
-    public void uiForFullGame(EventGraphNode node) {
+    public void uiForFullGame(TurnNode node) {
         Scanner scanner = new Scanner(System.in);
-        EventGraphNode prevNode = null;
+        TurnNode prevNode = null;
         while (node != null) {
             writeCurrentTurn(prevNode = node);
             node = uiForTurn(scanner, node);
@@ -27,20 +27,20 @@ public class ConsoleUI {
         }
     }
 
-    public EventGraphNode uiForTurn(Scanner scanner, EventGraphNode node) {
-        Map<Action, EventGraphNode> map = node.calcWinRate();
+    public TurnNode uiForTurn(Scanner scanner, TurnNode node) {
+        Map<Action, TurnNode> map = node.calcWinRate();
         if (map == null || map.isEmpty()) {
             return null;
         } else {
             int i = FIRST_CHOICE;
-            for (Map.Entry<Action, EventGraphNode> entry : map.entrySet()) {
+            for (Map.Entry<Action, TurnNode> entry : map.entrySet()) {
                 printAction(i, entry.getKey(), "");
                 printWinRateList(entry.getValue().getTeamsWinRate(), "   ");
                 i++;
             }
             int val = scanner.nextInt();
             i = FIRST_CHOICE;
-            for (Map.Entry<Action, EventGraphNode> entry : map.entrySet()) {
+            for (Map.Entry<Action, TurnNode> entry : map.entrySet()) {
                 if (val == i) {
                     return entry.getValue();
                 }
@@ -54,7 +54,7 @@ public class ConsoleUI {
         System.out.println(index + ")" + a.toString() + postfix);
     }
 
-    public void writeCurrentTurn(EventGraphNode node) {
+    public void writeCurrentTurn(TurnNode node) {
         SubjectsArea area = node.getArea();
         printSubjects(area);
         System.out.println(area.areaToLogString());

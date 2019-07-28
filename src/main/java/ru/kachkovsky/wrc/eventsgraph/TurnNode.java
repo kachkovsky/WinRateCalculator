@@ -2,28 +2,25 @@ package ru.kachkovsky.wrc.eventsgraph;
 
 import ru.kachkovsky.wrc.SubjectsArea;
 import ru.kachkovsky.wrc.stage.Action;
-import ru.kachkovsky.wrc.stage.Stage;
 import ru.kachkovsky.wrc.winrate.WinRate;
 
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class EventGraphNode<T extends SubjectsArea> {
+public class TurnNode<T extends SubjectsArea> {
 
     private T area;
-    private Stage<T> nextStage;
-    private EventGraphNode<T> parent;
+    private TurnNode<T> parent;
 
     //calc nextStage finishChecks to get these values
     private List<WinRate> teamsWinRate;
 
-    public EventGraphNode(T area, Stage<T> nextStage) {
+    public TurnNode(T area) {
         this.area = area;
-        this.nextStage = nextStage;
     }
 
-    public EventGraphNode<T> getParent() {
+    public TurnNode<T> getParent() {
         return parent;
     }
 
@@ -31,32 +28,32 @@ public class EventGraphNode<T extends SubjectsArea> {
         return area;
     }
 
-    public Map<Action<T>, EventGraphNode<T>> calcWinRate() {
+    public Map<Action<T>, TurnNode<T>> calcWinRate() {
         return calcWinRate(false);
     }
 
     /**
      * @return map of action and their child nodes. Don't save it while recursion to save memory
      */
-    public Map<Action<T>, EventGraphNode<T>> calcWinRate(boolean keepParentNode) {
-        calcNextStageWinRate();
+    public Map<Action<T>, TurnNode<T>> calcWinRate(boolean keepParentNode) {
+        calcFinishChecks();
         if (teamsWinRate == null) {
-            List<Action<T>> actions = nextStage.getActions(area);
-            Map<Action<T>, EventGraphNode<T>> map = new LinkedHashMap<>(actions.size());
+            List<Action<T>> actions = area.getCurrentStage().getActions(area);
+            Map<Action<T>, TurnNode<T>> map = new LinkedHashMap<>(actions.size());
             for (Action<T> a : actions) {
-                EventGraphNode<T> eventGraphNode = a.calcAct(area);
+                TurnNode<T> turnNode = a.calcAct(area);
                 if (keepParentNode) {
-                    eventGraphNode.parent = this;
+                    turnNode.parent = this;
                 }
-                map.put(a, eventGraphNode);
+                map.put(a, turnNode);
             }
             return map;
         }
         return null;
     }
 
-    public void calcNextStageWinRate() {
-        teamsWinRate = nextStage.calcFinishChecks(area);
+    public void calcFinishChecks() {
+        teamsWinRate = area.getCurrentStage().calcFinishChecks(area);
     }
 
     public List<WinRate> getTeamsWinRate() {
