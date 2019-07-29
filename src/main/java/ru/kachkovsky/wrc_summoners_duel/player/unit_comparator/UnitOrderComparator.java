@@ -1,4 +1,6 @@
-package ru.kachkovsky.wrc_summoners_duel.player;
+package ru.kachkovsky.wrc_summoners_duel.player.unit_comparator;
+
+import ru.kachkovsky.wrc_summoners_duel.player.Unit;
 
 import java.util.Comparator;
 

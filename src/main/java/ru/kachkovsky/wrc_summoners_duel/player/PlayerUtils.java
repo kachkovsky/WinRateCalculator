@@ -1,5 +1,7 @@
 package ru.kachkovsky.wrc_summoners_duel.player;
 
+import ru.kachkovsky.wrc_summoners_duel.player.unit_comparator.UnitOrderComparator;
+
 import java.util.ArrayList;
 import java.util.List;
 

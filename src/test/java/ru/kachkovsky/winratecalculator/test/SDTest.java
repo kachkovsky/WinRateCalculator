@@ -8,7 +8,7 @@ import ru.kachkovsky.wrc.winrate.calculator.WinRateListFullCalculator;
 import ru.kachkovsky.wrc_summoners_duel.SummonersDuelSubjectsArea;
 import ru.kachkovsky.wrc_summoners_duel.SummonersDuelSubjectsAreaFactory;
 import ru.kachkovsky.wrc_summoners_duel.player.Unit;
-import ru.kachkovsky.wrc_summoners_duel.player.UnitOrderComparator;
+import ru.kachkovsky.wrc_summoners_duel.player.unit_comparator.UnitOrderComparator;
 import ru.kachkovsky.wrc_summoners_duel.player.UnitUtils;
 
 import java.util.ArrayList;
