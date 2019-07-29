@@ -3,6 +3,7 @@ package ru.kachkovsky.wrc.winrate.calculator;
 import ru.kachkovsky.wrc.OnlyOneTeamCanDoTurnSubjectArea;
 import ru.kachkovsky.wrc.eventsgraph.TurnNode;
 import ru.kachkovsky.wrc.stage.Action;
+import ru.kachkovsky.wrc.winrate.WinRate;
 import ru.kachkovsky.wrc.winrate.WinRateUtils;
 import ru.kachkovsky.wrc_console_ui.ConsoleUI;
 
@@ -82,7 +83,7 @@ public class WinRateListForTeamCalculator extends WinRateListFullCalculator {
                     break;
                 }
                 if (m1 != null) {
-//                    if(soDeep(stack)){
+//                    if (soDeep(stack)) {
 //                        list.add(new ActionResults<>(entry.getKey(), innerNode, WinRateUtils.twoPlayersUnknownAll()));
 //                        break;
 //                    }
@@ -105,21 +106,30 @@ public class WinRateListForTeamCalculator extends WinRateListFullCalculator {
 //            if (((SummonersDuelSubjectsArea) area).getCurrentStage().equals(SummonersDuelSubjectsArea.FIRST_STAGE)) {
 //                consoleUI.writeCurrentArea(stack.size() + "-$$$", area);
 //            }
-            if (stack.isEmpty()) {
-                return list;
-            }
-            StackItem<T> si = stack.remove(stack.size() - 1);
-            area = si.area;
-            iterator = si.iterator;
-            Action<T> action = si.entry.getKey();
-            si.list.add(new ActionResults<>(action, si.entry.getValue(), calc(list, si.entry.getValue().getArea())));
-            list = si.list;
+            boolean up;
+            do {
+                if (stack.isEmpty()) {
+                    return list;
+                }
+                StackItem<T> si = stack.remove(stack.size() - 1);
+                area = si.area;
+                List<WinRate> calculatedWR = calc(list, si.entry.getValue().getArea());
+                up = false;
+                //calculate all options for root
+                if (!stack.isEmpty()) {
+                    up = calculatedWR.get(area.getCurrentTeamIndex()).getMinWinRate() >= 1f;
+                }
+                iterator = si.iterator;
+                Action<T> action = si.entry.getKey();
+                si.list.add(new ActionResults<>(action, si.entry.getValue(), calculatedWR));
+                list = si.list;
+            } while (up);
         }
     }
 
 
     public static <T extends OnlyOneTeamCanDoTurnSubjectArea> boolean soDeep(List<StackItem<T>> stack1) {
-        return stack1.size() > 9;
+        return stack1.size() > 14;
 //        List<StackItem<SummonersDuelSubjectsArea>> stack = (List) stack1;
 //        if (stack.isEmpty()) {
 //            return false;
