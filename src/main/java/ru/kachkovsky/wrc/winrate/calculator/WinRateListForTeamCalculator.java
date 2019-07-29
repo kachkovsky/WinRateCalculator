@@ -5,7 +5,6 @@ import ru.kachkovsky.wrc.eventsgraph.TurnNode;
 import ru.kachkovsky.wrc.stage.Action;
 import ru.kachkovsky.wrc.winrate.WinRateUtils;
 import ru.kachkovsky.wrc_console_ui.ConsoleUI;
-import ru.kachkovsky.wrc_summoners_duel.SummonersDuelSubjectsArea;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -120,17 +119,18 @@ public class WinRateListForTeamCalculator extends WinRateListFullCalculator {
 
 
     public static <T extends OnlyOneTeamCanDoTurnSubjectArea> boolean soDeep(List<StackItem<T>> stack1) {
-        List<StackItem<SummonersDuelSubjectsArea>> stack = (List) stack1;
-        if (stack.isEmpty()) {
-            return false;
-        }
-        StackItem<SummonersDuelSubjectsArea> last = stack.get(stack.size() - 1);
-        int DEEP_IN_STACK =(int)( (last.area.getTeams()[0].getHp() + last.area.getTeams()[1].getHp())  -1);
-        if (stack.size() <= DEEP_IN_STACK) {
-            return false;
-        }
-        StackItem<SummonersDuelSubjectsArea> checkItem = stack.get(stack.size() - DEEP_IN_STACK);
-        return last.area.getTeams()[0].getHp() == checkItem.area.getTeams()[0].getHp()
-                && last.area.getTeams()[1].getHp() == checkItem.area.getTeams()[1].getHp();
+        return stack1.size() > 9;
+//        List<StackItem<SummonersDuelSubjectsArea>> stack = (List) stack1;
+//        if (stack.isEmpty()) {
+//            return false;
+//        }
+//        StackItem<SummonersDuelSubjectsArea> last = stack.get(stack.size() - 1);
+//        int DEEP_IN_STACK =100;
+//        if (stack.size() <= DEEP_IN_STACK) {
+//            return false;
+//        }
+//        StackItem<SummonersDuelSubjectsArea> checkItem = stack.get(stack.size() - DEEP_IN_STACK);
+//        return last.area.getTeams()[0].getHp() == checkItem.area.getTeams()[0].getHp()
+//                && last.area.getTeams()[1].getHp() == checkItem.area.getTeams()[1].getHp();
     }
 }
