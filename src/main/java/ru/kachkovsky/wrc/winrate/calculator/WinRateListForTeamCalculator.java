@@ -45,12 +45,12 @@ public class WinRateListForTeamCalculator extends WinRateListFullCalculator {
                 list = new ArrayList<>();
             }
 
-            if (((SummonersDuelSubjectsArea) area).getCurrentStage().equals(SummonersDuelSubjectsArea.FIRST_STAGE)) {
-                if (!stack.isEmpty()) {
-                    consoleUI.printAction(0, stack.get(stack.size() - 1).entry.getKey(), "");
-                }
-                consoleUI.writeCurrentArea(stack.size() + "-[- ", area);
-            }
+//            if (((SummonersDuelSubjectsArea) area).getCurrentStage().equals(SummonersDuelSubjectsArea.FIRST_STAGE)) {
+//                if (!stack.isEmpty()) {
+//                    consoleUI.printAction(0, stack.get(stack.size() - 1).entry.getKey(), "");
+//                }
+//                consoleUI.writeCurrentArea(stack.size() + "-[- ", area);
+//            }
             iteratorLabel:
             while (iterator.hasNext()) {
                 Map.Entry<Action<T>, TurnNode<T>> entry = iterator.next();
@@ -61,7 +61,7 @@ public class WinRateListForTeamCalculator extends WinRateListFullCalculator {
                     TurnNode<T> p = innerNode;
                     while ((p = p.getParent()) != null) {
                         if (innerNode.getArea().equals(p.getArea())) {
-                            System.out.println(i++);
+                            //System.out.println(i++);
                             list.add(new ActionResults<>(entry.getKey(), innerNode, WinRateUtils.twoPlayersUnknownOrWin(innerNode.getArea().getCurrentTeamIndex())));
                             break iteratorLabel;
                         }
@@ -83,6 +83,11 @@ public class WinRateListForTeamCalculator extends WinRateListFullCalculator {
                     break;
                 }
                 if (m1 != null) {
+//                    if(soDeep(stack)){
+//                        list.add(new ActionResults<>(entry.getKey(), innerNode, WinRateUtils.twoPlayersUnknownAll()));
+//                        break;
+//                    }
+
                     StackItem<T> stackItem = new StackItem<>();
                     stackItem.list = list;
                     stackItem.iterator = iterator;
@@ -98,9 +103,9 @@ public class WinRateListForTeamCalculator extends WinRateListFullCalculator {
                     list.add(new ActionResults<>(entry.getKey(), innerNode, innerNode.getTeamsWinRate()));
                 }
             }
-            if (((SummonersDuelSubjectsArea) area).getCurrentStage().equals(SummonersDuelSubjectsArea.FIRST_STAGE)) {
-                consoleUI.writeCurrentArea(stack.size() + "-$$$", area);
-            }
+//            if (((SummonersDuelSubjectsArea) area).getCurrentStage().equals(SummonersDuelSubjectsArea.FIRST_STAGE)) {
+//                consoleUI.writeCurrentArea(stack.size() + "-$$$", area);
+//            }
             if (stack.isEmpty()) {
                 return list;
             }
@@ -113,4 +118,19 @@ public class WinRateListForTeamCalculator extends WinRateListFullCalculator {
         }
     }
 
+
+    public static <T extends OnlyOneTeamCanDoTurnSubjectArea> boolean soDeep(List<StackItem<T>> stack1) {
+        List<StackItem<SummonersDuelSubjectsArea>> stack = (List) stack1;
+        if (stack.isEmpty()) {
+            return false;
+        }
+        StackItem<SummonersDuelSubjectsArea> last = stack.get(stack.size() - 1);
+        int DEEP_IN_STACK =(int)( (last.area.getTeams()[0].getHp() + last.area.getTeams()[1].getHp())  -1);
+        if (stack.size() <= DEEP_IN_STACK) {
+            return false;
+        }
+        StackItem<SummonersDuelSubjectsArea> checkItem = stack.get(stack.size() - DEEP_IN_STACK);
+        return last.area.getTeams()[0].getHp() == checkItem.area.getTeams()[0].getHp()
+                && last.area.getTeams()[1].getHp() == checkItem.area.getTeams()[1].getHp();
+    }
 }
