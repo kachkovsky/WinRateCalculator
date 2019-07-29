@@ -1,6 +1,5 @@
 package ru.kachkovsky.wrc.winrate.calculator;
 
-import ru.kachkovsky.utils.StringUtils;
 import ru.kachkovsky.wrc.OnlyOneTeamCanDoTurnSubjectArea;
 import ru.kachkovsky.wrc.eventsgraph.TurnNode;
 import ru.kachkovsky.wrc.stage.Action;
@@ -42,7 +41,10 @@ public class WinRateListForTeamCalculator extends WinRateListFullCalculator {
             }
 
             if (((SummonersDuelSubjectsArea) area).getCurrentStage().equals(SummonersDuelSubjectsArea.FIRST_STAGE)) {
-                consoleUI.writeCurrentArea(StringUtils.spaces(stack.size(), '-') + "[", area);
+                if (!stack.isEmpty()) {
+                    consoleUI.printAction(0, stack.get(stack.size() - 1).entry.getKey(), "");
+                }
+                consoleUI.writeCurrentArea(stack.size() + "-[- ", area);
             }
             iteratorLabel:
             while (iterator.hasNext()) {
@@ -92,7 +94,7 @@ public class WinRateListForTeamCalculator extends WinRateListFullCalculator {
                 }
             }
             if (((SummonersDuelSubjectsArea) area).getCurrentStage().equals(SummonersDuelSubjectsArea.FIRST_STAGE)) {
-                consoleUI.writeCurrentArea(StringUtils.spaces(stack.size(), '-') + "$", area);
+                consoleUI.writeCurrentArea(stack.size() + "-$$$", area);
             }
             if (stack.isEmpty()) {
                 return list;
