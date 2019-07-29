@@ -11,21 +11,21 @@ public class UnitListOrderComparator implements Comparator<List<Unit>> {
         return Integer.signum(profit(o2) - profit(o1));
     }
 
-    private int profit(List<Unit> list) {
-        int profit = 1;
+    public static int profit(List<Unit> list) {
+        int profit = 0;
         for (Unit unit : list) {
-            profit *= profit(unit);
+            profit += profit(unit);
         }
-        return profit;
+        return profit ;
     }
 
-    private int profit(Unit unit) {
+    private static int profit(Unit unit) {
         return Math.max(0, (unit.hasSplash() ? 1 : 0)
-                * ((int) Math.pow(16, Math.sqrt(unit.getAtk()) * 3))
+                * (unit.getAtk() * 12)
         )
-                + unit.getAtk() * 10 +
-                Math.max(-10,
-                        -4 * Math.max(0, unit.getHp() - unit.getAtk()) + unit.getHp()
-                                - 3 * Math.max(0, unit.getDef() + 1 - unit.getAtk()) + unit.getDef() * 2);
+                + (Math.max(-100,
+                -11 * Math.max(0, unit.getHp() - unit.getAtk()) +
+                        - 15 * Math.max(0, unit.getDef() + 1 - unit.getAtk()) )
+                + (int) Math.sqrt(unit.getAtk() * 100));
     }
 }
