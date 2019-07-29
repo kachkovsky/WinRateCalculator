@@ -25,6 +25,11 @@ public class WinRateListForTeamCalculator extends WinRateListFullCalculator {
         Iterator<Map.Entry<Action<T>, TurnNode<T>>> iterator;
         Map.Entry<Action<T>, TurnNode<T>> entry;
         T area;
+
+        @Override
+        public String toString() {
+            return "" + list.size() + "   " + entry.toString();
+        }
     }
 
     public <T extends OnlyOneTeamCanDoTurnSubjectArea> List<ActionResults<T>> eventGraphMapToWinRateMapOnlyOneTeam(Map<Action<T>, TurnNode<T>> map, T area) {
