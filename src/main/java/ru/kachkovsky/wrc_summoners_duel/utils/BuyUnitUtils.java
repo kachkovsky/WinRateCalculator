@@ -6,6 +6,7 @@ import ru.kachkovsky.wrc_summoners_duel.SummonersDuelSubjectsArea;
 import ru.kachkovsky.wrc_summoners_duel.action.BuyAction;
 import ru.kachkovsky.wrc_summoners_duel.player.Unit;
 import ru.kachkovsky.wrc_summoners_duel.player.UnitUtils;
+import ru.kachkovsky.wrc_summoners_duel.player.unit_comparator.UnitListOrderComparator;
 import ru.kachkovsky.wrc_summoners_duel.player.unit_comparator.UnitOrderComparator;
 
 import java.util.ArrayList;
@@ -15,6 +16,8 @@ import java.util.stream.Collectors;
 
 public class BuyUnitUtils {
     private static final UnitOrderComparator UNIT_ORDER_COMPARATOR = new UnitOrderComparator();
+    private static final UnitListOrderComparator UNIT_LIST_ORDER_COMPARATOR = new UnitListOrderComparator();
+
 
     private static final List<List<Unit>>[] BUY_UNITS_CHOICES_BY_MP = new List[20];
     private static final List<Action<SummonersDuelSubjectsArea>>[] BUY_UNITS_ACTION_CHOICES_BY_MP = new List[20];
@@ -28,6 +31,7 @@ public class BuyUnitUtils {
             }
             unitChoices = unitChoices.stream().distinct().collect(Collectors.toList());
             unitChoices.add(Collections.emptyList());
+            unitChoices.sort(UNIT_LIST_ORDER_COMPARATOR);
             BUY_UNITS_CHOICES_BY_MP[mp] = unitChoices;
             return BUY_UNITS_CHOICES_BY_MP[mp];
         }
