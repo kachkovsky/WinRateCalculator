@@ -68,6 +68,16 @@ public class UnitUtils {
         return atk;
     }
 
+    public static int findMaxSplashEnemyAttack(List<Unit> otherPlayerUnits) {
+        int atk = 0;
+        for (Unit u : otherPlayerUnits) {
+            if (u.hasSplash() && atk < u.getAtk()) {
+                atk = u.getAtk();
+            }
+        }
+        return atk;
+    }
+
     public static int mpForUnits(List<Unit> units) {
         int cost = 0;
         for (Unit unit : units) {

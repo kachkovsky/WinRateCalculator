@@ -7,6 +7,7 @@ import ru.kachkovsky.wrc_summoners_duel.SummonersDuelSubjectsArea;
 import ru.kachkovsky.wrc_summoners_duel.action.PlayerAttackAction;
 import ru.kachkovsky.wrc_summoners_duel.action.SplashAttackAction;
 import ru.kachkovsky.wrc_summoners_duel.action.UnitAttackAction;
+import ru.kachkovsky.wrc_summoners_duel.player.ActionSelectToAttackSorter;
 import ru.kachkovsky.wrc_summoners_duel.player.Unit;
 import ru.kachkovsky.wrc_summoners_duel.player.UnitUtils;
 
@@ -16,6 +17,7 @@ import java.util.List;
 
 public class SDBeatStage extends Stage<SummonersDuelSubjectsArea> {
 
+    private static final ActionSelectToAttackSorter SORTER = new ActionSelectToAttackSorter();
     private static final List<Action<SummonersDuelSubjectsArea>> SPLASH_ACTION_LIST = Collections.singletonList(new SplashAttackAction());
 
     public SDBeatStage(List<FinishCheck<SummonersDuelSubjectsArea>> finishChecks) {
@@ -29,17 +31,24 @@ public class SDBeatStage extends Stage<SummonersDuelSubjectsArea> {
             return SPLASH_ACTION_LIST;
         }
         int atk = area.getTeams()[area.getCurrentTeamIndex()].getUnits().get(area.getCurrentPlayerUnitIndex()).getAtk();
-        List<Action<SummonersDuelSubjectsArea>> list = new ArrayList<>();
-        list.add(new PlayerAttackAction());
         List<Unit> units = area.getTeams()[area.getReversePlayerIndex()].getUnits();
         //TODO: order to beat units
         //
         List<Unit> unitsUniqueAttacked = UnitUtils.unitsUniqueAttacked(atk, units);
+        SORTER.prepareSort(unitsUniqueAttacked, atk);
+        unitsUniqueAttacked.add(null);
+        SORTER.sort(unitsUniqueAttacked);
+
+        List<Action<SummonersDuelSubjectsArea>> list = new ArrayList<>();
         for (int i = 0; i < unitsUniqueAttacked.size(); i++) {
-            list.add(new UnitAttackAction(units.indexOf(unitsUniqueAttacked.get(i))));
+            Unit u = unitsUniqueAttacked.get(i);
+            if (u != null) {
+                list.add(new UnitAttackAction(units.indexOf(u)));
+            } else {
+                list.add(new PlayerAttackAction());
+            }
         }
         return list;
     }
-
 
 }
