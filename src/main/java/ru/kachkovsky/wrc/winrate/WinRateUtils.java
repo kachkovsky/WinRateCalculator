@@ -15,6 +15,14 @@ public class WinRateUtils {
         return wrList;
     }
 
+    public static List<WinRate> playersDraw(int playersCount) {
+        ArrayList<WinRate> wrList = new ArrayList<>(playersCount);
+        for (int i = 0; i < playersCount; i++) {
+            wrList.add(new WinRate(0.5f, 0.5f));
+        }
+        return wrList;
+    }
+
     public static List<WinRate> twoPlayersUnknownOrWin(int teamIndexToWin) {
         ArrayList<WinRate> wrList = new ArrayList<>(2);
         for (int i = 0; i < 2; i++) {

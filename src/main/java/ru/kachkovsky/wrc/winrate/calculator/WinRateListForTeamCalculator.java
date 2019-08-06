@@ -62,7 +62,7 @@ public class WinRateListForTeamCalculator extends WinRateListFullCalculator {
                     while ((p = p.getParent()) != null) {
                         if (innerNode.getArea().equals(p.getArea())) {
                             //System.out.println(i++);
-                            list.add(new ActionResults<>(entry.getKey(), innerNode, WinRateUtils.twoPlayersUnknownOrWin(innerNode.getArea().getCurrentTeamIndex())));
+                            list.add(new ActionResults<>(entry.getKey(), innerNode, WinRateUtils.playersDraw(2)));
                             break iteratorLabel;
                         }
                     }
