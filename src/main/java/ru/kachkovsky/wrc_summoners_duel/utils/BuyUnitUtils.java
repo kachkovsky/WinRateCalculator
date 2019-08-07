@@ -19,11 +19,11 @@ public class BuyUnitUtils {
     private static final UnitListOrderComparator UNIT_LIST_ORDER_COMPARATOR = new UnitListOrderComparator(0);
 
     private static final int MAX_MP_TO_CONTAIN = 16;
-    //private static final int MAX_ATTACK_TO_CONTAIN = 16;
-    private static final List<List<Unit>>[] BUY_UNITS_CHOICES_BY_MP = new List[MAX_MP_TO_CONTAIN];
-    private static final List<Action<SummonersDuelSubjectsArea>>[] BUY_UNITS_ACTION_CHOICES_BY_MP = new List[MAX_MP_TO_CONTAIN];
+    private static final int MAX_ATTACK_TO_CONTAIN = 16;
+    private static final List<List<Unit>>[] BUY_UNITS_CHOICES_BY_MP = new List[MAX_MP_TO_CONTAIN * MAX_ATTACK_TO_CONTAIN];
+    private static final List<Action<SummonersDuelSubjectsArea>>[] BUY_UNITS_ACTION_CHOICES_BY_MP = new List[MAX_MP_TO_CONTAIN * MAX_ATTACK_TO_CONTAIN];
 
-    public static List<List<Unit>> getUnitChoicesByMp(int mp) {
+    private static List<List<Unit>> getUnitChoices(int mp) {
         List<List<Unit>> unitChoices = BUY_UNITS_CHOICES_BY_MP[mp];
         if (unitChoices == null) {
             unitChoices = INSTANCE.createUnitsUsingCurrentMp(new ArrayList<>(), mp, mp);
@@ -41,24 +41,26 @@ public class BuyUnitUtils {
 
     public static List<List<Unit>> getUnitChoices(int mp, int opponentMaxAtk) {
         if (opponentMaxAtk == 0) {
-            return getUnitChoicesByMp(mp);
+            return getUnitChoices(mp);
         }
-        List<List<Unit>> unitChoicesByMp = new ArrayList<>(getUnitChoicesByMp(mp));
-        unitChoicesByMp.sort(new UnitListOrderComparator(opponentMaxAtk));
-        return unitChoicesByMp;
-    }
+        List<List<Unit>> unitChoices = BUY_UNITS_CHOICES_BY_MP[opponentMaxAtk * MAX_ATTACK_TO_CONTAIN + mp];
+        if (unitChoices == null) {
+            unitChoices = new ArrayList<>(getUnitChoices(mp));
+            unitChoices.sort(new UnitListOrderComparator(opponentMaxAtk));
+            BUY_UNITS_CHOICES_BY_MP[opponentMaxAtk * MAX_ATTACK_TO_CONTAIN + mp] = unitChoices;
+            return BUY_UNITS_CHOICES_BY_MP[opponentMaxAtk * MAX_ATTACK_TO_CONTAIN + mp];
+        }
+        return unitChoices;
 
-    public static List<Action<SummonersDuelSubjectsArea>> getUnitChoiceBuyActionsByMp(int mp) {
-        List<Action<SummonersDuelSubjectsArea>> list = BUY_UNITS_ACTION_CHOICES_BY_MP[mp];
-        if (list == null) {
-            list = buyActionsFromUnitsCombination(getUnitChoicesByMp(mp));
-            BUY_UNITS_ACTION_CHOICES_BY_MP[mp] = list;
-        }
-        return list;
     }
 
     public static List<Action<SummonersDuelSubjectsArea>> getUnitChoiceBuyActions(int mp, int opponentMaxAtk) {
-        return buyActionsFromUnitsCombination(getUnitChoices(mp, opponentMaxAtk));
+        List<Action<SummonersDuelSubjectsArea>> list = BUY_UNITS_ACTION_CHOICES_BY_MP[opponentMaxAtk * MAX_ATTACK_TO_CONTAIN + mp];
+        if (list == null) {
+            list = buyActionsFromUnitsCombination(getUnitChoices(mp, opponentMaxAtk));
+            BUY_UNITS_ACTION_CHOICES_BY_MP[opponentMaxAtk * MAX_ATTACK_TO_CONTAIN + mp] = list;
+        }
+        return list;
     }
 
     private static final BuyUnitUtils INSTANCE = new BuyUnitUtils();
