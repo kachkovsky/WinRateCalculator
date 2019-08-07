@@ -4,12 +4,9 @@ import ru.kachkovsky.wrc.stage.Action;
 import ru.kachkovsky.wrc.stage.FinishCheck;
 import ru.kachkovsky.wrc.stage.Stage;
 import ru.kachkovsky.wrc_summoners_duel.SummonersDuelSubjectsArea;
-import ru.kachkovsky.wrc_summoners_duel.action.BuyAction;
-import ru.kachkovsky.wrc_summoners_duel.player.Unit;
+import ru.kachkovsky.wrc_summoners_duel.player.UnitUtils;
 import ru.kachkovsky.wrc_summoners_duel.utils.BuyUnitUtils;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class SDBuyStage extends Stage<SummonersDuelSubjectsArea> {
@@ -20,7 +17,8 @@ public class SDBuyStage extends Stage<SummonersDuelSubjectsArea> {
     @Override
     public List<Action<SummonersDuelSubjectsArea>> getActions(SummonersDuelSubjectsArea area) {
         int mp = area.getTeams()[area.getCurrentTeamIndex()].getMp();
-        return BuyUnitUtils.getUnitChoiceBuyActionsByMp(mp);
+        int maxEnemyAttack = UnitUtils.findMaxAttack(area.getTeams()[area.getReversePlayerIndex()].getUnits());
+        return BuyUnitUtils.getUnitChoiceBuyActions(mp, maxEnemyAttack);
     }
 
 }
