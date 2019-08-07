@@ -58,9 +58,9 @@ public class UnitUtils {
         return oldAtk;
     }
 
-    public static int findMaxEnemyAttack(List<Unit> otherPlayerUnits) {
+    public static int findMaxAttack(List<Unit> units) {
         int atk = 0;
-        for (Unit u : otherPlayerUnits) {
+        for (Unit u : units) {
             if (atk < u.getAtk()) {
                 atk = u.getAtk();
             }
@@ -68,9 +68,9 @@ public class UnitUtils {
         return atk;
     }
 
-    public static int findMaxSplashEnemyAttack(List<Unit> otherPlayerUnits) {
+    public static int findMaxSplashAttack(List<Unit> units) {
         int atk = 0;
-        for (Unit u : otherPlayerUnits) {
+        for (Unit u : units) {
             if (u.hasSplash() && atk < u.getAtk()) {
                 atk = u.getAtk();
             }

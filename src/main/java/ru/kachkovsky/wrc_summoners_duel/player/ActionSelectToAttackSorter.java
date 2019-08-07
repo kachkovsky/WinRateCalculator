@@ -10,8 +10,8 @@ public class ActionSelectToAttackSorter implements Comparator<Unit> {
 
     public void prepareSort(List<Unit> units, int myAtk) {
         this.myAtk = myAtk;
-        this.maxSplashEnemyAtk = UnitUtils.findMaxSplashEnemyAttack(units);
-        this.maxEnemyAtk = UnitUtils.findMaxEnemyAttack(units);
+        this.maxSplashEnemyAtk = UnitUtils.findMaxSplashAttack(units);
+        this.maxEnemyAtk = UnitUtils.findMaxAttack(units);
     }
     public void sort(List<Unit> units) {
         units.sort(this);

@@ -19,7 +19,7 @@ public class NextTurnOneUnitFinishCheck implements FinishCheck<SummonersDuelSubj
 
 
         int def = UnitUtils.minDefForUnitAliveAfterAttackByAllWithMaxEconomic(otherTeam.getUnits());
-        int manaToBuyHp = UnitUtils.findMaxEnemyAttack(otherTeam.getUnits()) - def / 2;
+        int manaToBuyHp = UnitUtils.findMaxAttack(otherTeam.getUnits()) - def / 2;
         if (curTeam.getMp() > def + manaToBuyHp) {
             int atk = curTeam.getMp() - def - manaToBuyHp;
             if (atk > otherTeam.getHp()) {
