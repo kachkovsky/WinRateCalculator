@@ -20,6 +20,8 @@ public class WinRateListForTeamCalculator extends WinRateListFullCalculator {
     int i = 1;
     public static final int ITERATIONS_TO_CHECK_PARENT = 3;
 
+    public static final float MIN_WIN_RATE_TO_STOP_SEARCH = 1f;
+
     static class StackItem<T extends OnlyOneTeamCanDoTurnSubjectArea> {
         List<ActionResults<T>> list;
         Iterator<Map.Entry<Action<T>, TurnNode<T>>> iterator;
@@ -78,7 +80,7 @@ public class WinRateListForTeamCalculator extends WinRateListFullCalculator {
 //                ConsoleUI consoleUI = new ConsoleUI();
 //                consoleUI.writeCurrentTurn(innerNode);
 
-                if (innerNode.getTeamsWinRate() != null && innerNode.getTeamsWinRate().get(area.getCurrentTeamIndex()).getMinWinRate() >= 1f) {
+                if (innerNode.getTeamsWinRate() != null && innerNode.getTeamsWinRate().get(area.getCurrentTeamIndex()).getMinWinRate() >= MIN_WIN_RATE_TO_STOP_SEARCH) {
                     list.add(new ActionResults<>(entry.getKey(), innerNode, innerNode.getTeamsWinRate()));
                     break;
                 }
@@ -117,7 +119,7 @@ public class WinRateListForTeamCalculator extends WinRateListFullCalculator {
                 up = false;
                 //calculate all options for root
                 if (!stack.isEmpty()) {
-                    up = calculatedWR.get(area.getCurrentTeamIndex()).getMinWinRate() >= 1f;
+                    up = calculatedWR.get(area.getCurrentTeamIndex()).getMinWinRate() >= MIN_WIN_RATE_TO_STOP_SEARCH;
                 }
                 iterator = si.iterator;
                 Action<T> action = si.entry.getKey();
