@@ -8,11 +8,13 @@ import ru.kachkovsky.wrc_summoners_duel.action.PlayerAttackAction;
 import ru.kachkovsky.wrc_summoners_duel.action.SplashAttackAction;
 import ru.kachkovsky.wrc_summoners_duel.action.UnitAttackAction;
 import ru.kachkovsky.wrc_summoners_duel.player.ActionSelectToAttackSorter;
+import ru.kachkovsky.wrc_summoners_duel.player.Player;
 import ru.kachkovsky.wrc_summoners_duel.player.Unit;
 import ru.kachkovsky.wrc_summoners_duel.player.UnitUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 public class SDBeatStage extends Stage<SummonersDuelSubjectsArea> {
@@ -31,10 +33,20 @@ public class SDBeatStage extends Stage<SummonersDuelSubjectsArea> {
             return SPLASH_ACTION_LIST;
         }
         int atk = area.getTeams()[area.getCurrentTeamIndex()].getUnits().get(area.getCurrentPlayerUnitIndex()).getAtk();
-        List<Unit> units = area.getTeams()[area.getReversePlayerIndex()].getUnits();
-        //TODO: order to beat units
-        //
+        Player otherPlayer = area.getTeams()[area.getReversePlayerIndex()];
+        List<Unit> units = otherPlayer.getUnits();
+
         List<Unit> unitsUniqueAttacked = UnitUtils.unitsUniqueAttacked(atk, units);
+        Iterator<Unit> it = unitsUniqueAttacked.iterator();
+
+        while (it.hasNext()) {
+            Unit u = it.next();
+            //always kill the player instead of a unit if you can
+            if (u.alive(otherPlayer.getHp())) {
+                it.remove();
+            }
+        }
+
         SORTER.prepareSort(unitsUniqueAttacked, atk);
         unitsUniqueAttacked.add(null);
         SORTER.sort(unitsUniqueAttacked);
