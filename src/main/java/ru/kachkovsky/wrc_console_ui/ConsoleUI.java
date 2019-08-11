@@ -1,11 +1,14 @@
 package ru.kachkovsky.wrc_console_ui;
 
+import ru.kachkovsky.wrc.OnlyOneTeamCanDoTurnSubjectArea;
 import ru.kachkovsky.wrc.SubjectsArea;
 import ru.kachkovsky.wrc.eventsgraph.TurnNode;
 import ru.kachkovsky.wrc.stage.Action;
 import ru.kachkovsky.wrc.subject.Subject;
 import ru.kachkovsky.wrc.team.SubjectTeamAreaDeterminator;
 import ru.kachkovsky.wrc.winrate.WinRate;
+import ru.kachkovsky.wrc.winrate.calculator.WinRateListForTeamCalculator;
+import ru.kachkovsky.wrc.winrate.calculator.WinRateListFullCalculator;
 
 import java.util.List;
 import java.util.Map;
@@ -14,6 +17,25 @@ import java.util.Scanner;
 public class ConsoleUI {
 
     private static final int FIRST_CHOICE = 1;
+    
+    public <T extends OnlyOneTeamCanDoTurnSubjectArea<T>> void uiForFullGameWithRatesDebug(TurnNode<T> node) {
+        Scanner scanner = new Scanner(System.in);
+        WinRateListForTeamCalculator calculator = new WinRateListForTeamCalculator();
+        Map<Action<T>, TurnNode<T>> actionEventGraphNodeMap;
+        while ((actionEventGraphNodeMap = node.calcWinRate()) != null) {
+            long t = System.currentTimeMillis();
+            List<WinRateListFullCalculator.ActionResults<T>> actionResults = calculator.eventGraphMapToWinRateMapOnlyOneTeam(actionEventGraphNodeMap, node.getArea());
+            System.out.println("Time: " + (System.currentTimeMillis() - t));
+            System.out.println("$$$Game calculated$$$");
+            for (WinRateListFullCalculator.ActionResults actionResult : actionResults) {
+                printAction("x", actionResult.getAction(), "");
+                printWinRateList(actionResult.getWrList(), "");
+            }
+            writeCurrentTurn(node);
+            node = uiForTurn(scanner, node);
+        }
+        printWinRateList(node.getTeamsWinRate(), "FIN ");
+    }
 
     public void uiForFullGame(TurnNode node) {
         Scanner scanner = new Scanner(System.in);
@@ -50,7 +72,7 @@ public class ConsoleUI {
         return node;
     }
 
-    public void printAction(int index, Action a, String postfix) {
+    public void printAction(Object index, Action a, String postfix) {
         System.out.println(index + ")" + a.toString() + postfix);
     }
 
