@@ -3,6 +3,7 @@ package ru.kachkovsky.wrc.winrate.calculator;
 import ru.kachkovsky.wrc.OnlyOneTeamCanDoTurnSubjectArea;
 import ru.kachkovsky.wrc.eventsgraph.TurnNode;
 import ru.kachkovsky.wrc.stage.Action;
+import ru.kachkovsky.wrc.stage.strategy.StageActionsStrategyResolver;
 import ru.kachkovsky.wrc.winrate.WinRate;
 import ru.kachkovsky.wrc.winrate.WinRateUtils;
 import ru.kachkovsky.wrc_console_ui.ConsoleUI;
@@ -34,7 +35,7 @@ public class WinRateListForTeamCalculator extends WinRateListFullCalculator {
         }
     }
 
-    public <T extends OnlyOneTeamCanDoTurnSubjectArea<T>> List<ActionResults<T>> eventGraphMapToWinRateMapOnlyOneTeam(Map<Action<T>, TurnNode<T>> map, T area) {
+    public <T extends OnlyOneTeamCanDoTurnSubjectArea<T>> List<ActionResults<T>> eventGraphMapToWinRateMapOnlyOneTeam(Map<Action<T>, TurnNode<T>> map, T area, StageActionsStrategyResolver<T> resolver) {
 
         List<StackItem<T>> stack = new ArrayList<>(1000);
 
@@ -57,7 +58,7 @@ public class WinRateListForTeamCalculator extends WinRateListFullCalculator {
             while (iterator.hasNext()) {
                 Map.Entry<Action<T>, TurnNode<T>> entry = iterator.next();
                 TurnNode<T> innerNode = entry.getValue();
-                Map<Action<T>, TurnNode<T>> m1 = innerNode.calcWinRate(true);
+                Map<Action<T>, TurnNode<T>> m1 = innerNode.calcWinRate(resolver, true);
 
                 if (innerNode.getTeamsWinRate() == null) {
                     TurnNode<T> p = innerNode;

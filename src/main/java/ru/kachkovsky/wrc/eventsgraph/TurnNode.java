@@ -2,6 +2,7 @@ package ru.kachkovsky.wrc.eventsgraph;
 
 import ru.kachkovsky.wrc.SubjectsArea;
 import ru.kachkovsky.wrc.stage.Action;
+import ru.kachkovsky.wrc.stage.strategy.StageActionsStrategyResolver;
 import ru.kachkovsky.wrc.winrate.WinRate;
 
 import java.util.LinkedHashMap;
@@ -28,17 +29,17 @@ public class TurnNode<T extends SubjectsArea<T>> {
         return area;
     }
 
-    public Map<Action<T>, TurnNode<T>> calcWinRate() {
-        return calcWinRate(false);
+    public Map<Action<T>, TurnNode<T>> calcWinRate(StageActionsStrategyResolver<T> stageActionsStrategyResolver) {
+        return calcWinRate(stageActionsStrategyResolver, false);
     }
 
     /**
      * @return map of action and their child nodes. Don't save it while recursion to save memory
      */
-    public Map<Action<T>, TurnNode<T>> calcWinRate(boolean keepParentNode) {
+    public Map<Action<T>, TurnNode<T>> calcWinRate(StageActionsStrategyResolver<T> stageActionsStrategyResolver, boolean keepParentNode) {
         calcFinishChecks();
         if (teamsWinRate == null) {
-            List<Action<T>> actions = area.getCurrentStage().getActions(area);
+            List<Action<T>> actions = stageActionsStrategyResolver.resolve(area.getCurrentStage()).getActions(area);
             Map<Action<T>, TurnNode<T>> map = new LinkedHashMap<>(actions.size());
             for (Action<T> a : actions) {
                 TurnNode<T> turnNode = a.calcAct(area);

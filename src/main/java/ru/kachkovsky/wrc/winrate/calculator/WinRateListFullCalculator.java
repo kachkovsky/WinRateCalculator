@@ -3,6 +3,7 @@ package ru.kachkovsky.wrc.winrate.calculator;
 import ru.kachkovsky.wrc.SubjectsArea;
 import ru.kachkovsky.wrc.eventsgraph.TurnNode;
 import ru.kachkovsky.wrc.stage.Action;
+import ru.kachkovsky.wrc.stage.strategy.StageActionsStrategyResolver;
 import ru.kachkovsky.wrc.subject.Subject;
 import ru.kachkovsky.wrc.team.SubjectTeamAreaDeterminant;
 import ru.kachkovsky.wrc.winrate.WinRate;
@@ -13,6 +14,7 @@ import java.util.*;
 //calculator needed for games with simultaneous turns
 public class WinRateListFullCalculator {
     ConsoleUI consoleUI = new ConsoleUI();
+
     public static class ActionResults<T extends SubjectsArea<T>> {
 
         public ActionResults(Action<T> action, TurnNode<T> nodeAfterAction) {
@@ -43,14 +45,14 @@ public class WinRateListFullCalculator {
         }
     }
 
-    public <T extends SubjectsArea<T>> List<ActionResults<T>> eventGraphMapToWinRateMap(Map<Action<T>, TurnNode<T>> map) {
+    public <T extends SubjectsArea<T>> List<ActionResults<T>> eventGraphMapToWinRateMap(Map<Action<T>, TurnNode<T>> map, StageActionsStrategyResolver<T> resolver) {
         List<ActionResults<T>> list = new ArrayList<>();
         for (Map.Entry<Action<T>, TurnNode<T>> entry : map.entrySet()) {
             TurnNode<T> innerNode = entry.getValue();
             consoleUI.writeCurrentArea("[", innerNode.getArea());
-            Map<Action<T>, TurnNode<T>> m1 = innerNode.calcWinRate();
+            Map<Action<T>, TurnNode<T>> m1 = innerNode.calcWinRate(resolver);
             if (m1 != null) {
-                list.add(new ActionResults<>(entry.getKey(), innerNode, calc(eventGraphMapToWinRateMap(m1), innerNode.getArea())));
+                list.add(new ActionResults<>(entry.getKey(), innerNode, calc(eventGraphMapToWinRateMap(m1, resolver), innerNode.getArea())));
             } else {
                 list.add(new ActionResults<>(entry.getKey(), innerNode, entry.getValue().getTeamsWinRate()));
             }

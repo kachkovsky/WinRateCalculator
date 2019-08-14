@@ -25,8 +25,6 @@ public abstract class Stage<T extends SubjectsArea<T>> {
         return null;
     }
 
-    public abstract List<Action<T>> getActions(T area);
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

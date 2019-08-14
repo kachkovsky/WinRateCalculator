@@ -4,6 +4,7 @@ import ru.kachkovsky.wrc.OnlyOneTeamCanDoTurnSubjectArea;
 import ru.kachkovsky.wrc.SubjectsArea;
 import ru.kachkovsky.wrc.eventsgraph.TurnNode;
 import ru.kachkovsky.wrc.stage.Action;
+import ru.kachkovsky.wrc.stage.strategy.StageActionsStrategyResolver;
 import ru.kachkovsky.wrc.subject.Subject;
 import ru.kachkovsky.wrc.team.SubjectTeamAreaDeterminant;
 import ru.kachkovsky.wrc.winrate.WinRate;
@@ -18,13 +19,13 @@ public class ConsoleUI {
 
     private static final int FIRST_CHOICE = 1;
 
-    public <T extends OnlyOneTeamCanDoTurnSubjectArea<T>> void uiForFullGameWithRatesDebug(TurnNode<T> node) {
+    public <T extends OnlyOneTeamCanDoTurnSubjectArea<T>> void uiForFullGameWithRatesDebug(TurnNode<T> node, StageActionsStrategyResolver<T> resolver) {
         Scanner scanner = new Scanner(System.in);
         WinRateListForTeamCalculator calculator = new WinRateListForTeamCalculator();
         Map<Action<T>, TurnNode<T>> actionEventGraphNodeMap;
-        while ((actionEventGraphNodeMap = node.calcWinRate()) != null) {
+        while ((actionEventGraphNodeMap = node.calcWinRate(resolver, true)) != null) {
             long t = System.currentTimeMillis();
-            List<WinRateListFullCalculator.ActionResults<T>> actionResults = calculator.eventGraphMapToWinRateMapOnlyOneTeam(actionEventGraphNodeMap, node.getArea());
+            List<WinRateListFullCalculator.ActionResults<T>> actionResults = calculator.eventGraphMapToWinRateMapOnlyOneTeam(actionEventGraphNodeMap, node.getArea(), resolver);
             System.out.println("Time: " + (System.currentTimeMillis() - t));
             System.out.println("$$$Game calculated$$$");
             for (WinRateListFullCalculator.ActionResults actionResult : actionResults) {
@@ -32,25 +33,26 @@ public class ConsoleUI {
                 printWinRateList(actionResult.getWrList(), "");
             }
             writeCurrentTurn(node);
-            node = uiForTurn(scanner, node);
+            //can print another resolver for UI
+            node = uiForTurn(scanner, node, resolver);
         }
         printWinRateList(node.getTeamsWinRate(), "FIN ");
     }
 
-    public void uiForFullGame(TurnNode node) {
+    public <T extends SubjectsArea<T>> void uiForFullGame(TurnNode node, StageActionsStrategyResolver<T> resolver) {
         Scanner scanner = new Scanner(System.in);
         TurnNode prevNode = null;
         while (node != null) {
             writeCurrentTurn(prevNode = node);
-            node = uiForTurn(scanner, node);
+            node = uiForTurn(scanner, node, resolver);
         }
         if (prevNode != null) {
             printWinRateList(prevNode.getTeamsWinRate(), " ");
         }
     }
 
-    public TurnNode uiForTurn(Scanner scanner, TurnNode node) {
-        Map<Action, TurnNode> map = node.calcWinRate();
+    public <T extends SubjectsArea<T>> TurnNode uiForTurn(Scanner scanner, TurnNode node, StageActionsStrategyResolver<T> resolver) {
+        Map<Action, TurnNode> map = node.calcWinRate(resolver);
         if (map == null || map.isEmpty()) {
             return null;
         } else {
