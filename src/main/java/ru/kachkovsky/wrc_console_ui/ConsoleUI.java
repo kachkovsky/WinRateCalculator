@@ -5,7 +5,7 @@ import ru.kachkovsky.wrc.SubjectsArea;
 import ru.kachkovsky.wrc.eventsgraph.TurnNode;
 import ru.kachkovsky.wrc.stage.Action;
 import ru.kachkovsky.wrc.subject.Subject;
-import ru.kachkovsky.wrc.team.SubjectTeamAreaDeterminator;
+import ru.kachkovsky.wrc.team.SubjectTeamAreaDeterminant;
 import ru.kachkovsky.wrc.winrate.WinRate;
 import ru.kachkovsky.wrc.winrate.calculator.WinRateListForTeamCalculator;
 import ru.kachkovsky.wrc.winrate.calculator.WinRateListFullCalculator;
@@ -91,9 +91,9 @@ public class ConsoleUI {
     public void printSubjects(SubjectsArea area) {
         System.out.print("Current:" + area.getCurrentSubject() + ". All: ");
         List<Subject> subjectList = area.getSubjectList();
-        SubjectTeamAreaDeterminator teamDeterminator = area.getTeamDeterminator();
+        SubjectTeamAreaDeterminant teamDeterminant = area.getTeamDeterminant();
         for (Subject subject : subjectList) {
-            System.out.print(subject.toString() + " " + teamDeterminator.getTeamIndex(area, subject) + " | ");
+            System.out.print(subject.toString() + " " + teamDeterminant.getTeamIndex(area, subject) + " | ");
         }
         System.out.println();
     }

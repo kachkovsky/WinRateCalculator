@@ -5,7 +5,7 @@ import ru.kachkovsky.wrc.winrate.WinRate;
 
 import java.util.List;
 
-public abstract class Stage<T extends SubjectsArea> {
+public abstract class Stage<T extends SubjectsArea<T>> {
     private List<FinishCheck<T>> finishCheckList;
 
     public Stage(List<FinishCheck<T>> finishCheckList) {

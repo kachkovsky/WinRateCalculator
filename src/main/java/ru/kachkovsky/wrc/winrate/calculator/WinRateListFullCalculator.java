@@ -4,7 +4,7 @@ import ru.kachkovsky.wrc.SubjectsArea;
 import ru.kachkovsky.wrc.eventsgraph.TurnNode;
 import ru.kachkovsky.wrc.stage.Action;
 import ru.kachkovsky.wrc.subject.Subject;
-import ru.kachkovsky.wrc.team.SubjectTeamAreaDeterminator;
+import ru.kachkovsky.wrc.team.SubjectTeamAreaDeterminant;
 import ru.kachkovsky.wrc.winrate.WinRate;
 import ru.kachkovsky.wrc_console_ui.ConsoleUI;
 
@@ -13,7 +13,7 @@ import java.util.*;
 //calculator needed for games with simultaneous turns
 public class WinRateListFullCalculator {
     ConsoleUI consoleUI = new ConsoleUI();
-    public static class ActionResults<T extends SubjectsArea> {
+    public static class ActionResults<T extends SubjectsArea<T>> {
 
         public ActionResults(Action<T> action, TurnNode<T> nodeAfterAction) {
             this.action = action;
@@ -43,7 +43,7 @@ public class WinRateListFullCalculator {
         }
     }
 
-    public <T extends SubjectsArea> List<ActionResults<T>> eventGraphMapToWinRateMap(Map<Action<T>, TurnNode<T>> map) {
+    public <T extends SubjectsArea<T>> List<ActionResults<T>> eventGraphMapToWinRateMap(Map<Action<T>, TurnNode<T>> map) {
         List<ActionResults<T>> list = new ArrayList<>();
         for (Map.Entry<Action<T>, TurnNode<T>> entry : map.entrySet()) {
             TurnNode<T> innerNode = entry.getValue();
@@ -61,16 +61,16 @@ public class WinRateListFullCalculator {
 
     //TODO: Replace area of getTeamIndex to correct version of node
     protected <T extends SubjectsArea<T>> List<WinRate> calc(List<ActionResults<T>> actionResultsList, T areaBeforeAction) {
-        SubjectTeamAreaDeterminator<T> subjectTeamAreaDeterminator = areaBeforeAction.getTeamDeterminator();
+        SubjectTeamAreaDeterminant<T> subjectTeamAreaDeterminant = areaBeforeAction.getTeamDeterminant();
         //need to rework this to action.getCurrentSubject(area)
         Subject subject = areaBeforeAction.getCurrentSubject();
-        int teamIndex = subjectTeamAreaDeterminator.getTeamIndex(areaBeforeAction, subject);
+        int teamIndex = subjectTeamAreaDeterminant.getTeamIndex(areaBeforeAction, subject);
         Map<Subject, List<List<WinRate>>> subjRate = new HashMap<>();
         for (ActionResults<T> results : actionResultsList) {
             WinRate winRate = results.getWrList().get(teamIndex);
             if (hasMoreWinRateForAnySubjectOfTeam(subjRate, teamIndex, winRate, areaBeforeAction)) {
                 for (Subject s : subjRate.keySet()) {
-                    if (teamIndex == subjectTeamAreaDeterminator.getTeamIndex(areaBeforeAction, s)) {
+                    if (teamIndex == subjectTeamAreaDeterminant.getTeamIndex(areaBeforeAction, s)) {
                         subjRate.remove(s);
                     }
                 }
@@ -98,7 +98,7 @@ public class WinRateListFullCalculator {
 
     private <T extends SubjectsArea<T>> boolean hasMoreWinRateForAnySubjectOfTeam(Map<Subject, List<List<WinRate>>> subjRate, int teamIndex, WinRate rate, T area) {
         Comparator<WinRate> winRateComparator = area.getWinRateComparator();
-        SubjectTeamAreaDeterminator<T> teamDeterminator = area.getTeamDeterminator();
+        SubjectTeamAreaDeterminant<T> teamDeterminator = area.getTeamDeterminant();
         for (Map.Entry<Subject, List<List<WinRate>>> entry : subjRate.entrySet()) {
             if (teamDeterminator.getTeamIndex(area, entry.getKey()) == teamIndex) {
                 List<List<WinRate>> value = entry.getValue();
@@ -156,7 +156,7 @@ public class WinRateListFullCalculator {
             vars = 0;
             numberOfSubjects = 0;
             for (Map.Entry<Subject, List<WinRate>> subjectListEntry : winRateForTeam.entrySet()) {
-                subjectsCountForTeam = area.getTeamDeterminator().getSubjectsCountForTeam(area, subjectListEntry.getKey());
+                subjectsCountForTeam = area.getTeamDeterminant().getSubjectsCountForTeam(area, subjectListEntry.getKey());
                 numberOfSubjects += subjectsCountForTeam;
                 WinRate rate = subjectListEntry.getValue().get(i);
                 min += (rate.getMinWinRate() * subjectsCountForTeam);

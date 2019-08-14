@@ -22,7 +22,7 @@ public class WinRateListForTeamCalculator extends WinRateListFullCalculator {
 
     public static final float MIN_WIN_RATE_TO_STOP_SEARCH = 1f;
 
-    static class StackItem<T extends OnlyOneTeamCanDoTurnSubjectArea> {
+    static class StackItem<T extends OnlyOneTeamCanDoTurnSubjectArea<T>> {
         List<ActionResults<T>> list;
         Iterator<Map.Entry<Action<T>, TurnNode<T>>> iterator;
         Map.Entry<Action<T>, TurnNode<T>> entry;
@@ -34,7 +34,7 @@ public class WinRateListForTeamCalculator extends WinRateListFullCalculator {
         }
     }
 
-    public <T extends OnlyOneTeamCanDoTurnSubjectArea> List<ActionResults<T>> eventGraphMapToWinRateMapOnlyOneTeam(Map<Action<T>, TurnNode<T>> map, T area) {
+    public <T extends OnlyOneTeamCanDoTurnSubjectArea<T>> List<ActionResults<T>> eventGraphMapToWinRateMapOnlyOneTeam(Map<Action<T>, TurnNode<T>> map, T area) {
 
         List<StackItem<T>> stack = new ArrayList<>(1000);
 
@@ -130,7 +130,7 @@ public class WinRateListForTeamCalculator extends WinRateListFullCalculator {
     }
 
 
-    public static <T extends OnlyOneTeamCanDoTurnSubjectArea> boolean soDeep(List<StackItem<T>> stack1) {
+    public static <T extends OnlyOneTeamCanDoTurnSubjectArea<T>> boolean soDeep(List<StackItem<T>> stack1) {
         return stack1.size() > 14;
 //        List<StackItem<SummonersDuelSubjectsArea>> stack = (List) stack1;
 //        if (stack.isEmpty()) {

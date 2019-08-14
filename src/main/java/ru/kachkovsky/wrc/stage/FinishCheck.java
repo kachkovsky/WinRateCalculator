@@ -5,7 +5,7 @@ import ru.kachkovsky.wrc.winrate.WinRate;
 
 import java.util.List;
 
-public interface FinishCheck<T extends SubjectsArea> {
+public interface FinishCheck<T extends SubjectsArea<T>> {
 
     List<WinRate> checkTeamsWinRate(T area);
 }

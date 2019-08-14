@@ -8,7 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TurnNode<T extends SubjectsArea> {
+public class TurnNode<T extends SubjectsArea<T>> {
 
     private T area;
     private TurnNode<T> parent;

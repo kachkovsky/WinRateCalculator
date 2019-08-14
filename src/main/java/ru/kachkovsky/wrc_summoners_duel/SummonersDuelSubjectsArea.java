@@ -4,7 +4,7 @@ import ru.kachkovsky.wrc.OnlyOneTeamCanDoTurnSubjectArea;
 import ru.kachkovsky.wrc.SimpleAreaStaticContents;
 import ru.kachkovsky.wrc.stage.Stage;
 import ru.kachkovsky.wrc.subject.Subject;
-import ru.kachkovsky.wrc.team.SubjectTeamAreaDeterminator;
+import ru.kachkovsky.wrc.team.SubjectTeamAreaDeterminant;
 import ru.kachkovsky.wrc.winrate.DefaultWinRateComparator;
 import ru.kachkovsky.wrc.winrate.WinRate;
 import ru.kachkovsky.wrc_summoners_duel.player.Player;
@@ -22,7 +22,7 @@ import java.util.List;
 public class SummonersDuelSubjectsArea implements OnlyOneTeamCanDoTurnSubjectArea<SummonersDuelSubjectsArea> {
     private static final DefaultWinRateComparator COMPARATOR = new DefaultWinRateComparator();
     private static final SimpleAreaStaticContents STATIC_CONTENTS = new SimpleAreaStaticContents();
-    private static final SummonersDuelTeamDeterminator TEAM_DETERMINATOR = new SummonersDuelTeamDeterminator();
+    private static final SummonersDuelTeamDeterminant TEAM_DETERMINANT = new SummonersDuelTeamDeterminant();
 
     //TODO: add finish check for second turn
     private static final SDBuyStage BUY_STAGE = new SDBuyStage(SDFinishCheckHelper.buyFinishChecks());
@@ -73,8 +73,8 @@ public class SummonersDuelSubjectsArea implements OnlyOneTeamCanDoTurnSubjectAre
     }
 
     @Override
-    public SubjectTeamAreaDeterminator<SummonersDuelSubjectsArea> getTeamDeterminator() {
-        return TEAM_DETERMINATOR;
+    public SubjectTeamAreaDeterminant<SummonersDuelSubjectsArea> getTeamDeterminant() {
+        return TEAM_DETERMINANT;
     }
 
     @Override

@@ -3,7 +3,7 @@ package ru.kachkovsky.wrc_mafia;
 import ru.kachkovsky.wrc.SubjectsArea;
 import ru.kachkovsky.wrc.stage.Stage;
 import ru.kachkovsky.wrc.subject.Subject;
-import ru.kachkovsky.wrc.team.SubjectTeamAreaDeterminator;
+import ru.kachkovsky.wrc.team.SubjectTeamAreaDeterminant;
 import ru.kachkovsky.wrc.winrate.DefaultWinRateComparator;
 import ru.kachkovsky.wrc.winrate.WinRate;
 
@@ -12,7 +12,7 @@ import java.util.List;
 
 public class SimpleMafiaArea implements SubjectsArea<SimpleMafiaArea> {
 
-    private static final TwoRolesMafiaTeamDeterminator TEAM_DETERMINATOR = new TwoRolesMafiaTeamDeterminator();
+    private static final TwoRolesMafiaTeamDeterminant TEAM_DETERMINANT = new TwoRolesMafiaTeamDeterminant();
     private static final DefaultWinRateComparator COMPARATOR = new DefaultWinRateComparator();
 
     private SimpleMafiaAriaStaticContents staticContents;
@@ -28,9 +28,9 @@ public class SimpleMafiaArea implements SubjectsArea<SimpleMafiaArea> {
     }
 
     @Override
-    public SubjectTeamAreaDeterminator<SimpleMafiaArea> getTeamDeterminator() {
-        return TEAM_DETERMINATOR;
-        //TODO: determinator for riot police
+    public SubjectTeamAreaDeterminant<SimpleMafiaArea> getTeamDeterminant() {
+        return TEAM_DETERMINANT;
+        //TODO: determinant for riot police
     }
 
     @Override
