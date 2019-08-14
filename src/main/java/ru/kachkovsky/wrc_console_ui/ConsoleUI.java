@@ -17,7 +17,7 @@ import java.util.Scanner;
 public class ConsoleUI {
 
     private static final int FIRST_CHOICE = 1;
-    
+
     public <T extends OnlyOneTeamCanDoTurnSubjectArea<T>> void uiForFullGameWithRatesDebug(TurnNode<T> node) {
         Scanner scanner = new Scanner(System.in);
         WinRateListForTeamCalculator calculator = new WinRateListForTeamCalculator();
@@ -99,7 +99,7 @@ public class ConsoleUI {
     }
 
     public void printWinRateList(List<WinRate> wrl, String prefix) {
-        printWinRateList(wrl,prefix,true);
+        printWinRateList(wrl, prefix, true);
     }
 
     public void printWinRateList(List<WinRate> wrl, String prefix, boolean newLine) {
