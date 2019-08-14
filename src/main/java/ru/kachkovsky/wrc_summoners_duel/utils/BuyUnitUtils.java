@@ -65,7 +65,7 @@ public class BuyUnitUtils {
 
     private static final BuyUnitUtils INSTANCE = new BuyUnitUtils();
 
-    private static List<Action<SummonersDuelSubjectsArea>> buyActionsFromUnitsCombination(List<List<Unit>> unitsCombination) {
+    public static List<Action<SummonersDuelSubjectsArea>> buyActionsFromUnitsCombination(List<List<Unit>> unitsCombination) {
         List<Action<SummonersDuelSubjectsArea>> list = new ArrayList<>();
         for (List<Unit> units : unitsCombination) {
             list.add(new BuyAction(units));
