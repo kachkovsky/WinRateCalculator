@@ -1,11 +1,14 @@
 package ru.kachkovsky.wrc.winrate.calculator;
 
 import ru.kachkovsky.wrc.OnlyOneTeamCanDoTurnSubjectArea;
+import ru.kachkovsky.wrc.SubjectsArea;
 import ru.kachkovsky.wrc.eventsgraph.TurnNode;
 import ru.kachkovsky.wrc.stage.Action;
 import ru.kachkovsky.wrc.stage.strategy.StageActionsStrategyResolver;
 import ru.kachkovsky.wrc.winrate.WinRate;
 import ru.kachkovsky.wrc.winrate.WinRateUtils;
+import ru.kachkovsky.wrc.winrate.calculator.helper.MultDoersWithProbablyOrPossibleToCalcWinRateCalculatorHelper;
+import ru.kachkovsky.wrc.winrate.calculator.helper.OneSimultaneousDoerWithPossibleToCalcWinRateCalculatorHelper;
 import ru.kachkovsky.wrc_console_ui.ConsoleUI;
 
 import java.util.ArrayList;
@@ -14,9 +17,9 @@ import java.util.List;
 import java.util.Map;
 
 //DON'T USE THIS CLASS IF SIMULTANEOUS TURNS ARE IN THE GAME!!!
-public class WinRateListForTeamCalculator extends WinRateListFullCalculator {
-
-    ConsoleUI consoleUI = new ConsoleUI();
+public class WinRateListForTeamCalculator {
+    private OneSimultaneousDoerWithPossibleToCalcWinRateCalculatorHelper calcHelper = new OneSimultaneousDoerWithPossibleToCalcWinRateCalculatorHelper();
+    private ConsoleUI consoleUI = new ConsoleUI();
 
     int i = 1;
     public static final int ITERATIONS_TO_CHECK_PARENT = 3;
@@ -116,7 +119,7 @@ public class WinRateListForTeamCalculator extends WinRateListFullCalculator {
                 }
                 StackItem<T> si = stack.remove(stack.size() - 1);
                 area = si.area;
-                List<WinRate> calculatedWR = calc(list, si.entry.getValue().getArea());
+                List<WinRate> calculatedWR = calcHelper.calc(list, si.entry.getValue().getArea());
                 up = false;
                 //calculate all options for root
                 if (!stack.isEmpty()) {

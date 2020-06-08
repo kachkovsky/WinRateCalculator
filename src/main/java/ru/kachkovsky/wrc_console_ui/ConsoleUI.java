@@ -8,8 +8,8 @@ import ru.kachkovsky.wrc.stage.strategy.StageActionsStrategyResolver;
 import ru.kachkovsky.wrc.subject.Subject;
 import ru.kachkovsky.wrc.team.SubjectTeamAreaDeterminant;
 import ru.kachkovsky.wrc.winrate.WinRate;
+import ru.kachkovsky.wrc.winrate.calculator.ActionResults;
 import ru.kachkovsky.wrc.winrate.calculator.WinRateListForTeamCalculator;
-import ru.kachkovsky.wrc.winrate.calculator.WinRateListFullCalculator;
 
 import java.util.List;
 import java.util.Map;
@@ -25,10 +25,10 @@ public class ConsoleUI {
         Map<Action<T>, TurnNode<T>> actionEventGraphNodeMap;
         while ((actionEventGraphNodeMap = node.calcWinRate(resolver, true)) != null) {
             long t = System.currentTimeMillis();
-            List<WinRateListFullCalculator.ActionResults<T>> actionResults = calculator.eventGraphMapToWinRateMapOnlyOneTeam(actionEventGraphNodeMap, node.getArea(), resolver);
+            List<ActionResults<T>> actionResults = calculator.eventGraphMapToWinRateMapOnlyOneTeam(actionEventGraphNodeMap, node.getArea(), resolver);
             System.out.println("Time: " + (System.currentTimeMillis() - t));
             System.out.println("$$$Game calculated$$$");
-            for (WinRateListFullCalculator.ActionResults actionResult : actionResults) {
+            for (ActionResults actionResult : actionResults) {
                 printAction("x", actionResult.getAction(), "");
                 printWinRateList(actionResult.getWrList(), "");
             }

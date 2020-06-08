@@ -4,6 +4,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import ru.kachkovsky.wrc.eventsgraph.TurnNode;
 import ru.kachkovsky.wrc.stage.Action;
+import ru.kachkovsky.wrc.stage.strategy.SimpleStageActionsStrategyResolver;
+import ru.kachkovsky.wrc.stage.strategy.StageActionsStrategyResolver;
 import ru.kachkovsky.wrc.winrate.calculator.WinRateListFullCalculator;
 import ru.kachkovsky.wrc_summoners_duel.SummonersDuelSubjectsArea;
 import ru.kachkovsky.wrc_summoners_duel.SummonersDuelSubjectsAreaFactory;
@@ -55,13 +57,15 @@ public class SDTest {
 
     @Test
     public void calc() {
+        //set actual resolver here
+        StageActionsStrategyResolver resolver = new SimpleStageActionsStrategyResolver();
         SummonersDuelSubjectsArea area = SummonersDuelSubjectsAreaFactory.createNewGameArea(2);
         TurnNode<SummonersDuelSubjectsArea> node = new TurnNode<>(area);
 
-        Map<Action<SummonersDuelSubjectsArea>, TurnNode<SummonersDuelSubjectsArea>> actionEventGraphNodeMap = node.calcWinRate();
+        Map<Action<SummonersDuelSubjectsArea>, TurnNode<SummonersDuelSubjectsArea>> actionEventGraphNodeMap = node.calcWinRate(resolver);
         TurnNode<SummonersDuelSubjectsArea> next = actionEventGraphNodeMap.values().iterator().next();
 
-        Map<Action<SummonersDuelSubjectsArea>, TurnNode<SummonersDuelSubjectsArea>> innerMap = next.calcWinRate();
+        Map<Action<SummonersDuelSubjectsArea>, TurnNode<SummonersDuelSubjectsArea>> innerMap = next.calcWinRate(resolver);
 
         Iterator<Map.Entry<Action<SummonersDuelSubjectsArea>, TurnNode<SummonersDuelSubjectsArea>>> iterator = innerMap.entrySet().iterator();
         iterator.next();
