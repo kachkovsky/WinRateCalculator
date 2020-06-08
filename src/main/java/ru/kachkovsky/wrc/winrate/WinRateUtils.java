@@ -57,7 +57,7 @@ public class WinRateUtils {
     }
 
     public static WinRate opposingWinRate(WinRate wr) {
-        return new WinRate(1f - wr.getMinWinRate(), 1f - wr.getMaxWinRate());
+        return new WinRate(1f - wr.getMaxWinRate() , 1f - wr.getMinWinRate());
         //replace if true and needed
        // return new WinRate(1f - wr.getMinWinRate(), 1f - wr.getMaxWinRate(), wr.getCalculatedVariants());
     }
