@@ -18,7 +18,7 @@ import java.util.Map;
 
 //DON'T USE THIS CLASS IF SIMULTANEOUS TURNS ARE IN THE GAME!!!
 public class WinRateListForTeamCalculator {
-    private OneSimultaneousDoerWithPossibleToCalcWinRateCalculatorHelper calcHelper = new OneSimultaneousDoerWithPossibleToCalcWinRateCalculatorHelper();
+    private MultDoersWithProbablyOrPossibleToCalcWinRateCalculatorHelper calcHelper = new MultDoersWithProbablyOrPossibleToCalcWinRateCalculatorHelper();
     private ConsoleUI consoleUI = new ConsoleUI();
 
     int i = 1;

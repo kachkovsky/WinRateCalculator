@@ -29,7 +29,7 @@ public class SDConfigAndStartUI {
 //        //}
 //        System.exit(-1);
 
-        SummonersDuelSubjectsArea area = SummonersDuelSubjectsAreaFactory.createNewGameArea(6);
+        SummonersDuelSubjectsArea area = SummonersDuelSubjectsAreaFactory.createNewGameArea(7);
 //        ArrayList<Unit> li = new ArrayList<>();
 //        li.add(UnitUtils.createUnit(false, 1, 0, 1));
 //        area.getTeams()[0] = new Player(7, 2, li);
@@ -92,7 +92,7 @@ public class SDConfigAndStartUI {
                     }
                 });
         ConsoleUI consoleUI = new ConsoleUI();
-        consoleUI.uiForFullGameWithRatesDebug(node, defaultResolver);
+        consoleUI.uiForFullGameWithRatesDebug(node, opposingParties3TResolver);
     }
 
 }
