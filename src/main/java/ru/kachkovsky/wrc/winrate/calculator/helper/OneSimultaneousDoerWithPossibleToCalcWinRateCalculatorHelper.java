@@ -41,6 +41,7 @@ public class OneSimultaneousDoerWithPossibleToCalcWinRateCalculatorHelper<T exte
             if (buf != best) {
                 r.hasIndirectWRDependencies |= results.isIndirectWRDependency();
             }
+            best = buf;
         }
         r.wrList = WinRateUtils.twoItemsWRListByWRAndIndex(best, teamIndex);
         return r;
