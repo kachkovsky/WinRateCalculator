@@ -63,6 +63,7 @@ public class WinRateListForTeamCalculator {
                 TurnNode<T> innerNode = entry.getValue();
                 Map<Action<T>, TurnNode<T>> m1 = innerNode.calcWinRate(resolver, true);
 
+                //draw or loss when repeating a position after several moves
                 if (innerNode.getTeamsWinRate() == null) {
                     TurnNode<T> p = innerNode;
                     while ((p = p.getParent()) != null) {
@@ -83,7 +84,7 @@ public class WinRateListForTeamCalculator {
 //                System.out.println("\ncalculator");
 //                ConsoleUI consoleUI = new ConsoleUI();
 //                consoleUI.writeCurrentTurn(innerNode);
-
+                
                 if (innerNode.getTeamsWinRate() != null && innerNode.getTeamsWinRate().get(area.getCurrentTeamIndex()).getMinWinRate() >= MIN_WIN_RATE_TO_STOP_SEARCH) {
                     list.add(new ActionResults<>(entry.getKey(), innerNode, innerNode.getTeamsWinRate()));
                     break;
