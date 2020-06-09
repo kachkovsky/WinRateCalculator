@@ -4,6 +4,7 @@ import ru.kachkovsky.wrc.OnlyOneTeamCanDoTurnSubjectArea;
 import ru.kachkovsky.wrc.eventsgraph.TurnNode;
 import ru.kachkovsky.wrc.stage.Action;
 import ru.kachkovsky.wrc.stage.strategy.StageActionsStrategyResolver;
+import ru.kachkovsky.wrc.winrate.WinRate;
 import ru.kachkovsky.wrc.winrate.WinRateUtils;
 import ru.kachkovsky.wrc.winrate.calculator.cache.LFUWRCacheHelper;
 import ru.kachkovsky.wrc.winrate.calculator.helper.OneSimultaneousDoerWithPossibleToCalcWinRateCalculatorHelper;
@@ -64,6 +65,13 @@ public class WinRateListForTeamCalculator<T extends OnlyOneTeamCanDoTurnSubjectA
             while (iterator.hasNext()) {
                 Map.Entry<Action<T>, TurnNode<T>> entry = iterator.next();
                 TurnNode<T> innerNode = entry.getValue();
+                if (cacheHelper != null) {
+                    List<WinRate> rates = cacheHelper.find(innerNode.getArea());
+                    if (rates != null) {
+                        list.add(new ActionResults<>(entry.getKey(), innerNode, rates));
+                    }
+                }
+
                 Map<Action<T>, TurnNode<T>> m1 = innerNode.calcWinRate(resolver, true);
 
                 //draw or loss when repeating a position after several moves
@@ -89,7 +97,7 @@ public class WinRateListForTeamCalculator<T extends OnlyOneTeamCanDoTurnSubjectA
 //                consoleUI.writeCurrentTurn(innerNode);
 
                 if (innerNode.getTeamsWinRate() != null && innerNode.getTeamsWinRate().get(area.getCurrentTeamIndex()).getMinWinRate() >= MIN_WIN_RATE_TO_STOP_SEARCH) {
-                    list.add(new ActionResults<>(entry.getKey(), innerNode, innerNode.getTeamsWinRate(), true));
+                    list.add(new ActionResults<>(entry.getKey(), innerNode, innerNode.getTeamsWinRate(), true && (MIN_WIN_RATE_TO_STOP_SEARCH < 1f)));
                     break;
                 }
                 if (m1 != null) {

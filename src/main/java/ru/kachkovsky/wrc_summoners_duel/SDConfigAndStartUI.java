@@ -3,11 +3,13 @@ package ru.kachkovsky.wrc_summoners_duel;
 import ru.kachkovsky.wrc.eventsgraph.TurnNode;
 import ru.kachkovsky.wrc.stage.Action;
 import ru.kachkovsky.wrc.stage.strategy.StageActionsStrategyResolver;
+import ru.kachkovsky.wrc.winrate.calculator.WinRateListForTeamCalculator;
 import ru.kachkovsky.wrc_console_ui.ConsoleUI;
 import ru.kachkovsky.wrc_summoners_duel.stage.strategy.SDBeatBaseBotStrategy;
 import ru.kachkovsky.wrc_summoners_duel.stage.strategy.SDBuyBaseStrategy;
 import ru.kachkovsky.wrc_summoners_duel.stage.strategy.SDBuyHeuristicSeparateAfterZeroStrategy;
 import ru.kachkovsky.wrc_summoners_duel.stage.strategy.SDStrategyUtils;
+import ru.kachkovsky.wrc_summoners_duel.winrate.LFUSummonerDuelWRCacheHelper;
 
 import java.util.List;
 
@@ -16,7 +18,7 @@ import static java.lang.Math.min;
 
 public class SDConfigAndStartUI {
 
-    public static void start(){
+    public static void start() {
         //        //System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
 //        float old = 1;
 //        //for (int i = 0; i < 18; i++) {
@@ -39,7 +41,6 @@ public class SDConfigAndStartUI {
 //        area.getTeams()[1] = new Player(7, 0, l2);
 
         TurnNode<SummonersDuelSubjectsArea> node = new TurnNode<>(area);
-
 
 
         SDBuyBaseStrategy sdBuyBaseStrategy = new SDBuyBaseStrategy();
@@ -91,8 +92,11 @@ public class SDConfigAndStartUI {
                         return sdBeatBaseBotStrategy.getActions(a);
                     }
                 });
+
+        WinRateListForTeamCalculator calculator = new WinRateListForTeamCalculator();
+        calculator.setCacheHelper(new LFUSummonerDuelWRCacheHelper());
         ConsoleUI consoleUI = new ConsoleUI();
-        consoleUI.uiForFullGameWithRatesDebug(node, opposingParties3TResolver);
+        consoleUI.uiForFullGameWithRatesDebug(node, defaultResolver, calculator);
     }
 
 }

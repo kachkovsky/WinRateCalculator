@@ -21,10 +21,8 @@ public class ConsoleUI {
 
     private static final int FIRST_CHOICE = 1;
 
-    public <T extends OnlyOneTeamCanDoTurnSubjectArea<T>> void uiForFullGameWithRatesDebug(TurnNode<T> node, StageActionsStrategyResolver<T> resolver) {
+    public <T extends OnlyOneTeamCanDoTurnSubjectArea<T>> void uiForFullGameWithRatesDebug(TurnNode<T> node, StageActionsStrategyResolver<T> resolver,WinRateListForTeamCalculator calculator ) {
         Scanner scanner = new Scanner(System.in);
-        WinRateListForTeamCalculator calculator = new WinRateListForTeamCalculator();
-        calculator.setCacheHelper(new LFUWRCacheHelper());
         Map<Action<T>, TurnNode<T>> actionEventGraphNodeMap;
         while ((actionEventGraphNodeMap = node.calcWinRate(resolver, true)) != null) {
             long t = System.currentTimeMillis();
