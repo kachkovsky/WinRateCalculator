@@ -1,13 +1,11 @@
 package ru.kachkovsky.wrc.winrate.calculator;
 
 import ru.kachkovsky.wrc.OnlyOneTeamCanDoTurnSubjectArea;
-import ru.kachkovsky.wrc.SubjectsArea;
 import ru.kachkovsky.wrc.eventsgraph.TurnNode;
 import ru.kachkovsky.wrc.stage.Action;
 import ru.kachkovsky.wrc.stage.strategy.StageActionsStrategyResolver;
-import ru.kachkovsky.wrc.winrate.WinRate;
 import ru.kachkovsky.wrc.winrate.WinRateUtils;
-import ru.kachkovsky.wrc.winrate.calculator.helper.MultDoersWithProbablyOrPossibleToCalcWinRateCalculatorHelper;
+import ru.kachkovsky.wrc.winrate.calculator.cache.LFUWRCacheHelper;
 import ru.kachkovsky.wrc.winrate.calculator.helper.OneSimultaneousDoerWithPossibleToCalcWinRateCalculatorHelper;
 import ru.kachkovsky.wrc_console_ui.ConsoleUI;
 
@@ -17,14 +15,19 @@ import java.util.List;
 import java.util.Map;
 
 //DON'T USE THIS CLASS IF SIMULTANEOUS TURNS ARE IN THE GAME!!!
-public class WinRateListForTeamCalculator {
-    private MultDoersWithProbablyOrPossibleToCalcWinRateCalculatorHelper calcHelper = new MultDoersWithProbablyOrPossibleToCalcWinRateCalculatorHelper();
+public class WinRateListForTeamCalculator<T extends OnlyOneTeamCanDoTurnSubjectArea<T>> {
+    private LFUWRCacheHelper cacheHelper;
+    private OneSimultaneousDoerWithPossibleToCalcWinRateCalculatorHelper calcHelper = new OneSimultaneousDoerWithPossibleToCalcWinRateCalculatorHelper();
     private ConsoleUI consoleUI = new ConsoleUI();
 
     int i = 1;
     public static final int ITERATIONS_TO_CHECK_PARENT = 3;
 
     public static final float MIN_WIN_RATE_TO_STOP_SEARCH = 1f;
+
+    public void setCacheHelper(LFUWRCacheHelper cacheHelper) {
+        this.cacheHelper = cacheHelper;
+    }
 
     static class StackItem<T extends OnlyOneTeamCanDoTurnSubjectArea<T>> {
         List<ActionResults<T>> list;
@@ -69,7 +72,7 @@ public class WinRateListForTeamCalculator {
                     while ((p = p.getParent()) != null) {
                         if (innerNode.getArea().equals(p.getArea())) {
                             //System.out.println(i++);
-                            list.add(new ActionResults<>(entry.getKey(), innerNode, WinRateUtils.twoPlayersUnknownOrWin(innerNode.getArea().getCurrentTeamIndex())));
+                            list.add(new ActionResults<>(entry.getKey(), innerNode, WinRateUtils.twoPlayersUnknownOrWin(innerNode.getArea().getCurrentTeamIndex()), true));
                             break iteratorLabel;
                         }
                     }
@@ -84,9 +87,9 @@ public class WinRateListForTeamCalculator {
 //                System.out.println("\ncalculator");
 //                ConsoleUI consoleUI = new ConsoleUI();
 //                consoleUI.writeCurrentTurn(innerNode);
-                
+
                 if (innerNode.getTeamsWinRate() != null && innerNode.getTeamsWinRate().get(area.getCurrentTeamIndex()).getMinWinRate() >= MIN_WIN_RATE_TO_STOP_SEARCH) {
-                    list.add(new ActionResults<>(entry.getKey(), innerNode, innerNode.getTeamsWinRate()));
+                    list.add(new ActionResults<>(entry.getKey(), innerNode, innerNode.getTeamsWinRate(), true));
                     break;
                 }
                 if (m1 != null) {
@@ -120,15 +123,18 @@ public class WinRateListForTeamCalculator {
                 }
                 StackItem<T> si = stack.remove(stack.size() - 1);
                 area = si.area;
-                List<WinRate> calculatedWR = calcHelper.calc(list, si.entry.getValue().getArea());
+                OneSimultaneousDoerWithPossibleToCalcWinRateCalculatorHelper.DetailedResults detailedResults = calcHelper.calcDetailed(list, si.entry.getValue().getArea());
+                if (!detailedResults.hasIndirectWRDependencies) {
+                    cacheHelper.put(si.entry.getValue().getArea(), detailedResults.wrList);
+                }
                 up = false;
                 //calculate all options for root
                 if (!stack.isEmpty()) {
-                    up = calculatedWR.get(area.getCurrentTeamIndex()).getMinWinRate() >= MIN_WIN_RATE_TO_STOP_SEARCH;
+                    up = detailedResults.wrList.get(area.getCurrentTeamIndex()).getMinWinRate() >= MIN_WIN_RATE_TO_STOP_SEARCH;
                 }
                 iterator = si.iterator;
                 Action<T> action = si.entry.getKey();
-                si.list.add(new ActionResults<>(action, si.entry.getValue(), calculatedWR));
+                si.list.add(new ActionResults<>(action, si.entry.getValue(), detailedResults.wrList, detailedResults.hasIndirectWRDependencies));
                 list = si.list;
             } while (up);
         }

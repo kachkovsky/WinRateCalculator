@@ -10,6 +10,8 @@ import ru.kachkovsky.wrc.team.SubjectTeamAreaDeterminant;
 import ru.kachkovsky.wrc.winrate.WinRate;
 import ru.kachkovsky.wrc.winrate.calculator.ActionResults;
 import ru.kachkovsky.wrc.winrate.calculator.WinRateListForTeamCalculator;
+import ru.kachkovsky.wrc.winrate.calculator.cache.LFUWRCacheHelper;
+import ru.kachkovsky.wrc_summoners_duel.SummonersDuelSubjectsArea;
 
 import java.util.List;
 import java.util.Map;
@@ -22,6 +24,7 @@ public class ConsoleUI {
     public <T extends OnlyOneTeamCanDoTurnSubjectArea<T>> void uiForFullGameWithRatesDebug(TurnNode<T> node, StageActionsStrategyResolver<T> resolver) {
         Scanner scanner = new Scanner(System.in);
         WinRateListForTeamCalculator calculator = new WinRateListForTeamCalculator();
+        calculator.setCacheHelper(new LFUWRCacheHelper());
         Map<Action<T>, TurnNode<T>> actionEventGraphNodeMap;
         while ((actionEventGraphNodeMap = node.calcWinRate(resolver, true)) != null) {
             long t = System.currentTimeMillis();

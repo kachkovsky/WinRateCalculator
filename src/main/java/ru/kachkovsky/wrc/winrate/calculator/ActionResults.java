@@ -9,6 +9,11 @@ import java.util.List;
 
 public class ActionResults<T extends SubjectsArea<T>> {
 
+    protected Action<T> action;
+    protected TurnNode<T> nodeAfterAction;
+    protected List<WinRate> wrList;
+    protected boolean indirectWRDependency;
+
     public ActionResults(Action<T> action, TurnNode<T> nodeAfterAction) {
         this.action = action;
         this.nodeAfterAction = nodeAfterAction;
@@ -20,9 +25,12 @@ public class ActionResults<T extends SubjectsArea<T>> {
         this.wrList = wrList;
     }
 
-    protected Action<T> action;
-    protected TurnNode<T> nodeAfterAction;
-    protected List<WinRate> wrList;
+    public ActionResults(Action<T> action, TurnNode<T> nodeAfterAction, List<WinRate> wrList, boolean indirectWRDependency) {
+        this.action = action;
+        this.nodeAfterAction = nodeAfterAction;
+        this.wrList = wrList;
+        this.indirectWRDependency = indirectWRDependency;
+    }
 
     public Action<T> getAction() {
         return action;
@@ -34,5 +42,9 @@ public class ActionResults<T extends SubjectsArea<T>> {
 
     public List<WinRate> getWrList() {
         return wrList;
+    }
+
+    public boolean isIndirectWRDependency() {
+        return indirectWRDependency;
     }
 }

@@ -35,13 +35,13 @@ public class WinRateUtils {
     }
 
     public static WinRate calcRiskyBest(WinRate a, WinRate b) {
-//        if (a.getMinWinRate() >= b.getMinWinRate() && a.getMaxWinRate() >= b.getMaxWinRate()) {
-//            return a;
-//        } else if (a.getMinWinRate() <= b.getMinWinRate() && a.getMaxWinRate() <= b.getMaxWinRate()) {
-//            return b;
-//        } else {
+        if (a.getMinWinRate() >= b.getMinWinRate() && a.getMaxWinRate() >= b.getMaxWinRate()) {
+            return a;
+        } else if (a.getMinWinRate() <= b.getMinWinRate() && a.getMaxWinRate() <= b.getMaxWinRate()) {
+            return b;
+        } else {
             return new WinRate(Math.max(a.getMinWinRate(), b.getMinWinRate()), Math.max(a.getMaxWinRate(), b.getMaxWinRate()));
-//        }
+        }
     }
 
     public static List<WinRate> twoItemsWRListByWRAndIndex(WinRate wr, int teamIndex) {
@@ -57,8 +57,8 @@ public class WinRateUtils {
     }
 
     public static WinRate opposingWinRate(WinRate wr) {
-        return new WinRate(1f - wr.getMaxWinRate() , 1f - wr.getMinWinRate());
+        return new WinRate(1f - wr.getMaxWinRate(), 1f - wr.getMinWinRate());
         //replace if true and needed
-       // return new WinRate(1f - wr.getMinWinRate(), 1f - wr.getMaxWinRate(), wr.getCalculatedVariants());
+        // return new WinRate(1f - wr.getMinWinRate(), 1f - wr.getMaxWinRate(), wr.getCalculatedVariants());
     }
 }
