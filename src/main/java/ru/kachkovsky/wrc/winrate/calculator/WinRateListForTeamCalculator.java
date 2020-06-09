@@ -102,7 +102,7 @@ public class WinRateListForTeamCalculator<T extends OnlyOneTeamCanDoTurnSubjectA
                 }
                 if (m1 != null) {
 //                    if (soDeep(stack)) {
-//                        list.add(new ActionResults<>(entry.getKey(), innerNode, WinRateUtils.twoPlayersUnknownAll()));
+//                        list.add(new ActionResults<>(entry.getKey(), innerNode, WinRateUtils.twoPlayersUnknownAll(), true));
 //                        break;
 //                    }
 
