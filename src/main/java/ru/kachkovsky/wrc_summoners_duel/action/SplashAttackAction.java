@@ -7,9 +7,8 @@ import ru.kachkovsky.wrc_summoners_duel.SummonersDuelSubjectsAreaFactory;
 
 public class SplashAttackAction implements Action<SummonersDuelSubjectsArea> {
     @Override
-    public TurnNode<SummonersDuelSubjectsArea> calcAct(SummonersDuelSubjectsArea area) {
-        SummonersDuelSubjectsArea areaAfterBuy = SummonersDuelSubjectsAreaFactory.createAreaAfterSplashAttack(area);
-        return new TurnNode<>(areaAfterBuy);
+    public SummonersDuelSubjectsArea calcAct(SummonersDuelSubjectsArea area) {
+        return SummonersDuelSubjectsAreaFactory.createAreaAfterSplashAttack(area);
     }
 
 }

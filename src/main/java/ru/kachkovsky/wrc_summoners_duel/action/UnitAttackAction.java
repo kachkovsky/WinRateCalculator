@@ -14,9 +14,8 @@ public class UnitAttackAction implements Action<SummonersDuelSubjectsArea> {
     }
 
     @Override
-    public TurnNode<SummonersDuelSubjectsArea> calcAct(SummonersDuelSubjectsArea area) {
-        SummonersDuelSubjectsArea areaAfterBuy = SummonersDuelSubjectsAreaFactory.createAreaAfterUnitAttack(area, enemyUnitAttacked);
-        return new TurnNode<>(areaAfterBuy);
+    public SummonersDuelSubjectsArea calcAct(SummonersDuelSubjectsArea area) {
+        return SummonersDuelSubjectsAreaFactory.createAreaAfterUnitAttack(area, enemyUnitAttacked);
     }
 
     @Override

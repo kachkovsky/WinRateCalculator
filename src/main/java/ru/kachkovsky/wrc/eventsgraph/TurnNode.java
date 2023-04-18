@@ -42,7 +42,7 @@ public class TurnNode<T extends SubjectsArea<T>> {
             List<Action<T>> actions = stageActionsStrategyResolver.resolve(area.getCurrentStage()).getActions(area);
             Map<Action<T>, TurnNode<T>> map = new LinkedHashMap<>(actions.size());
             for (Action<T> a : actions) {
-                TurnNode<T> turnNode = a.calcAct(area);
+                TurnNode<T> turnNode = new TurnNode<>(a.calcAct(area));
                 if (keepParentNode) {
                     turnNode.parent = this;
                 }
