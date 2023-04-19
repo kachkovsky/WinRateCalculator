@@ -19,22 +19,21 @@ class MinMaxCalculator<T : SubjectsArea<T>> {
     ): Float {
         if (depth == 0) {
             return evaluator.evaluatePosition(area)
+        } else {
+            val pos = gameEndsEvaluator.evaluatePosition(area)
+            if (pos != null)
+                return pos
         }
         val areaList: MutableList<T> = mutableListOf()
         calcPositionInner(area, stageActionsStrategyResolver, areaList)
         //println("areaList:${areaList.size}")
         var result = worstResult(area)
         for (a in areaList) {
-            val pos = gameEndsEvaluator.evaluatePosition(a)
-            if (pos != null) {
-                result = updateValue(result, pos, a)
-            } else {
-                result = updateValue(
-                    result,
-                    calcPosition(a, stageActionsStrategyResolver, evaluator, gameEndsEvaluator, depth - 1),
-                    area,
-                )
-            }
+            result = updateValue(
+                result,
+                calcPosition(a, stageActionsStrategyResolver, evaluator, gameEndsEvaluator, depth - 1),
+                area,
+            )
         }
         return result
     }
