@@ -22,4 +22,8 @@ public interface SubjectsArea<T extends SubjectsArea<T>> {
     String areaToLogString();
 
     Stage<T> getCurrentStage();
+
+    default int getCurrentSubjectIndex() {
+        return getSubjectList().indexOf(getCurrentSubject());
+    }
 }

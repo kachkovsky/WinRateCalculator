@@ -3,7 +3,7 @@ package ru.kachkovsky.wrc_summoners_duel;
 import ru.kachkovsky.wrc.eventsgraph.TurnNode;
 import ru.kachkovsky.wrc.stage.Action;
 import ru.kachkovsky.wrc.stage.strategy.StageActionsStrategyResolver;
-import ru.kachkovsky.wrc_console_ui.ConsoleUI;
+import ru.kachkovsky.wrc_console_ui.ConsoleUIWRC;
 import ru.kachkovsky.wrc_summoners_duel.stage.strategy.SDBeatBaseBotStrategy;
 import ru.kachkovsky.wrc_summoners_duel.stage.strategy.SDBuyBaseStrategy;
 import ru.kachkovsky.wrc_summoners_duel.stage.strategy.SDBuyHeuristicSeparateAfterZeroStrategy;
@@ -91,8 +91,8 @@ public class SDConfigAndStartUI {
                         return sdBeatBaseBotStrategy.getActions(a);
                     }
                 });
-        ConsoleUI consoleUI = new ConsoleUI();
-        consoleUI.uiForFullGameWithRatesDebug(node, opposingParties3TResolver);
+        ConsoleUIWRC consoleUIWRC = new ConsoleUIWRC();
+        consoleUIWRC.uiForFullGameWithRatesDebug(node, opposingParties3TResolver);
     }
 
 }

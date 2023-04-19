@@ -1,15 +1,13 @@
 package ru.kachkovsky.wrc.winrate.calculator;
 
 import ru.kachkovsky.wrc.OnlyOneTeamCanDoTurnSubjectArea;
-import ru.kachkovsky.wrc.SubjectsArea;
 import ru.kachkovsky.wrc.eventsgraph.TurnNode;
 import ru.kachkovsky.wrc.stage.Action;
 import ru.kachkovsky.wrc.stage.strategy.StageActionsStrategyResolver;
 import ru.kachkovsky.wrc.winrate.WinRate;
 import ru.kachkovsky.wrc.winrate.WinRateUtils;
 import ru.kachkovsky.wrc.winrate.calculator.helper.MultDoersWithProbablyOrPossibleToCalcWinRateCalculatorHelper;
-import ru.kachkovsky.wrc.winrate.calculator.helper.OneSimultaneousDoerWithPossibleToCalcWinRateCalculatorHelper;
-import ru.kachkovsky.wrc_console_ui.ConsoleUI;
+import ru.kachkovsky.wrc_console_ui.ConsoleUIWRC;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -19,7 +17,7 @@ import java.util.Map;
 //DON'T USE THIS CLASS IF SIMULTANEOUS TURNS ARE IN THE GAME!!!
 public class WinRateListForTeamCalculator {
     private MultDoersWithProbablyOrPossibleToCalcWinRateCalculatorHelper calcHelper = new MultDoersWithProbablyOrPossibleToCalcWinRateCalculatorHelper();
-    private ConsoleUI consoleUI = new ConsoleUI();
+    private ConsoleUIWRC consoleUIWRC = new ConsoleUIWRC();
 
     int i = 1;
     public static final int ITERATIONS_TO_CHECK_PARENT = 3;
