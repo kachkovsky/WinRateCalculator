@@ -18,7 +18,7 @@ class ConsoleUIWRCAB : ConsoleUI() {
         stageActionsStrategyResolver: StageActionsStrategyResolver<SummonersDuelSubjectsArea>
     ) {
         val actionList = stageActionsStrategyResolver.resolve(area)
-        for (depth in 1..18) {
+        for (depth in 1..12) {
             println("-------------------")
             println("Depth: $depth")
             var t = System.currentTimeMillis()

@@ -10,8 +10,6 @@ class SDWinNowPositionEvaluator : WinPositionEvaluator<SummonersDuelSubjectsArea
         val result: Float?
         if (isWin(true, area)) {
             result = if (area.currentTeamIndex == 0) Float.POSITIVE_INFINITY else Float.NEGATIVE_INFINITY
-        } else if (isWin(false, area)) {
-            result = if (area.currentTeamIndex != 0) Float.POSITIVE_INFINITY else Float.NEGATIVE_INFINITY
         } else {
             result = null
         }
