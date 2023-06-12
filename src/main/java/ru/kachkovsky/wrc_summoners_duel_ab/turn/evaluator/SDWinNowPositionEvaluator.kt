@@ -10,6 +10,8 @@ class SDWinNowPositionEvaluator : WinPositionEvaluator<SummonersDuelSubjectsArea
         val result: Float?
         if (isWin(true, area)) {
             result = if (area.currentTeamIndex == 0) Float.POSITIVE_INFINITY else Float.NEGATIVE_INFINITY
+        } else if (isHpWin(false, area)) {
+            result = if (area.currentTeamIndex != 0) Float.POSITIVE_INFINITY else Float.NEGATIVE_INFINITY
         } else {
             result = null
         }
@@ -17,10 +19,15 @@ class SDWinNowPositionEvaluator : WinPositionEvaluator<SummonersDuelSubjectsArea
     }
 
     private fun isWin(currentPlayerWin: Boolean, area: SummonersDuelSubjectsArea): Boolean {
-        val indexToWin = if (currentPlayerWin) area.currentTeamIndex else area.reversePlayerIndex;
+        val indexToWin = if (currentPlayerWin) area.currentTeamIndex else area.reversePlayerIndex
         val indexToLose = if (currentPlayerWin) area.reversePlayerIndex else area.currentTeamIndex
         val curTeam = area.teams[indexToWin]
         val otherTeam = area.teams[indexToLose]
-        return UnitUtils.summaryAttack(curTeam.units) >= otherTeam.hp
+        return isHpWin(currentPlayerWin, area) || UnitUtils.summaryAttack(curTeam.units) >= otherTeam.hp
+    }
+
+    private fun isHpWin(currentPlayerWin: Boolean, area: SummonersDuelSubjectsArea): Boolean {
+        val indexToLose = if (currentPlayerWin) area.reversePlayerIndex else area.currentTeamIndex
+        return area.teams[indexToLose].hp <= 0
     }
 }
