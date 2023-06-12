@@ -18,7 +18,7 @@ class ConsoleUIWRCAB : ConsoleUI() {
         stageActionsStrategyResolver: StageActionsStrategyResolver<SummonersDuelSubjectsArea>
     ) {
         val actionList = stageActionsStrategyResolver.resolve(area)
-        for (depth in 1..12) {
+        for (depth in 1..10) {
             println("-------------------")
             println("Depth: $depth")
             var t = System.currentTimeMillis()
@@ -30,6 +30,7 @@ class ConsoleUIWRCAB : ConsoleUI() {
                     evaluator = evaluator,
                     gameEndsEvaluator = gameEndsEvaluator,
                     depth = depth,
+                    prune = if (innerArea.currentPlayerUnitIndex == 0) Float.POSITIVE_INFINITY else Float.NEGATIVE_INFINITY,
                 )
                 printAction("x", action, "result: " + result + " time:" + (System.currentTimeMillis() - t))
                 t = System.currentTimeMillis()

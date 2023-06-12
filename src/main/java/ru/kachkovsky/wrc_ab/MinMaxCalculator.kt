@@ -16,6 +16,7 @@ class MinMaxCalculator<T : SubjectsArea<T>> {
         evaluator: PositionEvaluator<T>,
         gameEndsEvaluator: WinPositionEvaluator<T>,
         depth: Int,
+        prune: Float,
     ): Float {
         if (depth == 0) {
             return evaluator.evaluatePosition(area)
@@ -31,9 +32,12 @@ class MinMaxCalculator<T : SubjectsArea<T>> {
         for (a in areaList) {
             result = updateValue(
                 result,
-                calcPosition(a, stageActionsStrategyResolver, evaluator, gameEndsEvaluator, depth - 1),
+                calcPosition(a, stageActionsStrategyResolver, evaluator, gameEndsEvaluator, depth - 1, result),
                 area,
             )
+            if (needPrune(result, prune, area)) {
+                break
+            }
         }
         return result
     }
@@ -74,5 +78,10 @@ class MinMaxCalculator<T : SubjectsArea<T>> {
 
     private fun updateValue(value: Float, newValue: Float, area: T): Float {
         return if (area.currentSubjectIndex == 0) Math.max(value, newValue) else Math.min(value, newValue)
+    }
+
+    private fun needPrune(newValue: Float, prune: Float, area: T): Boolean {
+        //> and < can be replaced to >= and <=, but last values cann't be result
+        return if (area.currentSubjectIndex == 0) prune <= newValue else prune >= newValue
     }
 }
