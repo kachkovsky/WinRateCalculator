@@ -1,7 +1,6 @@
 package ru.kachkovsky.wrc_summoners_duel_ab
 
 import ru.kachkovsky.wrc.stage.strategy.StageActionsStrategyResolver
-import ru.kachkovsky.wrc.stage.strategy.resolve
 import ru.kachkovsky.wrc_ab.MinMaxCalculator
 import ru.kachkovsky.wrc_console_ui.ConsoleUI
 import ru.kachkovsky.wrc_summoners_duel.SummonersDuelSubjectsArea

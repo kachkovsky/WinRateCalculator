@@ -3,7 +3,6 @@ package ru.kachkovsky.wrc_ab
 import ru.kachkovsky.wrc.SubjectsArea
 import ru.kachkovsky.wrc.stage.Action
 import ru.kachkovsky.wrc.stage.strategy.StageActionsStrategyResolver
-import ru.kachkovsky.wrc.stage.strategy.resolve
 import ru.kachkovsky.wrc_ab.turn.evaluator.PositionEvaluator
 import ru.kachkovsky.wrc_ab.turn.evaluator.WinPositionEvaluator
 import ru.kachkovsky.wrc_summoners_duel.stage.strategy.SDStrategyUtils
