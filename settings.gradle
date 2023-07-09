@@ -1,2 +1,9 @@
 rootProject.name = 'winratecalculator'
 
+include 'wrc'
+include 'wrc_console_ui'
+include 'wrc_mafia'
+include 'wrc_summoners_duel'
+include 'wrc_ab'
+include 'wrc_summoners_duel_ab'
+
