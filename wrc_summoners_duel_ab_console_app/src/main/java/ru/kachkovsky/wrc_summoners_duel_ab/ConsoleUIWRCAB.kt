@@ -1,18 +1,16 @@
 package ru.kachkovsky.wrc_summoners_duel_ab
 
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import ru.kachkovsky.wrc.eventsgraph.TurnNode
 import ru.kachkovsky.wrc.stage.strategy.StageActionsStrategyResolver
 import ru.kachkovsky.wrc_ab.MinMaxCalculator
 import ru.kachkovsky.wrc_console_ui.ConsoleUI
-import ru.kachkovsky.wrc_console_ui.ConsoleUIWRC
 import ru.kachkovsky.wrc_summoners_duel.SummonersDuelSubjectsArea
 import ru.kachkovsky.wrc_summoners_duel_ab.turn.evaluator.GameEndsEvaluator
 import ru.kachkovsky.wrc_summoners_duel_ab.turn.evaluator.SDPositionEvaluator
 import java.util.*
-import kotlin.system.exitProcess
 
 class ConsoleUIWRCAB : ConsoleUI() {
     private val calculator = MinMaxCalculator<SummonersDuelSubjectsArea>()
@@ -21,23 +19,27 @@ class ConsoleUIWRCAB : ConsoleUI() {
 
     fun ui(
         areaOuter: SummonersDuelSubjectsArea,
-        stageActionsStrategyResolver: StageActionsStrategyResolver<SummonersDuelSubjectsArea>
+        stageActionsStrategyResolver: StageActionsStrategyResolver<SummonersDuelSubjectsArea>,
+        minDepth: Int,
+        maxDepth: Int,
     ) {
+        val scanner = Scanner(System.`in`)
         val consoleUI = ConsoleUI()
         var area = areaOuter
-        while(true) {
+        while (true) {
             consoleUI.printSubjects(area)
-            consoleUI.writeCurrentArea("",area)
+            consoleUI.writeCurrentArea("", area)
 
             val actionList = stageActionsStrategyResolver.resolve(area)
-            var pick = 0
+            var pick: Int
             runBlocking {
                 val job = launch(Dispatchers.Default) {
-                    for (depth in 1..20) {
+                    for (depth in minDepth..maxDepth) {
                         println("-------------------")
                         println("Depth: $depth")
                         var t = System.currentTimeMillis()
-                        for (action in actionList) {
+                        for (i in 0 until actionList.size) {
+                            val action = actionList[i]
                             val innerArea = action.calcAct(area)
                             val result = calculator.calcPosition(
                                 area = innerArea,
@@ -47,15 +49,22 @@ class ConsoleUIWRCAB : ConsoleUI() {
                                 depth = depth,
                                 prune = if (innerArea.currentPlayerUnitIndex == 0) Float.POSITIVE_INFINITY else Float.NEGATIVE_INFINITY,
                             )
-                            printAction("x", action, "result: " + result + " time:" + (System.currentTimeMillis() - t))
+                            printAction(
+                                "${i + 1}",
+                                action,
+                                " result: " + result + " time:" + (System.currentTimeMillis() - t)
+                            )
                             t = System.currentTimeMillis()
                         }
                     }
                 }
-                val scanner = Scanner(System.`in`)
                 do {
+                    scanner.nextLine()
+                    job.cancelAndJoin()
+                    print("Enter actionIndex: ")
                     pick = scanner.nextInt()
-                    if(pick==0){
+                    scanner.nextLine()
+                    if (pick == 0) {
                         job.cancel()
                     }
                     pick--

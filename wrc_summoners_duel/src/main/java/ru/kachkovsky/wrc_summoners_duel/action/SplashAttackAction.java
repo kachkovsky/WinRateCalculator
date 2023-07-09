@@ -11,4 +11,8 @@ public class SplashAttackAction implements Action<SummonersDuelSubjectsArea> {
         return SummonersDuelSubjectsAreaFactory.createAreaAfterSplashAttack(area);
     }
 
+    @Override
+    public String toString() {
+        return "Splash attack";
+    }
 }

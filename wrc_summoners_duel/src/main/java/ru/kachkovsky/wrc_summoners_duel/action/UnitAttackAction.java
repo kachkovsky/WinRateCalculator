@@ -1,6 +1,5 @@
 package ru.kachkovsky.wrc_summoners_duel.action;
 
-import ru.kachkovsky.wrc.eventsgraph.TurnNode;
 import ru.kachkovsky.wrc.stage.Action;
 import ru.kachkovsky.wrc_summoners_duel.SummonersDuelSubjectsArea;
 import ru.kachkovsky.wrc_summoners_duel.SummonersDuelSubjectsAreaFactory;
@@ -20,6 +19,6 @@ public class UnitAttackAction implements Action<SummonersDuelSubjectsArea> {
 
     @Override
     public String toString() {
-        return "enemy index to attack:" + enemyUnitAttacked + "  " + super.toString();
+        return "enemy index to attack:" + (enemyUnitAttacked + 1);
     }
 }
