@@ -1,15 +1,18 @@
 package ru.kachkovsky.wrc_ab
 
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.isActive
 import ru.kachkovsky.wrc.SubjectsArea
 import ru.kachkovsky.wrc.stage.Action
 import ru.kachkovsky.wrc.stage.strategy.StageActionsStrategyResolver
 import ru.kachkovsky.wrc_ab.turn.evaluator.PositionEvaluator
 import ru.kachkovsky.wrc_ab.turn.evaluator.WinPositionEvaluator
 import ru.kachkovsky.wrc_summoners_duel.stage.strategy.SDStrategyUtils
+import kotlin.coroutines.coroutineContext
 
 class MinMaxCalculator<T : SubjectsArea<T>> {
 
-    fun calcPosition(
+    suspend fun calcPosition(
         area: T,
         stageActionsStrategyResolver: StageActionsStrategyResolver<T>,
         evaluator: PositionEvaluator<T>,
@@ -17,6 +20,9 @@ class MinMaxCalculator<T : SubjectsArea<T>> {
         depth: Int,
         prune: Float,
     ): Float {
+        if (!coroutineContext.isActive) {
+            throw CancellationException()
+        }
         if (depth == 0) {
             return evaluator.evaluatePosition(area)
         } else {
