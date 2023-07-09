@@ -1,4 +1,5 @@
 plugins {
+    id 'application'
     id 'java'
     id 'org.jetbrains.kotlin.jvm'
 }
@@ -11,11 +12,17 @@ repositories {
 }
 
 dependencies {
-    api project(':wrc')
     implementation project(':wrc_summoners_duel')
+    implementation project(':wrc_summoners_duel_ab')
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+application {
+    mainClass.set("ru.kachkovsky.Main")
 }
 
 test {

@@ -6,4 +6,5 @@ include 'wrc_mafia'
 include 'wrc_summoners_duel'
 include 'wrc_ab'
 include 'wrc_summoners_duel_ab'
+include 'wrc_summoners_duel_ab_console_app'
 

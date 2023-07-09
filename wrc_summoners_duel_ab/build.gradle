@@ -11,9 +11,8 @@ repositories {
 }
 
 dependencies {
-    implementation project(':wrc')
-    implementation project(':wrc_ab')
-    implementation project(':wrc_summoners_duel')
+    api project(':wrc_ab')
+    api project(':wrc_summoners_duel')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
