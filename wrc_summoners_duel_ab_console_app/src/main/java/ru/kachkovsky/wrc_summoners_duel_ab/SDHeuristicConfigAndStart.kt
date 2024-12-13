@@ -4,6 +4,7 @@ import ru.kachkovsky.wrc_summoners_duel.SummonersDuelSubjectsAreaFactory
 import ru.kachkovsky.wrc_summoners_duel.stage.strategy.SDBeatBaseBotStrategy
 import ru.kachkovsky.wrc_summoners_duel.stage.strategy.SDBuyBaseStrategy
 import ru.kachkovsky.wrc_summoners_duel.stage.strategy.SDStrategyUtils
+import ru.kachkovsky.wrc_summoners_duel_ab.parallel.ConsoleUIWRCABParallel
 import java.util.*
 
 
